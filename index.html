@@ -1,0 +1,2391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TCLive Sports - School Sports Meet Live</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://www.youtube.com https://youtube.com https://www.googleapis.com https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.tailwindcss.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://www.youtube.com https://www.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.tailwindcss.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://www.youtube.com https://youtube.com; connect-src 'self' https://www.googleapis.com;">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    
+    <!-- Force HTTPS Redirect -->
+    <script>
+        // HSTS Force HTTPS - Redirect to HTTPS if accessed via HTTP
+        if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+            location.replace('https:' + window.location.href.substring(window.location.protocol.length));
+        }
+        
+        // Additional HSTS enforcement
+        (function() {
+            'use strict';
+            
+            // Check if running on HTTPS
+            if (window.location.protocol === 'https:') {
+                // Set HSTS via JavaScript (client-side enforcement)
+                document.addEventListener('DOMContentLoaded', function() {
+                    console.log('HSTS Protection Active: Site secured via HTTPS');
+                });
+            } else if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+                // Force redirect to HTTPS
+                window.location.href = 'https://' + window.location.hostname + window.location.pathname + window.location.search;
+            }
+            
+            // Prevent mixed content
+            if (window.location.protocol === 'https:') {
+                // Upgrade insecure requests
+                var meta = document.createElement('meta');
+                meta.httpEquiv = 'Content-Security-Policy';
+                meta.content = 'upgrade-insecure-requests';
+                document.getElementsByTagName('head')[0].appendChild(meta);
+            }
+        })();
+    </script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --red: #e8001e;
+            --dark: #0a0e15;
+            --card: #1a1f2e;
+            --white: #f0f4f8;
+            --muted: #8294a8;
+            --accent: #ff3d5a;
+            --blue: #3b82f6;
+            --yellow: #fbbf24;
+            --green: #10b981;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Barlow', sans-serif;
+            background: var(--dark);
+            color: var(--white);
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 15%, rgba(59, 130, 246, .12) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 75%, rgba(251, 191, 36, .10) 0%, transparent 55%),
+                radial-gradient(ellipse 70% 55% at 50% 50%, rgba(232, 0, 30, .08) 0%, transparent 65%),
+                var(--dark);
+        }
+
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, .03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, .03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        .orb {
+            position: fixed;
+            z-index: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(232, 0, 30, .35) 0%, transparent 70%);
+            filter: blur(40px);
+            animation: floatOrb 10s ease-in-out infinite;
+        }
+
+        .orb1 {
+            width: 500px;
+            height: 500px;
+            top: -200px;
+            left: -150px;
+            background: radial-gradient(circle, rgba(59, 130, 246, .3) 0%, transparent 70%);
+        }
+
+        .orb2 {
+            width: 350px;
+            height: 350px;
+            bottom: -100px;
+            right: -100px;
+            animation-delay: -5s;
+            background: radial-gradient(circle, rgba(251, 191, 36, .25) 0%, transparent 70%);
+        }
+
+        @keyframes floatOrb {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            50% {
+                transform: translate(40px, 30px) scale(1.08);
+            }
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 20px;
+            border: 1px solid rgba(232, 0, 30, .4);
+            border-radius: 4px;
+            background: rgba(232, 0, 30, .08);
+            font-size: .75rem;
+            font-weight: 600;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--accent);
+            animation: fadeDown .8s ease both;
+        }
+
+        .badge-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        /* Notification Button */
+        .notification-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all .3s ease;
+            animation: fadeDown .8s .2s ease both;
+        }
+
+        .notification-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(232, 0, 30, 0.2);
+        }
+
+        .notification-btn:active {
+            transform: translateY(0);
+        }
+
+        .notification-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--white);
+            transition: all .3s ease;
+        }
+
+        .notification-btn:hover .notification-icon {
+            color: var(--accent);
+            animation: bellRing 0.5s ease;
+        }
+
+        .notification-btn.enabled {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: #10b981;
+        }
+
+        .notification-btn.enabled .notification-icon {
+            color: #10b981;
+        }
+
+        @keyframes bellRing {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(15deg); }
+            75% { transform: rotate(-15deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(255, 61, 90, .6);
+            }
+            50% {
+                box-shadow: 0 0 0 6px rgba(255, 61, 90, 0);
+            }
+        }
+
+        .logomark {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3.5rem, 12vw, 7rem);
+            line-height: .9;
+            letter-spacing: .06em;
+            background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeDown .9s .15s ease both;
+            user-select: none;
+        }
+
+        .logomark span {
+            -webkit-text-fill-color: var(--accent);
+        }
+
+        /* Glass Morphism Logo Container */
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            animation: fadeDown .9s .15s ease both;
+        }
+
+        .logo-container {
+            position: relative;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            transition: all .3s ease;
+        }
+
+        .logo-container:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 61, 90, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px 0 rgba(232, 0, 30, 0.15);
+        }
+
+        .logo-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+            pointer-events: none;
+        }
+
+        .logo-image {
+            display: block;
+            height: 45px;
+            width: auto;
+            object-fit: contain;
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        /* Header Divider */
+        .header-divider {
+            width: 2px;
+            height: 50px;
+            background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+            opacity: 0.5;
+        }
+
+        /* Header Event Details */
+        .header-event-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .header-event-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(1.2rem, 2vw, 1.6rem);
+            letter-spacing: .12em;
+            color: var(--white);
+            line-height: 1.2;
+            font-weight: 400;
+        }
+
+        .header-event-subtitle {
+            font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+            font-weight: 300;
+            letter-spacing: .06em;
+            color: var(--muted);
+            text-transform: uppercase;
+            line-height: 1.3;
+        }
+
+        @media (max-width: 768px) {
+            .header-left {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .header-divider {
+                width: 60px;
+                height: 2px;
+                background: linear-gradient(to right, transparent, var(--accent), transparent);
+            }
+
+            .logo-container {
+                padding: 10px 20px;
+            }
+
+            .logo-image {
+                height: 38px;
+            }
+
+            .header-event-title {
+                font-size: 1.1rem;
+            }
+
+            .header-event-subtitle {
+                font-size: 0.7rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-container {
+                padding: 8px 16px;
+            }
+
+            .logo-image {
+                height: 32px;
+            }
+
+            .header-event-title {
+                font-size: 1rem;
+            }
+
+            .header-event-subtitle {
+                font-size: 0.65rem;
+            }
+
+            .header-left {
+                gap: 10px;
+            }
+
+            .header-divider {
+                width: 50px;
+            }
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            aspect-ratio: 16/9;
+            background: var(--card);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, .5);
+            border: 1px solid rgba(255, 255, 255, .05);
+            animation: fadeUp .9s .4s ease both;
+        }
+
+        .coming-soon-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(20, 30, 42, .95) 0%, rgba(8, 12, 16, .98) 100%);
+            backdrop-filter: blur(10px);
+        }
+
+        .coming-soon-text {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3rem, 8vw, 5rem);
+            letter-spacing: .08em;
+            background: linear-gradient(135deg, var(--white) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                filter: brightness(1);
+            }
+            50% {
+                filter: brightness(1.3);
+            }
+        }
+
+        .event-date {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 16px;
+            animation: slideUp 1s .6s ease both;
+        }
+
+        .event-info {
+            font-size: 1.1rem;
+            color: var(--muted);
+            text-align: center;
+            max-width: 600px;
+            padding: 0 20px;
+            line-height: 1.6;
+            animation: slideUp 1s .7s ease both;
+        }
+
+        .countdown {
+            display: flex;
+            gap: 24px;
+            margin-top: 40px;
+            animation: slideUp 1s .8s ease both;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 80px;
+        }
+
+        .countdown-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            line-height: 1;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .countdown-label {
+            font-size: .75rem;
+            text-transform: uppercase;
+            letter-spacing: .15em;
+            color: var(--muted);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 60px;
+            animation: fadeUp 1s .5s ease both;
+        }
+
+        .feature-card {
+            background: var(--card);
+            padding: 32px 24px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, .05);
+            transition: all .3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(232, 0, 30, .3);
+            box-shadow: 0 12px 24px -8px rgba(232, 0, 30, .2);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(232, 0, 30, .15);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--accent);
+            transition: all .3s ease;
+        }
+
+        .feature-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--accent);
+        }
+
+        .feature-card:hover .feature-icon {
+            background: rgba(232, 0, 30, .25);
+            transform: scale(1.1);
+        }
+
+        .feature-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: .05em;
+            margin-bottom: 12px;
+            color: var(--white);
+        }
+
+        .feature-desc {
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: .95rem;
+        }
+
+        .houses-section {
+            width: 100%;
+            max-width: 1200px;
+            margin: 80px auto 60px;
+            animation: fadeUp 1s .6s ease both;
+        }
+
+        /* Highlights Section */
+        .highlights-section {
+            width: 100%;
+            max-width: 1200px;
+            margin: 60px auto 40px;
+            padding: 0 20px;
+            animation: fadeUp 1s .5s ease both;
+        }
+
+        .highlights-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .highlights-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            letter-spacing: .08em;
+            background: linear-gradient(135deg, var(--white) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .view-highlights-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, var(--red) 0%, var(--accent) 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Barlow', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all .3s ease;
+            box-shadow: 0 4px 15px rgba(232, 0, 30, .3);
+        }
+
+        .view-highlights-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .view-highlights-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(232, 0, 30, .4);
+        }
+
+        .view-highlights-btn:active {
+            transform: translateY(0);
+        }
+
+        .highlights-description {
+            color: var(--muted);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            max-width: 700px;
+        }
+
+        /* Lightbox Gallery */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            display: none;
+            opacity: 0;
+            transition: opacity .3s ease;
+        }
+
+        .lightbox-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px 20px;
+        }
+
+        .lightbox-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
+            z-index: 10;
+        }
+
+        .lightbox-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: .1em;
+            color: white;
+        }
+
+        .lightbox-close {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all .3s ease;
+            font-size: 24px;
+            color: white;
+        }
+
+        .lightbox-close:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: rotate(90deg);
+        }
+
+        .lightbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            width: 100%;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .lightbox-image-item {
+            position: relative;
+            aspect-ratio: 16/9;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all .3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .lightbox-image-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 8px 24px rgba(232, 0, 30, .3);
+        }
+
+        .lightbox-image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .3s ease;
+        }
+
+        .lightbox-image-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .lightbox-image-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 12px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity .3s ease;
+        }
+
+        .lightbox-image-item:hover .lightbox-image-label {
+            opacity: 1;
+        }
+
+        /* Full Image View */
+        .lightbox-fullview {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.98);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .lightbox-fullview.active {
+            display: flex;
+        }
+
+        .lightbox-fullview img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .lightbox-fullview-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 28px;
+            color: white;
+            transition: all .3s ease;
+        }
+
+        .lightbox-fullview-close:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: rotate(90deg);
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(20, 30, 42, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+            max-width: 400px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            z-index: 10001;
+            opacity: 0;
+            transform: translateX(400px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .toast-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .toast-success .toast-icon {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .toast-error .toast-icon {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .toast-info .toast-icon {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+
+        .toast-message {
+            color: var(--white);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        .toast-success {
+            border-left: 4px solid #10b981;
+        }
+
+        .toast-error {
+            border-left: 4px solid #ef4444;
+        }
+
+        .toast-info {
+            border-left: 4px solid #3b82f6;
+        }
+
+        @media (max-width: 768px) {
+            .toast {
+                bottom: 20px;
+                right: 20px;
+                left: 20px;
+                min-width: auto;
+                max-width: none;
+            }
+        }
+
+        .houses-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            letter-spacing: .08em;
+            text-align: center;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, var(--white) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .houses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 28px;
+            padding: 0 20px;
+        }
+
+        .house-card {
+            position: relative;
+            background: var(--card);
+            padding: 40px 28px;
+            border-radius: 16px;
+            border: 2px solid rgba(255, 255, 255, .08);
+            transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .house-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--house-color);
+            opacity: 0.8;
+        }
+
+        .house-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, var(--house-color-fade) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity .4s ease;
+        }
+
+        .house-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--house-color);
+            box-shadow: 0 20px 40px -12px var(--house-shadow);
+        }
+
+        .house-card:hover::after {
+            opacity: 1;
+        }
+
+        .house-card.advi {
+            --house-color: var(--blue);
+            --house-color-fade: rgba(59, 130, 246, 0.15);
+            --house-shadow: rgba(59, 130, 246, 0.3);
+        }
+
+        .house-card.anupa {
+            --house-color: var(--yellow);
+            --house-color-fade: rgba(251, 191, 36, 0.15);
+            --house-shadow: rgba(251, 191, 36, 0.3);
+        }
+
+        .house-card.agra {
+            --house-color: var(--green);
+            --house-color-fade: rgba(16, 185, 129, 0.15);
+            --house-shadow: rgba(16, 185, 129, 0.3);
+        }
+
+        .house-card.anabi {
+            --house-color: var(--red);
+            --house-color-fade: rgba(232, 0, 30, 0.15);
+            --house-shadow: rgba(232, 0, 30, 0.3);
+        }
+
+        .house-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .house-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            letter-spacing: .06em;
+            color: var(--white);
+            line-height: 1;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: rgba(0, 0, 0, .4);
+            border-radius: 20px;
+            border: 1px solid var(--house-color);
+        }
+
+        .live-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--house-color);
+            box-shadow: 0 0 12px var(--house-color);
+            animation: livePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes livePulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.6;
+                transform: scale(1.15);
+            }
+        }
+
+        .live-text {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: var(--house-color);
+        }
+
+        .house-info {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        .house-stats {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--house-color);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--muted);
+        }
+
+        /* Title Divider */
+        .title-divider {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            margin: 24px auto;
+            border-radius: 2px;
+            animation: scaleIn .8s .3s ease both;
+        }
+
+        /* Event Details */
+        .event-details {
+            margin: 28px auto 32px;
+            animation: fadeDown 1s .4s ease both;
+        }
+
+        .event-main-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            letter-spacing: .12em;
+            color: var(--white);
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+
+        .event-subtitle {
+            font-size: clamp(0.85rem, 2vw, 1rem);
+            font-weight: 300;
+            letter-spacing: .08em;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scaleX(0);
+            }
+            to {
+                opacity: 1;
+                transform: scaleX(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .countdown {
+                gap: 16px;
+            }
+            
+            .countdown-item {
+                min-width: 60px;
+            }
+            
+            .countdown-number {
+                font-size: 2rem;
+            }
+
+            .highlights-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .lightbox-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+            }
+
+            .lightbox-fullview {
+                padding: 20px;
+            }
+
+            .lightbox-fullview img {
+                max-width: 95%;
+                max-height: 95%;
+            }
+
+            .view-highlights-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            /* Better tablet layout */
+            .houses-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .notification-btn {
+                width: 40px;
+                height: 40px;
+            }
+
+            .notification-icon {
+                width: 18px;
+                height: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .lightbox-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            /* Better mobile layout */
+            .houses-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .house-card {
+                padding: 24px 16px;
+            }
+
+            .feature-card {
+                padding: 24px 16px;
+            }
+
+            .event-info {
+                font-size: 0.95rem;
+                padding: 0 10px;
+            }
+
+            .coming-soon-text {
+                font-size: 2.5rem;
+            }
+
+            .event-date {
+                font-size: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem !important;
+            }
+
+            .highlights-title {
+                font-size: 1.8rem;
+            }
+
+            .houses-title {
+                font-size: 2rem;
+            }
+
+            .badge {
+                padding: 6px 12px;
+                font-size: 0.65rem;
+                gap: 6px;
+            }
+
+            .badge-dot {
+                width: 5px;
+                height: 5px;
+            }
+
+            header {
+                padding: 16px 16px !important;
+            }
+
+            main {
+                padding: 24px 16px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="bg"></div>
+    <div class="bg-grid"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+
+    <!-- Main Content -->
+    <div class="relative z-10 min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="w-full px-6 py-6">
+            <div class="max-w-7xl mx-auto flex items-center justify-between">
+                <div class="header-left">
+                    <div class="logo-container">
+                        <img src="img/tc.png" alt="TCLive Sports Logo" class="logo-image">
+                    </div>
+                    <div class="header-divider"></div>
+                    <div class="header-event-details">
+                        <h2 class="header-event-title">Interhouse Sports 2026</h2>
+                        <p class="header-event-subtitle">Thakshila College Photographic Art Society</p>
+                    </div>
+                </div>
+                <div class="badge">
+                    <span class="badge-dot"></span>
+                    Live Event
+                </div>
+                <button class="notification-btn" id="notificationBtn" title="Enable notifications">
+                    <svg class="notification-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Section -->
+        <main class="flex-1 flex flex-col items-center justify-center px-6 py-12">
+            <div class="w-full max-w-7xl">
+                <!-- Title Section -->
+                <div class="text-center mb-12">
+                    <h1 class="text-5xl md:text-7xl font-black mb-4" style="font-family: 'Bebas Neue', sans-serif; letter-spacing: .06em; animation: fadeDown .9s ease both;">
+                        SCHOOL SPORTS MEET <span style="color: var(--accent);">2026</span>
+                    </h1>
+                    <p class="text-xl text-gray-400 max-w-2xl mx-auto" style="animation: fadeDown 1s .2s ease both;">
+                        Experience the thrill of athletic excellence live from our campus
+                    </p>
+                </div>
+
+                <!-- Video Container with Coming Soon -->
+                <div class="video-container mx-auto mb-16">
+                    <div class="coming-soon-overlay">
+                        <div class="coming-soon-text">COMING SOON</div>
+                        <div class="event-date">MARCH 12, 2026</div>
+                        <p class="event-info">
+                            Get ready for an action-packed day of sports! Live streaming begins at 9:00 AM. 
+                            Don't miss the opening ceremony and exciting competitions.
+                        </p>
+                        
+                        <!-- Countdown Timer -->
+                        <div class="countdown" id="countdown">
+                            <div class="countdown-item">
+                                <div class="countdown-number" id="days">--</div>
+                                <div class="countdown-label">Days</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-number" id="hours">--</div>
+                                <div class="countdown-label">Hours</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-number" id="minutes">--</div>
+                                <div class="countdown-label">Minutes</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-number" id="seconds">--</div>
+                                <div class="countdown-label">Seconds</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Highlights Section -->
+                <div class="highlights-section">
+                    <div class="highlights-header">
+                        <h2 class="highlights-title">EVENT HIGHLIGHTS</h2>
+                        <button class="view-highlights-btn" id="viewHighlightsBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <path d="M21 15l-5-5L5 21"/>
+                            </svg>
+                            View Highlights
+                        </button>
+                    </div>
+                    <p class="highlights-description">
+                        Catch the most exciting moments from our sports meet. Click below to view the photo gallery.
+                    </p>
+                </div>
+
+                <!-- Houses Section -->
+                <div class="houses-section">
+                    <h2 class="houses-title">COMPETING HOUSES</h2>
+                    <div class="houses-grid">
+                        <!-- Advi House - Blue -->
+                        <div class="house-card advi">
+                            <div class="house-header">
+                                <div class="house-name">ADVI</div>
+                                <div class="live-indicator">
+                                    <div class="live-dot"></div>
+                                    <span class="live-text">Live</span>
+                                </div>
+                            </div>
+                            <p class="house-info">
+                                The house of wisdom and strategy, known for their exceptional teamwork and analytical approach to every competition.
+                            </p>
+                            <div class="house-stats">
+                                <div class="stat-item">
+                                    <div class="stat-number">12</div>
+                                    <div class="stat-label">Athletes</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">8</div>
+                                    <div class="stat-label">Events</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Anupa House - Yellow -->
+                        <div class="house-card anupa">
+                            <div class="house-header">
+                                <div class="house-name">ANUPA</div>
+                                <div class="live-indicator">
+                                    <div class="live-dot"></div>
+                                    <span class="live-text">Live</span>
+                                </div>
+                            </div>
+                            <p class="house-info">
+                                Champions of spirit and determination, bringing energy and enthusiasm to every event with their vibrant presence.
+                            </p>
+                            <div class="house-stats">
+                                <div class="stat-item">
+                                    <div class="stat-number">15</div>
+                                    <div class="stat-label">Athletes</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">10</div>
+                                    <div class="stat-label">Events</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Agra House - Green -->
+                        <div class="house-card agra">
+                            <div class="house-header">
+                                <div class="house-name">AGRA</div>
+                                <div class="live-indicator">
+                                    <div class="live-dot"></div>
+                                    <span class="live-text">Live</span>
+                                </div>
+                            </div>
+                            <p class="house-info">
+                                Masters of endurance and resilience, representing growth and strength in every challenge they face.
+                            </p>
+                            <div class="house-stats">
+                                <div class="stat-item">
+                                    <div class="stat-number">14</div>
+                                    <div class="stat-label">Athletes</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">9</div>
+                                    <div class="stat-label">Events</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Anabi House - Red -->
+                        <div class="house-card anabi">
+                            <div class="house-header">
+                                <div class="house-name">ANABI</div>
+                                <div class="live-indicator">
+                                    <div class="live-dot"></div>
+                                    <span class="live-text">Live</span>
+                                </div>
+                            </div>
+                            <p class="house-info">
+                                Warriors of passion and courage, competing with fierce determination and an unbreakable competitive spirit.
+                            </p>
+                            <div class="house-stats">
+                                <div class="stat-item">
+                                    <div class="stat-number">13</div>
+                                    <div class="stat-label">Athletes</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">11</div>
+                                    <div class="stat-label">Events</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Features Grid -->
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="8" r="3"/>
+                                <path d="M12 11v10"/>
+                                <path d="M8 15l4-4 4 4"/>
+                                <path d="M8 19h8"/>
+                                <ellipse cx="12" cy="21" rx="8" ry="1"/>
+                            </svg>
+                        </div>
+                        <div class="feature-title">Track & Field</div>
+                        <div class="feature-desc">
+                            Watch our athletes compete in sprints, relays, long jump, high jump, and more exciting track events.
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 2c-1.7 0-3.3.4-4.7 1.2"/>
+                                <path d="M12 2c1.7 0 3.3.4 4.7 1.2"/>
+                                <path d="M2 12c0 1.7.4 3.3 1.2 4.7"/>
+                                <path d="M22 12c0 1.7-.4 3.3-1.2 4.7"/>
+                                <path d="M12 22c-1.7 0-3.3-.4-4.7-1.2"/>
+                                <path d="M12 22c1.7 0 3.3-.4 4.7-1.2"/>
+                            </svg>
+                        </div>
+                        <div class="feature-title">Team Sports</div>
+                        <div class="feature-desc">
+                            Catch live action from basketball, volleyball, football, and other thrilling team competitions.
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+                                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+                                <path d="M4 22h16"/>
+                                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+                                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+                                <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+                                <circle cx="12" cy="9" r="2"/>
+                            </svg>
+                        </div>
+                        <div class="feature-title">Live Results</div>
+                        <div class="feature-desc">
+                            Real-time scores, rankings, and results updated throughout the day as events unfold.
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                                <path d="M12 18h.01"/>
+                                <rect x="2" y="7" width="4" height="10" rx="1"/>
+                                <rect x="18" y="7" width="4" height="10" rx="1"/>
+                            </svg>
+                        </div>
+                        <div class="feature-title">Multi-Device</div>
+                        <div class="feature-desc">
+                            Stream seamlessly on any device - desktop, tablet, or mobile. Never miss a moment.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="w-full px-6 py-8 text-center" style="animation: fadeUp .9s .75s ease both;">
+            <div class="text-sm uppercase tracking-wider" style="color: rgba(130,148,168,.4);">
+                <p>© 2025 TCLive Sports · All Rights Reserved</p>
+                <p class="mt-2">
+                    <a href="#" class="hover:text-red-500 transition-colors">About</a> · 
+                    <a href="#" class="hover:text-red-500 transition-colors ml-2">Schedule</a> · 
+                    <a href="#" class="hover:text-red-500 transition-colors ml-2">Contact</a>
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Lightbox Gallery Overlay -->
+    <div class="lightbox-overlay" id="lightboxOverlay">
+        <div class="lightbox-container">
+            <div class="lightbox-header">
+                <h3 class="lightbox-title">EVENT HIGHLIGHTS GALLERY</h3>
+                <div class="lightbox-close" id="closeLightbox">×</div>
+            </div>
+            <div class="lightbox-grid" id="lightboxGrid">
+                <!-- Images will be loaded here dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Full Image View -->
+    <div class="lightbox-fullview" id="lightboxFullview">
+        <div class="lightbox-fullview-close" id="closeFullview">×</div>
+        <img id="fullviewImage" src="" alt="Full size image">
+    </div>
+
+    <script>
+        // ========================================
+        // CUSTOM VIDEO PLAYER CONFIGURATION
+        // ========================================
+        const VIDEO_CONFIG = {
+            // Direct video URL (MP4, WebM, HLS, etc.)
+            VIDEO_URL: '',  // Example: 'https://example.com/stream.m3u8' or 'video.mp4'
+            
+            // Poster image (shown before video plays)
+            POSTER_URL: '',  // Example: 'poster.jpg'
+            
+            // Video type (auto-detected if not specified)
+            VIDEO_TYPE: '',  // 'video/mp4', 'video/webm', 'application/x-mpegURL' (HLS)
+            
+            // Player settings
+            AUTOPLAY: false,
+            MUTED: false,
+            CONTROLS: true,
+            LOOP: false,
+            
+            // Streaming settings (for HLS/DASH)
+            IS_LIVE_STREAM: false,
+            
+            // Custom controls color theme
+            ACCENT_COLOR: '#ff3d5a'
+        };
+
+        // Custom Video Player Class
+        class CustomVideoPlayer {
+            constructor(container, config) {
+                this.container = container;
+                this.config = config;
+                this.video = null;
+                this.controls = null;
+                this.isPlaying = false;
+                this.isFullscreen = false;
+            }
+
+            init() {
+                if (!this.config.VIDEO_URL) {
+                    console.log('No video configured - showing Coming Soon message');
+                    return;
+                }
+
+                this.createVideoElement();
+                this.createCustomControls();
+                this.attachEventListeners();
+                this.hideComingSoonOverlay();
+                this.updateBadge();
+            }
+
+            createVideoElement() {
+                this.video = document.createElement('video');
+                this.video.className = 'custom-video-player';
+                this.video.style.cssText = `
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: #000;
+                    object-fit: contain;
+                `;
+                
+                if (this.config.POSTER_URL) {
+                    this.video.poster = this.config.POSTER_URL;
+                }
+                
+                this.video.autoplay = this.config.AUTOPLAY;
+                this.video.muted = this.config.MUTED;
+                this.video.loop = this.config.LOOP;
+                this.video.playsInline = true;
+                
+                // Add video source
+                const source = document.createElement('source');
+                source.src = this.config.VIDEO_URL;
+                if (this.config.VIDEO_TYPE) {
+                    source.type = this.config.VIDEO_TYPE;
+                } else {
+                    // Auto-detect type from URL
+                    if (this.config.VIDEO_URL.includes('.m3u8')) {
+                        source.type = 'application/x-mpegURL';
+                    } else if (this.config.VIDEO_URL.includes('.mpd')) {
+                        source.type = 'application/dash+xml';
+                    } else if (this.config.VIDEO_URL.includes('.webm')) {
+                        source.type = 'video/webm';
+                    } else {
+                        source.type = 'video/mp4';
+                    }
+                }
+                
+                this.video.appendChild(source);
+                this.container.appendChild(this.video);
+
+                // Load HLS.js for HLS streams if needed
+                if (source.type === 'application/x-mpegURL' && !this.video.canPlayType('application/x-mpegURL')) {
+                    this.loadHLS();
+                }
+            }
+
+            loadHLS() {
+                // Load HLS.js library for browsers that don't support HLS natively
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/hls.js@latest';
+                script.onload = () => {
+                    if (Hls.isSupported()) {
+                        const hls = new Hls();
+                        hls.loadSource(this.config.VIDEO_URL);
+                        hls.attachMedia(this.video);
+                        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                            if (this.config.AUTOPLAY) {
+                                this.video.play();
+                            }
+                        });
+                    }
+                };
+                document.head.appendChild(script);
+            }
+
+            createCustomControls() {
+                if (!this.config.CONTROLS) return;
+
+                this.controls = document.createElement('div');
+                this.controls.className = 'video-controls';
+                this.controls.style.cssText = `
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    padding: 15px 20px;
+                    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                    opacity: 0;
+                    transition: opacity 0.3s;
+                    z-index: 10;
+                `;
+
+                // Play/Pause button
+                const playBtn = this.createButton('▶', 'play-pause-btn');
+                playBtn.style.fontSize = '20px';
+                
+                // Progress bar
+                const progressContainer = document.createElement('div');
+                progressContainer.style.cssText = `
+                    flex: 1;
+                    height: 6px;
+                    background: rgba(255,255,255,0.3);
+                    border-radius: 3px;
+                    cursor: pointer;
+                    position: relative;
+                `;
+                
+                const progress = document.createElement('div');
+                progress.className = 'video-progress';
+                progress.style.cssText = `
+                    height: 100%;
+                    background: ${this.config.ACCENT_COLOR};
+                    border-radius: 3px;
+                    width: 0%;
+                    transition: width 0.1s;
+                `;
+                progressContainer.appendChild(progress);
+                
+                // Time display
+                const timeDisplay = document.createElement('span');
+                timeDisplay.className = 'time-display';
+                timeDisplay.textContent = '0:00 / 0:00';
+                timeDisplay.style.cssText = `
+                    color: white;
+                    font-size: 14px;
+                    min-width: 100px;
+                `;
+                
+                // Volume button
+                const volumeBtn = this.createButton('🔊', 'volume-btn');
+                
+                // Fullscreen button
+                const fullscreenBtn = this.createButton('⛶', 'fullscreen-btn');
+                fullscreenBtn.style.fontSize = '20px';
+                
+                // Append controls
+                this.controls.appendChild(playBtn);
+                this.controls.appendChild(progressContainer);
+                this.controls.appendChild(timeDisplay);
+                this.controls.appendChild(volumeBtn);
+                this.controls.appendChild(fullscreenBtn);
+                
+                this.container.appendChild(this.controls);
+                
+                // Show/hide controls on hover
+                this.container.addEventListener('mouseenter', () => {
+                    this.controls.style.opacity = '1';
+                });
+                this.container.addEventListener('mouseleave', () => {
+                    this.controls.style.opacity = '0';
+                });
+            }
+
+            createButton(text, className) {
+                const btn = document.createElement('button');
+                btn.textContent = text;
+                btn.className = className;
+                btn.style.cssText = `
+                    background: none;
+                    border: none;
+                    color: white;
+                    cursor: pointer;
+                    font-size: 16px;
+                    padding: 5px 10px;
+                    transition: transform 0.2s;
+                `;
+                btn.addEventListener('mouseenter', () => {
+                    btn.style.transform = 'scale(1.1)';
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.transform = 'scale(1)';
+                });
+                return btn;
+            }
+
+            attachEventListeners() {
+                // Play/Pause
+                const playBtn = this.controls?.querySelector('.play-pause-btn');
+                if (playBtn) {
+                    playBtn.addEventListener('click', () => this.togglePlay());
+                    this.video.addEventListener('click', () => this.togglePlay());
+                }
+
+                // Progress bar
+                const progressContainer = this.controls?.querySelector('div');
+                if (progressContainer) {
+                    progressContainer.addEventListener('click', (e) => {
+                        const rect = progressContainer.getBoundingClientRect();
+                        const pos = (e.clientX - rect.left) / rect.width;
+                        this.video.currentTime = pos * this.video.duration;
+                    });
+                }
+
+                // Update progress
+                this.video.addEventListener('timeupdate', () => {
+                    const progress = this.controls?.querySelector('.video-progress');
+                    const timeDisplay = this.controls?.querySelector('.time-display');
+                    
+                    if (progress) {
+                        const percent = (this.video.currentTime / this.video.duration) * 100;
+                        progress.style.width = percent + '%';
+                    }
+                    
+                    if (timeDisplay) {
+                        timeDisplay.textContent = 
+                            `${this.formatTime(this.video.currentTime)} / ${this.formatTime(this.video.duration)}`;
+                    }
+                });
+
+                // Volume
+                const volumeBtn = this.controls?.querySelector('.volume-btn');
+                if (volumeBtn) {
+                    volumeBtn.addEventListener('click', () => {
+                        this.video.muted = !this.video.muted;
+                        volumeBtn.textContent = this.video.muted ? '🔇' : '🔊';
+                    });
+                }
+
+                // Fullscreen
+                const fullscreenBtn = this.controls?.querySelector('.fullscreen-btn');
+                if (fullscreenBtn) {
+                    fullscreenBtn.addEventListener('click', () => this.toggleFullscreen());
+                }
+
+                // Keyboard shortcuts
+                document.addEventListener('keydown', (e) => {
+                    // Disable keyboard shortcuts if dev tools protection is active
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+                    
+                    if (e.key === ' ' && this.video) {
+                        e.preventDefault();
+                        this.togglePlay();
+                    } else if ((e.key === 'f' || e.key === 'F') && this.video) {
+                        e.preventDefault();
+                        this.toggleFullscreen();
+                    } else if ((e.key === 'm' || e.key === 'M') && this.video) {
+                        e.preventDefault();
+                        this.video.muted = !this.video.muted;
+                    }
+                });
+            }
+
+            togglePlay() {
+                if (this.video.paused) {
+                    this.video.play();
+                    const playBtn = this.controls?.querySelector('.play-pause-btn');
+                    if (playBtn) playBtn.textContent = '⏸';
+                } else {
+                    this.video.pause();
+                    const playBtn = this.controls?.querySelector('.play-pause-btn');
+                    if (playBtn) playBtn.textContent = '▶';
+                }
+            }
+
+            toggleFullscreen() {
+                if (!this.isFullscreen) {
+                    if (this.container.requestFullscreen) {
+                        this.container.requestFullscreen();
+                    } else if (this.container.webkitRequestFullscreen) {
+                        this.container.webkitRequestFullscreen();
+                    }
+                    this.isFullscreen = true;
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    }
+                    this.isFullscreen = false;
+                }
+            }
+
+            formatTime(seconds) {
+                if (!seconds || isNaN(seconds)) return '0:00';
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${secs.toString().padStart(2, '0')}`;
+            }
+
+            hideComingSoonOverlay() {
+                const overlay = document.querySelector('.coming-soon-overlay');
+                if (overlay) {
+                    overlay.style.display = 'none';
+                }
+            }
+
+            updateBadge() {
+                const badge = document.querySelector('.badge');
+                if (badge) {
+                    badge.innerHTML = '<span class="badge-dot"></span>NOW LIVE';
+                }
+            }
+        }
+
+        // Initialize player when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            const videoContainer = document.querySelector('.video-container');
+            const player = new CustomVideoPlayer(videoContainer, VIDEO_CONFIG);
+            player.init();
+
+            // Make player accessible globally for manual control
+            window.videoPlayer = player;
+        });
+
+        // Manual control function
+        window.loadVideo = function(videoUrl, isLive = false) {
+            VIDEO_CONFIG.VIDEO_URL = videoUrl;
+            VIDEO_CONFIG.IS_LIVE_STREAM = isLive;
+            const videoContainer = document.querySelector('.video-container');
+            videoContainer.innerHTML = '<div class="coming-soon-overlay"></div>'; // Reset
+            const player = new CustomVideoPlayer(videoContainer, VIDEO_CONFIG);
+            player.init();
+            window.videoPlayer = player;
+        };
+
+        // ========================================
+        // HIGHLIGHTS GALLERY FUNCTIONALITY
+        // ========================================
+        
+        // Example highlight images (replace with your actual images)
+        const HIGHLIGHT_IMAGES = [
+            {
+                url: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800',
+                title: '100m Sprint Finals',
+                description: 'Intense sprint competition'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800',
+                title: 'Relay Race',
+                description: 'Team relay handoff'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?w=800',
+                title: 'Long Jump',
+                description: 'Record-breaking jump'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1587280501635-68a0e82cd5ff?w=800',
+                title: 'High Jump',
+                description: 'Clearing the bar'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800',
+                title: 'Basketball Finals',
+                description: 'Championship game'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800',
+                title: 'Volleyball Match',
+                description: 'Intense rally'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1529900748604-07564a03e7a6?w=800',
+                title: 'Opening Ceremony',
+                description: 'Grand opening parade'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800',
+                title: 'Victory Celebration',
+                description: 'Champions crowned'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800',
+                title: 'Shot Put',
+                description: 'Power and technique'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1611328498808-c630ad48ded5?w=800',
+                title: '400m Hurdles',
+                description: 'Grace under pressure'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800',
+                title: 'Team Spirit',
+                description: 'House camaraderie'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1627224234453-56c2f88fcc8c?w=800',
+                title: 'Medal Ceremony',
+                description: 'Podium moments'
+            }
+        ];
+
+        // Lightbox functionality
+        const viewHighlightsBtn = document.getElementById('viewHighlightsBtn');
+        const lightboxOverlay = document.getElementById('lightboxOverlay');
+        const closeLightbox = document.getElementById('closeLightbox');
+        const lightboxGrid = document.getElementById('lightboxGrid');
+        const lightboxFullview = document.getElementById('lightboxFullview');
+        const closeFullview = document.getElementById('closeFullview');
+        const fullviewImage = document.getElementById('fullviewImage');
+
+        // Load images into lightbox
+        function loadHighlightImages() {
+            lightboxGrid.innerHTML = '';
+            
+            HIGHLIGHT_IMAGES.forEach((image, index) => {
+                const imageItem = document.createElement('div');
+                imageItem.className = 'lightbox-image-item';
+                imageItem.innerHTML = `
+                    <img src="${image.url}" alt="${image.title}" loading="lazy">
+                    <div class="lightbox-image-label">${image.title}</div>
+                `;
+                
+                // Click to view full size
+                imageItem.addEventListener('click', () => {
+                    fullviewImage.src = image.url;
+                    fullviewImage.alt = image.title;
+                    lightboxFullview.classList.add('active');
+                });
+                
+                lightboxGrid.appendChild(imageItem);
+            });
+        }
+
+        // Open lightbox
+        viewHighlightsBtn.addEventListener('click', () => {
+            loadHighlightImages();
+            lightboxOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        });
+
+        // Close lightbox
+        closeLightbox.addEventListener('click', () => {
+            lightboxOverlay.classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+        });
+
+        // Close on overlay click
+        lightboxOverlay.addEventListener('click', (e) => {
+            if (e.target === lightboxOverlay) {
+                lightboxOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Close fullview
+        closeFullview.addEventListener('click', () => {
+            lightboxFullview.classList.remove('active');
+        });
+
+        lightboxFullview.addEventListener('click', (e) => {
+            if (e.target === lightboxFullview) {
+                lightboxFullview.classList.remove('active');
+            }
+        });
+
+        // Keyboard shortcuts for lightbox
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (lightboxFullview.classList.contains('active')) {
+                    lightboxFullview.classList.remove('active');
+                } else if (lightboxOverlay.classList.contains('active')) {
+                    lightboxOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+
+        // ========================================
+        // NOTIFICATION & TOAST FUNCTIONALITY
+        // ========================================
+
+        // Toast notification function
+        function showToast(message, type = 'success', duration = 3000) {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            
+            const icon = type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ';
+            
+            toast.innerHTML = `
+                <div class="toast-icon">${icon}</div>
+                <div class="toast-message">${message}</div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Trigger animation
+            setTimeout(() => toast.classList.add('show'), 10);
+            
+            // Remove toast
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, duration);
+        }
+
+        // Check notification permission status
+        function checkNotificationPermission() {
+            if (!('Notification' in window)) {
+                return 'unsupported';
+            }
+            return Notification.permission;
+        }
+
+        // Request notification permission
+        async function requestNotificationPermission() {
+            if (!('Notification' in window)) {
+                showToast('Notifications are not supported on this browser', 'error');
+                return false;
+            }
+
+            if (Notification.permission === 'granted') {
+                showToast('Notifications are already enabled!', 'success');
+                scheduleEventReminder();
+                return true;
+            }
+
+            if (Notification.permission === 'denied') {
+                showToast('Notifications are blocked. Please enable them in browser settings.', 'error');
+                return false;
+            }
+
+            try {
+                const permission = await Notification.requestPermission();
+                
+                if (permission === 'granted') {
+                    showToast('🔔 Notifications enabled! You\'ll be reminded on March 12', 'success', 4000);
+                    scheduleEventReminder();
+                    
+                    // Show test notification
+                    new Notification('TCLive Sports', {
+                        body: 'Notifications are now enabled. We\'ll remind you on event day!',
+                        icon: 'logo.png',
+                        badge: 'logo.png',
+                        tag: 'welcome'
+                    });
+                    
+                    return true;
+                } else {
+                    showToast('Notification permission denied', 'error');
+                    return false;
+                }
+            } catch (error) {
+                showToast('Error requesting notifications', 'error');
+                console.error('Notification error:', error);
+                return false;
+            }
+        }
+
+        // Schedule event reminder
+        function scheduleEventReminder() {
+            const eventDate = new Date('2026-03-12T09:00:00');
+            const now = new Date();
+            
+            // Calculate time until event
+            const timeUntilEvent = eventDate.getTime() - now.getTime();
+            
+            // If event is in the future
+            if (timeUntilEvent > 0) {
+                // Set reminder for event day at 8:00 AM (1 hour before)
+                const reminderDate = new Date('2026-03-12T08:00:00');
+                const timeUntilReminder = reminderDate.getTime() - now.getTime();
+                
+                if (timeUntilReminder > 0) {
+                    setTimeout(() => {
+                        if (Notification.permission === 'granted') {
+                            new Notification('🏃 TCLive Sports - TODAY!', {
+                                body: 'Interhouse Sports Meet starts in 1 hour! Get ready for an exciting day of competition.',
+                                icon: 'logo.png',
+                                badge: 'logo.png',
+                                tag: 'event-reminder',
+                                requireInteraction: true,
+                                vibrate: [200, 100, 200]
+                            });
+                        }
+                    }, timeUntilReminder);
+                    
+                    // Store reminder in localStorage
+                    localStorage.setItem('eventReminderSet', 'true');
+                    localStorage.setItem('eventDate', '2026-03-12');
+                }
+                
+                // Also set reminder for event start time
+                if (timeUntilEvent > 0) {
+                    setTimeout(() => {
+                        if (Notification.permission === 'granted') {
+                            new Notification('🔴 LIVE NOW: TCLive Sports!', {
+                                body: 'Interhouse Sports Meet is starting now! Click to watch live.',
+                                icon: 'logo.png',
+                                badge: 'logo.png',
+                                tag: 'event-live',
+                                requireInteraction: true,
+                                vibrate: [300, 100, 300, 100, 300]
+                            });
+                        }
+                    }, timeUntilEvent);
+                }
+            }
+        }
+
+        // Auto-prompt for notifications on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            // Wait 5 seconds before showing notification prompt
+            setTimeout(() => {
+                const permission = checkNotificationPermission();
+                
+                if (permission === 'default') {
+                    // Show custom prompt toast
+                    showToast('📢 Enable notifications to get reminded on event day! Click here to enable.', 'info', 6000);
+                    
+                    // Auto-request after another 3 seconds if user hasn't dismissed
+                    setTimeout(() => {
+                        if (Notification.permission === 'default') {
+                            requestNotificationPermission();
+                        }
+                    }, 3000);
+                } else if (permission === 'granted') {
+                    // Check if reminder is already set
+                    if (!localStorage.getItem('eventReminderSet')) {
+                        scheduleEventReminder();
+                    }
+                }
+            }, 5000);
+        });
+
+        // Manual notification enable function (can be called from console or button)
+        window.enableNotifications = function() {
+            requestNotificationPermission();
+        };
+
+        // Notification button click handler
+        const notificationBtn = document.getElementById('notificationBtn');
+        if (notificationBtn) {
+            // Update button state based on permission
+            function updateNotificationButton() {
+                const permission = checkNotificationPermission();
+                if (permission === 'granted') {
+                    notificationBtn.classList.add('enabled');
+                    notificationBtn.title = 'Notifications enabled';
+                } else {
+                    notificationBtn.classList.remove('enabled');
+                    notificationBtn.title = 'Enable notifications';
+                }
+            }
+
+            // Initial state
+            updateNotificationButton();
+
+            // Click handler
+            notificationBtn.addEventListener('click', async () => {
+                await requestNotificationPermission();
+                updateNotificationButton();
+            });
+        }
+
+        // Check on page visibility change (when user returns to tab)
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && Notification.permission === 'granted') {
+                const eventDate = new Date('2026-03-12T09:00:00');
+                const now = new Date();
+                
+                // If it's event day
+                if (now.toDateString() === eventDate.toDateString()) {
+                    showToast('🔴 Event day is TODAY! Don\'t forget to tune in at 9:00 AM', 'success', 5000);
+                }
+            }
+        });
+
+        // Disable right-click context menu
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+S
+        document.addEventListener('keydown', function(e) {
+            // F12
+            if (e.keyCode === 123) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+I (Inspect)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+J (Console)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+C (Inspect Element)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 67) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+U (View Source)
+            if (e.ctrlKey && e.keyCode === 85) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+S (Save Page)
+            if (e.ctrlKey && e.keyCode === 83) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Disable text selection via mouse
+        document.onselectstart = function() {
+            return false;
+        };
+
+        // Disable copy
+        document.addEventListener('copy', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Disable cut
+        document.addEventListener('cut', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Disable paste (optional)
+        document.addEventListener('paste', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Detect DevTools
+        let devtools = { isOpen: false, orientation: null };
+        const threshold = 160;
+
+        const emitEvent = (isOpen, orientation) => {
+            if (devtools.isOpen !== isOpen || devtools.orientation !== orientation) {
+                devtools.isOpen = isOpen;
+                devtools.orientation = orientation;
+                
+                if (isOpen) {
+                    // Redirect or show warning when devtools detected
+                    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-size:2rem;color:#ff3d5a;text-align:center;">Developer tools are disabled for this site</div>';
+                }
+            }
+        };
+
+        const main = () => {
+            const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+            const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+            const orientation = widthThreshold ? 'vertical' : 'horizontal';
+
+            if (widthThreshold || heightThreshold) {
+                emitEvent(true, orientation);
+            } else {
+                emitEvent(false, null);
+            }
+        };
+
+        // Check devtools on load and resize
+        main();
+        window.addEventListener('resize', main);
+
+        <!-- Countdown Timer -->
+        function updateCountdown() {
+            // Event date: March 12, 2026 at 9:00 AM
+            const eventDate = new Date('2026-03-12T09:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+
+            if (distance < 0) {
+                document.getElementById('countdown').innerHTML = '<div class="coming-soon-text" style="font-size: 2rem;">EVENT IS LIVE!</div>';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        // Update countdown every second
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Add parallax effect to orbs
+        document.addEventListener('mousemove', (e) => {
+            const orb1 = document.querySelector('.orb1');
+            const orb2 = document.querySelector('.orb2');
+            
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            orb1.style.transform = `translate(${x * 30}px, ${y * 30}px)`;
+            orb2.style.transform = `translate(${-x * 20}px, ${-y * 20}px)`;
+        });
+    </script>
+</body>
+</html>
