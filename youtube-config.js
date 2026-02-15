@@ -8,7 +8,7 @@
 
 const YOUTUBE_CONFIG = {
     // Your YouTube Data API v3 Key
-    API_KEY: 'AIzaSyCUJuHoKp44vgeKsp5irKNrecOQv0KYubA',
+    API_KEY: 'AIzaSyA-4vp0XlhzOYH6c2aZEzjVprWe1aVYxQY',
     
     // Your YouTube Channel ID (NOT the channel name)
     CHANNEL_ID: 'UCJke5fGgnrgZh0RKcPv2CxA',
