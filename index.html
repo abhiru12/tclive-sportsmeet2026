@@ -6,7 +6,7 @@
     <title>TCLive Sports - School Sports Meet Live</title>
     
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://www.youtube.com https://youtube.com https://www.googleapis.com https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.tailwindcss.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://www.youtube.com https://www.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.tailwindcss.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://www.youtube.com https://youtube.com; connect-src 'self' https://www.googleapis.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://www.youtube.com https://youtube.com https://www.googleapis.com https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.tailwindcss.com https://cdn.onesignal.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://www.youtube.com https://www.googleapis.com https://cdn.onesignal.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.tailwindcss.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://www.youtube.com https://youtube.com; connect-src 'self' https://www.googleapis.com https://onesignal.com https://api.onesignal.com;">
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
@@ -51,6 +51,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    
+    <!-- OneSignal Web Push Notifications -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "8c18a2f7-06c8-45ec-a9a2-7774fe4210c4",
+          safari_web_id: "web.onesignal.auto.69735df3-8f8c-40d7-a01f-205a16828de8",
+          notifyButton: {
+            enable: true,
+          },
+        });
+      });
+    </script>
+    
     <style>
         *, *::before, *::after {
             box-sizing: border-box;
@@ -378,6 +394,127 @@
 
             .header-divider {
                 width: 50px;
+            }
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(20, 30, 42, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeDown .9s .3s ease both;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+            height: 60px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-link {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: var(--muted);
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--muted);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .nav-link:hover svg {
+            stroke: var(--accent);
+        }
+
+        .nav-link.active {
+            color: var(--accent);
+        }
+
+        .nav-link.active svg {
+            stroke: var(--accent);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                height: 50px;
+            }
+
+            .nav-links {
+                gap: 20px;
+            }
+
+            .nav-link {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+
+            .nav-link svg {
+                width: 18px;
+                height: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links {
+                gap: 10px;
+            }
+
+            .nav-link {
+                padding: 6px 8px;
+                font-size: 0.75rem;
+                gap: 4px;
+            }
+
+            .nav-link svg {
+                width: 16px;
+                height: 16px;
             }
         }
 
@@ -1039,39 +1176,6 @@
             color: var(--muted);
         }
 
-        /* Title Divider */
-        .title-divider {
-            width: 80px;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            margin: 24px auto;
-            border-radius: 2px;
-            animation: scaleIn .8s .3s ease both;
-        }
-
-        /* Event Details */
-        .event-details {
-            margin: 28px auto 32px;
-            animation: fadeDown 1s .4s ease both;
-        }
-
-        .event-main-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
-            letter-spacing: .12em;
-            color: var(--white);
-            margin-bottom: 8px;
-            font-weight: 400;
-        }
-
-        .event-subtitle {
-            font-size: clamp(0.85rem, 2vw, 1rem);
-            font-weight: 300;
-            letter-spacing: .08em;
-            color: var(--muted);
-            text-transform: uppercase;
-        }
-
         @keyframes fadeDown {
             from {
                 opacity: 0;
@@ -1153,7 +1257,6 @@
                 justify-content: center;
             }
 
-            /* Better tablet layout */
             .houses-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 20px;
@@ -1181,7 +1284,6 @@
                 gap: 12px;
             }
 
-            /* Better mobile layout */
             .houses-grid {
                 grid-template-columns: 1fr;
                 gap: 16px;
@@ -1243,6 +1345,221 @@
             main {
                 padding: 24px 16px !important;
             }
+
+            /* Mobile App Layout */
+            body {
+                background: #0a0e15;
+            }
+
+            header {
+                display: none !important;
+            }
+
+            .mobile-app-header {
+                display: flex !important;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 60px;
+                background: linear-gradient(135deg, rgba(20, 30, 42, 0.98) 0%, rgba(10, 14, 21, 0.98) 100%);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-bottom: 1px solid rgba(255, 61, 90, 0.1);
+                padding: 0 16px;
+                align-items: center;
+                justify-content: space-between;
+                z-index: 1000;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            }
+
+            .mobile-logo-text {
+                font-family: 'Bebas Neue', sans-serif;
+                font-size: 1.5rem;
+                letter-spacing: 0.1em;
+                background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .mobile-notification-btn {
+                width: 40px;
+                height: 40px;
+                background: rgba(255, 255, 255, 0.08);
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                cursor: pointer;
+            }
+
+            .mobile-notification-btn svg {
+                width: 20px;
+                height: 20px;
+                stroke: var(--white);
+            }
+
+            .mobile-bottom-nav {
+                display: flex !important;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 65px;
+                background: linear-gradient(180deg, rgba(20, 30, 42, 0.98) 0%, rgba(10, 14, 21, 0.98) 100%);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-top: 1px solid rgba(255, 61, 90, 0.1);
+                padding: 8px 16px 12px;
+                align-items: center;
+                justify-content: space-around;
+                z-index: 1000;
+                box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+            }
+
+            .mobile-nav-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
+                color: var(--muted);
+                text-decoration: none;
+                transition: all 0.3s ease;
+                padding: 8px 16px;
+                border-radius: 12px;
+            }
+
+            .mobile-nav-item.active {
+                background: rgba(255, 61, 90, 0.1);
+                color: var(--accent);
+            }
+
+            .mobile-nav-item svg {
+                width: 24px;
+                height: 24px;
+                stroke: currentColor;
+            }
+
+            .mobile-nav-item span {
+                font-size: 0.7rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+
+            main {
+                padding-top: 70px !important;
+                padding-bottom: 75px !important;
+                padding-left: 16px !important;
+                padding-right: 16px !important;
+            }
+
+            .nav-bar {
+                display: none !important;
+            }
+
+            h1 {
+                font-size: 1.8rem !important;
+                text-align: left !important;
+                margin-bottom: 8px !important;
+                line-height: 1.2 !important;
+            }
+
+            main > div > div:first-child {
+                text-align: left !important;
+                margin-bottom: 20px !important;
+            }
+
+            main > div > div:first-child p {
+                text-align: left !important;
+                font-size: 0.9rem !important;
+                margin-top: 8px !important;
+            }
+
+            .video-container {
+                border-radius: 16px !important;
+                margin-bottom: 20px !important;
+            }
+
+            .house-card,
+            .feature-card {
+                background: rgba(26, 31, 46, 0.8);
+                backdrop-filter: blur(10px);
+                border-radius: 16px;
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                padding: 20px;
+            }
+
+            .highlights-section {
+                margin: 30px auto 20px !important;
+                padding: 0 !important;
+            }
+
+            .highlights-header {
+                margin-bottom: 16px !important;
+            }
+
+            .highlights-title {
+                font-size: 1.6rem !important;
+            }
+
+            .view-highlights-btn {
+                padding: 12px 20px !important;
+                font-size: 0.85rem !important;
+            }
+
+            .houses-section {
+                margin: 40px auto 20px !important;
+            }
+
+            .houses-title {
+                font-size: 1.8rem !important;
+                margin-bottom: 20px !important;
+            }
+
+            .features-grid {
+                margin-top: 30px !important;
+                gap: 12px !important;
+            }
+
+            footer {
+                display: none !important;
+            }
+
+            .countdown {
+                gap: 12px !important;
+                flex-wrap: wrap !important;
+                justify-content: center !important;
+            }
+
+            .countdown-item {
+                min-width: 70px !important;
+            }
+
+            .countdown-number {
+                font-size: 1.8rem !important;
+            }
+
+            .countdown-label {
+                font-size: 0.65rem !important;
+            }
+
+            @supports (padding-top: env(safe-area-inset-top)) {
+                .mobile-app-header {
+                    padding-top: calc(env(safe-area-inset-top) + 8px);
+                    height: calc(60px + env(safe-area-inset-top));
+                }
+
+                main {
+                    padding-top: calc(70px + env(safe-area-inset-top)) !important;
+                }
+
+                .mobile-bottom-nav {
+                    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+                    height: calc(65px + env(safe-area-inset-bottom));
+                }
+            }
         }
     </style>
 </head>
@@ -1255,6 +1572,17 @@
 
     <!-- Main Content -->
     <div class="relative z-10 min-h-screen flex flex-col">
+        <!-- Mobile App Header (Only visible on mobile) -->
+        <div class="mobile-app-header" style="display: none;">
+            <div class="mobile-logo-text">TCLIVE SPORTS</div>
+            <button class="mobile-notification-btn" id="mobileNotificationBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+            </button>
+        </div>
+
         <!-- Header -->
         <header class="w-full px-6 py-6">
             <div class="max-w-7xl mx-auto flex items-center justify-between">
@@ -1264,7 +1592,7 @@
                     </div>
                     <div class="header-divider"></div>
                     <div class="header-event-details">
-                        <h2 class="header-event-title">Interhouse SportsMeet 2026</h2>
+                        <h2 class="header-event-title">Interhouse Sports 2026</h2>
                         <p class="header-event-subtitle">Thakshila College Photographic Art Society</p>
                     </div>
                 </div>
@@ -1280,6 +1608,37 @@
                 </button>
             </div>
         </header>
+
+        <!-- Navigation Bar -->
+        <nav class="nav-bar">
+            <div class="nav-container">
+                <ul class="nav-links">
+                    <li>
+                        <a href="index.html" class="nav-link active">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                <polyline points="9 22 9 12 15 12 15 22"/>
+                            </svg>
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="scoreboard.html" class="nav-link">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+                                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+                                <path d="M4 22h16"/>
+                                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+                                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+                                <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+                                <circle cx="12" cy="9" r="2"/>
+                            </svg>
+                            Scoreboard
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
         <!-- Main Section -->
         <main class="flex-1 flex flex-col items-center justify-center px-6 py-12">
@@ -1518,7 +1877,7 @@
         <!-- Footer -->
         <footer class="w-full px-6 py-8 text-center" style="animation: fadeUp .9s .75s ease both;">
             <div class="text-sm uppercase tracking-wider" style="color: rgba(130,148,168,.4);">
-                <p>© 2025 Thakshila College Photographic Art Society · All Rights Reserved</p>
+                <p>© 2025 TCLive Sports · All Rights Reserved</p>
                 <p class="mt-2">
                     <a href="#" class="hover:text-red-500 transition-colors">About</a> · 
                     <a href="#" class="hover:text-red-500 transition-colors ml-2">Schedule</a> · 
@@ -1526,6 +1885,37 @@
                 </p>
             </div>
         </footer>
+
+        <!-- Mobile Bottom Navigation (Only visible on mobile) -->
+        <nav class="mobile-bottom-nav" style="display: none;">
+            <a href="#home" class="mobile-nav-item active" id="mobileHomeNav">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                <span>Home</span>
+            </a>
+            <a href="scoreboard.html" class="mobile-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+                    <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+                    <path d="M4 22h16"/>
+                    <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+                    <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+                    <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+                    <circle cx="12" cy="9" r="2"/>
+                </svg>
+                <span>Scores</span>
+            </a>
+            <a href="#highlights" class="mobile-nav-item" id="mobileHighlightsNav">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <path d="M21 15l-5-5L5 21"/>
+                </svg>
+                <span>Gallery</span>
+            </a>
+        </nav>
     </div>
 
     <!-- Lightbox Gallery Overlay -->
@@ -1549,405 +1939,42 @@
 
     <script>
         // ========================================
-        // CUSTOM VIDEO PLAYER CONFIGURATION
-        // ========================================
-        const VIDEO_CONFIG = {
-            // Direct video URL (MP4, WebM, HLS, etc.)
-            VIDEO_URL: '',  // Example: 'https://example.com/stream.m3u8' or 'video.mp4'
-            
-            // Poster image (shown before video plays)
-            POSTER_URL: '',  // Example: 'poster.jpg'
-            
-            // Video type (auto-detected if not specified)
-            VIDEO_TYPE: '',  // 'video/mp4', 'video/webm', 'application/x-mpegURL' (HLS)
-            
-            // Player settings
-            AUTOPLAY: false,
-            MUTED: false,
-            CONTROLS: true,
-            LOOP: false,
-            
-            // Streaming settings (for HLS/DASH)
-            IS_LIVE_STREAM: false,
-            
-            // Custom controls color theme
-            ACCENT_COLOR: '#ff3d5a'
-        };
-
-        // Custom Video Player Class
-        class CustomVideoPlayer {
-            constructor(container, config) {
-                this.container = container;
-                this.config = config;
-                this.video = null;
-                this.controls = null;
-                this.isPlaying = false;
-                this.isFullscreen = false;
-            }
-
-            init() {
-                if (!this.config.VIDEO_URL) {
-                    console.log('No video configured - showing Coming Soon message');
-                    return;
-                }
-
-                this.createVideoElement();
-                this.createCustomControls();
-                this.attachEventListeners();
-                this.hideComingSoonOverlay();
-                this.updateBadge();
-            }
-
-            createVideoElement() {
-                this.video = document.createElement('video');
-                this.video.className = 'custom-video-player';
-                this.video.style.cssText = `
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: #000;
-                    object-fit: contain;
-                `;
-                
-                if (this.config.POSTER_URL) {
-                    this.video.poster = this.config.POSTER_URL;
-                }
-                
-                this.video.autoplay = this.config.AUTOPLAY;
-                this.video.muted = this.config.MUTED;
-                this.video.loop = this.config.LOOP;
-                this.video.playsInline = true;
-                
-                // Add video source
-                const source = document.createElement('source');
-                source.src = this.config.VIDEO_URL;
-                if (this.config.VIDEO_TYPE) {
-                    source.type = this.config.VIDEO_TYPE;
-                } else {
-                    // Auto-detect type from URL
-                    if (this.config.VIDEO_URL.includes('.m3u8')) {
-                        source.type = 'application/x-mpegURL';
-                    } else if (this.config.VIDEO_URL.includes('.mpd')) {
-                        source.type = 'application/dash+xml';
-                    } else if (this.config.VIDEO_URL.includes('.webm')) {
-                        source.type = 'video/webm';
-                    } else {
-                        source.type = 'video/mp4';
-                    }
-                }
-                
-                this.video.appendChild(source);
-                this.container.appendChild(this.video);
-
-                // Load HLS.js for HLS streams if needed
-                if (source.type === 'application/x-mpegURL' && !this.video.canPlayType('application/x-mpegURL')) {
-                    this.loadHLS();
-                }
-            }
-
-            loadHLS() {
-                // Load HLS.js library for browsers that don't support HLS natively
-                const script = document.createElement('script');
-                script.src = 'https://cdn.jsdelivr.net/npm/hls.js@latest';
-                script.onload = () => {
-                    if (Hls.isSupported()) {
-                        const hls = new Hls();
-                        hls.loadSource(this.config.VIDEO_URL);
-                        hls.attachMedia(this.video);
-                        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                            if (this.config.AUTOPLAY) {
-                                this.video.play();
-                            }
-                        });
-                    }
-                };
-                document.head.appendChild(script);
-            }
-
-            createCustomControls() {
-                if (!this.config.CONTROLS) return;
-
-                this.controls = document.createElement('div');
-                this.controls.className = 'video-controls';
-                this.controls.style.cssText = `
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    right: 0;
-                    padding: 15px 20px;
-                    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
-                    display: flex;
-                    align-items: center;
-                    gap: 15px;
-                    opacity: 0;
-                    transition: opacity 0.3s;
-                    z-index: 10;
-                `;
-
-                // Play/Pause button
-                const playBtn = this.createButton('▶', 'play-pause-btn');
-                playBtn.style.fontSize = '20px';
-                
-                // Progress bar
-                const progressContainer = document.createElement('div');
-                progressContainer.style.cssText = `
-                    flex: 1;
-                    height: 6px;
-                    background: rgba(255,255,255,0.3);
-                    border-radius: 3px;
-                    cursor: pointer;
-                    position: relative;
-                `;
-                
-                const progress = document.createElement('div');
-                progress.className = 'video-progress';
-                progress.style.cssText = `
-                    height: 100%;
-                    background: ${this.config.ACCENT_COLOR};
-                    border-radius: 3px;
-                    width: 0%;
-                    transition: width 0.1s;
-                `;
-                progressContainer.appendChild(progress);
-                
-                // Time display
-                const timeDisplay = document.createElement('span');
-                timeDisplay.className = 'time-display';
-                timeDisplay.textContent = '0:00 / 0:00';
-                timeDisplay.style.cssText = `
-                    color: white;
-                    font-size: 14px;
-                    min-width: 100px;
-                `;
-                
-                // Volume button
-                const volumeBtn = this.createButton('🔊', 'volume-btn');
-                
-                // Fullscreen button
-                const fullscreenBtn = this.createButton('⛶', 'fullscreen-btn');
-                fullscreenBtn.style.fontSize = '20px';
-                
-                // Append controls
-                this.controls.appendChild(playBtn);
-                this.controls.appendChild(progressContainer);
-                this.controls.appendChild(timeDisplay);
-                this.controls.appendChild(volumeBtn);
-                this.controls.appendChild(fullscreenBtn);
-                
-                this.container.appendChild(this.controls);
-                
-                // Show/hide controls on hover
-                this.container.addEventListener('mouseenter', () => {
-                    this.controls.style.opacity = '1';
-                });
-                this.container.addEventListener('mouseleave', () => {
-                    this.controls.style.opacity = '0';
-                });
-            }
-
-            createButton(text, className) {
-                const btn = document.createElement('button');
-                btn.textContent = text;
-                btn.className = className;
-                btn.style.cssText = `
-                    background: none;
-                    border: none;
-                    color: white;
-                    cursor: pointer;
-                    font-size: 16px;
-                    padding: 5px 10px;
-                    transition: transform 0.2s;
-                `;
-                btn.addEventListener('mouseenter', () => {
-                    btn.style.transform = 'scale(1.1)';
-                });
-                btn.addEventListener('mouseleave', () => {
-                    btn.style.transform = 'scale(1)';
-                });
-                return btn;
-            }
-
-            attachEventListeners() {
-                // Play/Pause
-                const playBtn = this.controls?.querySelector('.play-pause-btn');
-                if (playBtn) {
-                    playBtn.addEventListener('click', () => this.togglePlay());
-                    this.video.addEventListener('click', () => this.togglePlay());
-                }
-
-                // Progress bar
-                const progressContainer = this.controls?.querySelector('div');
-                if (progressContainer) {
-                    progressContainer.addEventListener('click', (e) => {
-                        const rect = progressContainer.getBoundingClientRect();
-                        const pos = (e.clientX - rect.left) / rect.width;
-                        this.video.currentTime = pos * this.video.duration;
-                    });
-                }
-
-                // Update progress
-                this.video.addEventListener('timeupdate', () => {
-                    const progress = this.controls?.querySelector('.video-progress');
-                    const timeDisplay = this.controls?.querySelector('.time-display');
-                    
-                    if (progress) {
-                        const percent = (this.video.currentTime / this.video.duration) * 100;
-                        progress.style.width = percent + '%';
-                    }
-                    
-                    if (timeDisplay) {
-                        timeDisplay.textContent = 
-                            `${this.formatTime(this.video.currentTime)} / ${this.formatTime(this.video.duration)}`;
-                    }
-                });
-
-                // Volume
-                const volumeBtn = this.controls?.querySelector('.volume-btn');
-                if (volumeBtn) {
-                    volumeBtn.addEventListener('click', () => {
-                        this.video.muted = !this.video.muted;
-                        volumeBtn.textContent = this.video.muted ? '🔇' : '🔊';
-                    });
-                }
-
-                // Fullscreen
-                const fullscreenBtn = this.controls?.querySelector('.fullscreen-btn');
-                if (fullscreenBtn) {
-                    fullscreenBtn.addEventListener('click', () => this.toggleFullscreen());
-                }
-
-                // Keyboard shortcuts
-                document.addEventListener('keydown', (e) => {
-                    // Disable keyboard shortcuts if dev tools protection is active
-                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-                    
-                    if (e.key === ' ' && this.video) {
-                        e.preventDefault();
-                        this.togglePlay();
-                    } else if ((e.key === 'f' || e.key === 'F') && this.video) {
-                        e.preventDefault();
-                        this.toggleFullscreen();
-                    } else if ((e.key === 'm' || e.key === 'M') && this.video) {
-                        e.preventDefault();
-                        this.video.muted = !this.video.muted;
-                    }
-                });
-            }
-
-            togglePlay() {
-                if (this.video.paused) {
-                    this.video.play();
-                    const playBtn = this.controls?.querySelector('.play-pause-btn');
-                    if (playBtn) playBtn.textContent = '⏸';
-                } else {
-                    this.video.pause();
-                    const playBtn = this.controls?.querySelector('.play-pause-btn');
-                    if (playBtn) playBtn.textContent = '▶';
-                }
-            }
-
-            toggleFullscreen() {
-                if (!this.isFullscreen) {
-                    if (this.container.requestFullscreen) {
-                        this.container.requestFullscreen();
-                    } else if (this.container.webkitRequestFullscreen) {
-                        this.container.webkitRequestFullscreen();
-                    }
-                    this.isFullscreen = true;
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    } else if (document.webkitExitFullscreen) {
-                        document.webkitExitFullscreen();
-                    }
-                    this.isFullscreen = false;
-                }
-            }
-
-            formatTime(seconds) {
-                if (!seconds || isNaN(seconds)) return '0:00';
-                const mins = Math.floor(seconds / 60);
-                const secs = Math.floor(seconds % 60);
-                return `${mins}:${secs.toString().padStart(2, '0')}`;
-            }
-
-            hideComingSoonOverlay() {
-                const overlay = document.querySelector('.coming-soon-overlay');
-                if (overlay) {
-                    overlay.style.display = 'none';
-                }
-            }
-
-            updateBadge() {
-                const badge = document.querySelector('.badge');
-                if (badge) {
-                    badge.innerHTML = '<span class="badge-dot"></span>NOW LIVE';
-                }
-            }
-        }
-
-        // Initialize player when page loads
-        window.addEventListener('DOMContentLoaded', () => {
-            const videoContainer = document.querySelector('.video-container');
-            const player = new CustomVideoPlayer(videoContainer, VIDEO_CONFIG);
-            player.init();
-
-            // Make player accessible globally for manual control
-            window.videoPlayer = player;
-        });
-
-        // Manual control function
-        window.loadVideo = function(videoUrl, isLive = false) {
-            VIDEO_CONFIG.VIDEO_URL = videoUrl;
-            VIDEO_CONFIG.IS_LIVE_STREAM = isLive;
-            const videoContainer = document.querySelector('.video-container');
-            videoContainer.innerHTML = '<div class="coming-soon-overlay"></div>'; // Reset
-            const player = new CustomVideoPlayer(videoContainer, VIDEO_CONFIG);
-            player.init();
-            window.videoPlayer = player;
-        };
-
-        // ========================================
-        // HIGHLIGHTS GALLERY FUNCTIONALITY
+        // HIGHLIGHTS GALLERY
         // ========================================
         
-        // Example highlight images (replace with your actual images)
         const HIGHLIGHT_IMAGES = [
             {
-                url: 'https://scontent.fcmb1-2.fna.fbcdn.net/v/t39.30808-6/627032525_1716712779446804_2516256839268636525_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=wBnB7h353skQ7kNvwGA5iPL&_nc_oc=AdkjT2D-lwN1579wpQ2VfRZIyL3EIzPPvWf9diZyIz95a2U5kbJvKaWWJYQI2rSmLv4&_nc_zt=23&_nc_ht=scontent.fcmb1-2.fna&_nc_gid=3xYlSkgaMWxOxJddBJ981A&oh=00_Afvkxw_z7CChZt5R_htR2IfbnQzdh9K0m0eXf-GDAGhqlA&oe=69975D9C',
+                url: 'https://scontent.fcmb1-2.fna.fbcdn.net/v/t39.30808-6/627154153_1716712389446843_1363988109721635707_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_ohc=yVkK6u0iIOMQ7kNvwHn8i3V&_nc_oc=AdkPkaNyFJVtu75zDTQFfEsd61plWKxve7xbKYuhYMURhrt7B6BFijBNgAj2GR0D--E&_nc_zt=23&_nc_ht=scontent.fcmb1-2.fna&_nc_gid=TQXVg40LMqnBb1rTgl12Ig&oh=00_AfvQR-aFnkZ3NWVswlnym05hvm6TeKmvm8EQEVpHXY-y1Q&oe=699895D9',
                 title: 'Cricket Practices',
                 description: 'Interhouse Sportsmeet 2026 - Cricket Practices'
             },
             {
-                url: 'https://scontent.fcmb1-2.fna.fbcdn.net/v/t39.30808-6/631672209_1721327285652020_8110295815648235499_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=24ruTARaz9IQ7kNvwFn--H8&_nc_oc=AdnsyJewaQ8Q5oXsfWSms2s2zlIwfKh0axAZG66WPGKe_NbclIoWJ6G4TJDx7fHaCpE&_nc_zt=23&_nc_ht=scontent.fcmb1-2.fna&_nc_gid=C-kzCBZ4dKffq75-fCv04w&oh=00_AfulrmpbVKugvEZDg4vnXVmdBOS5eCmdsoRYhcpz4Ymn4g&oe=699787AE',
+                url: 'https://scontent.fcmb1-2.fna.fbcdn.net/v/t39.30808-6/628076171_1716712606113488_4163489824499836356_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_ohc=00wgUuvbbWkQ7kNvwH7fUva&_nc_oc=Adm-IoPrk6dqlWVu6zA6lo4W70lBVOvkYAZxV3hcG20ntq0ppCuIQHo3WQ9O5JaU50c&_nc_zt=23&_nc_ht=scontent.fcmb1-2.fna&_nc_gid=ZQ-Gj9ySrRJLb0mc7EKjqA&oh=00_AfsiUtMM7XIrmFdwkbg4WY26EYTBKnZ4Uh3NP_2EHzZYfg&oe=699898C6',
+                title: 'Training Session',
+                description: 'Athletes preparing for the big day'
+            },
+            {
+                url: 'https://scontent.fcmb1-2.fna.fbcdn.net/v/t39.30808-6/626906892_1716712909446791_6615436626892410703_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=I7h856DauwUQ7kNvwFOK4jM&_nc_oc=Adn_v2OTeY7iGdwXE3REP1Y9dzjfe4oqLle5LgyGGPOK_3b4NYC_bQkWduNiy-P2UQk&_nc_zt=23&_nc_ht=scontent.fcmb1-2.fna&_nc_gid=kpkZdZun8SbfPRMjaBqhHw&oh=00_AfsRPofRdSqmUg285hPuoIKVyf_etCRb3G4icwHtlcYjYQ&oe=6998C7FB',
+                title: 'Practice Highlights',
+                description: 'Team practice sessions'
+            },
+            {
+                url: 'https://scontent.fcmb1-2.fna.fbcdn.net/v/t39.30808-6/630171888_1721327212318694_8157536630043629103_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=famZh-s67msQ7kNvwGm12zA&_nc_oc=Adk0sokZ8d7fYp5EC0CgWbM8LORtJfctwjMIr4j9wCSb28RGYf-bMTx6n3L8omotucc&_nc_zt=23&_nc_ht=scontent.fcmb1-2.fna&_nc_gid=PPT86nb22E-APyyMPjdOFA&oh=00_AfuIza2mHN6cyqPLwGuk8BfO6sGq_o72hVw9KiPLW4a5Mg&oe=6998C568',
+                title: 'Sports Event',
+                description: 'Competitive moments captured'
+            },
+            {
+                url: 'https://scontent.fcmb1-2.fna.fbcdn.net/v/t39.30808-6/631062232_1721327248985357_2269227185503996896_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=6YjGOZ8VBvAQ7kNvwEhzDub&_nc_oc=Adl96tfAHTzTLVLFql2iYYGwsIw145WCSwSP3bmlsCfyyrm4eYMsQZib39FejD9Z4jE&_nc_zt=23&_nc_ht=scontent.fcmb1-2.fna&_nc_gid=xTcLvmRvQkkw4MPGTWTwqA&oh=00_AfvnzT7cvZ_mXOE2XtJbXzxs0AvbKXcyhe-3SX8537w7CQ&oe=6998AF0A',
                 title: 'Badminton Practices',
                 description: 'Interhouse Sportsmeet 2026 - Badminton Practices'
             },
             {
-                url: 'https://scontent.fcmb1-2.fna.fbcdn.net/v/t39.30808-6/631062232_1721327248985357_2269227185503996896_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=NBad_Km7pwIQ7kNvwGPHMjo&_nc_oc=AdmfWYDzTOCS57lm3OA8lNrrhtASIf6SapP8rDLLCanN01bB8W5VU5_Wx2CJ5TbtXhk&_nc_zt=23&_nc_ht=scontent.fcmb1-2.fna&_nc_gid=VSSD88y6yWIL3NAictchEA&oh=00_Aft72FLtNlTN7_mFT2R1fK552vcBkoaIun1Y3HUyKScGrg&oe=69975D8A',
-                title: 'Badminton Practices',
+                url: 'https://scontent.fcmb1-2.fna.fbcdn.net/v/t39.30808-6/631672209_1721327285652020_8110295815648235499_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=24ruTARaz9IQ7kNvwFn--H8&_nc_oc=AdnsyJewaQ8Q5oXsfWSms2s2zlIwfKh0axAZG66WPGKe_NbclIoWJ6G4TJDx7fHaCpE&_nc_zt=23&_nc_ht=scontent.fcmb1-2.fna&_nc_gid=7dV1eSxdtBjJXWn_OQcskQ&oh=00_AfvPEzSpm6650G0u074gattM5vAgmRGmm-5x0AZWfXO9jw&oe=6998A0EE',
+                title: 'Badminton Tournament',
                 description: 'Interhouse Sportsmeet 2026 - Badminton Practices'
-            },
-            {
-                url: 'https://scontent.fcmb1-2.fna.fbcdn.net/v/t39.30808-6/630797385_1721327038985378_1511517624028394388_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=GznuZ12BSd0Q7kNvwGnlB8x&_nc_oc=AdmF7zB6z-ufhvxWXlq7y1cqeKf6eYHklcdYrA7UZANAf3NTu1mSnBtPUWEGFdY1h1s&_nc_zt=23&_nc_ht=scontent.fcmb1-2.fna&_nc_gid=NZW6stXwqCmsD3qMhoCi7g&oh=00_Aftp43SfihfcwNzBFNMC50jvlaeWcnbiqkknXyWZvYS-tw&oe=69976420',
-                title: 'Sports Highlights',
-                description: 'Interhouse Sportsmeet 2026 - Highlights'
-            },
-            {
-                url: 'https://scontent.fcmb1-2.fna.fbcdn.net/v/t39.30808-6/631361658_1721326882318727_5399239222537332045_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=PHZHV7MP9WMQ7kNvwGIzXON&_nc_oc=AdkzvcGBp6aEMZFp6M1gMi9sFyN2jxmaaWCnI-H36rIgGrBJqB0yZwfMrI-rLnINtAo&_nc_zt=23&_nc_ht=scontent.fcmb1-2.fna&_nc_gid=LmtxP-LBez-2vWmKUZvH0A&oh=00_Afsz38EIFZoRmvA-aaLAuC8UuxKfIHI0F-BLzJEKa4LyZA&oe=6997909C',
-                title: 'Sports Highlights',
-                description: 'Interhouse Sportsmeet 2026 - Highlights'
-            },
-            {
-                url: 'https://scontent.fcmb1-2.fna.fbcdn.net/v/t39.30808-6/627085220_1716712542780161_3176124026784641118_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=-quaGnVOE04Q7kNvwHb7JcW&_nc_oc=AdloYXsYszIzUMdC_NSzVHCPr5aZSqBRH22ye_gNIq3--gDbxLDUzgbgkXkZNCWUTm8&_nc_zt=23&_nc_ht=scontent.fcmb1-2.fna&_nc_gid=y3Q8_tJrHvGNnM3dg48hcg&oh=00_AfvTf0UU5Pzry8fInLS4sTpWFfKyLk7w3oqRlL1TcYioRQ&oe=699786C5',
-                title: 'Sports Highlights',
-                description: 'Interhouse Sportsmeet 2026 - Highlights'
-            },
+            }
         ];
 
-        // Lightbox functionality
         const viewHighlightsBtn = document.getElementById('viewHighlightsBtn');
         const lightboxOverlay = document.getElementById('lightboxOverlay');
         const closeLightbox = document.getElementById('closeLightbox');
@@ -1956,11 +1983,10 @@
         const closeFullview = document.getElementById('closeFullview');
         const fullviewImage = document.getElementById('fullviewImage');
 
-        // Load images into lightbox
         function loadHighlightImages() {
             lightboxGrid.innerHTML = '';
             
-            HIGHLIGHT_IMAGES.forEach((image, index) => {
+            HIGHLIGHT_IMAGES.forEach((image) => {
                 const imageItem = document.createElement('div');
                 imageItem.className = 'lightbox-image-item';
                 imageItem.innerHTML = `
@@ -1968,7 +1994,6 @@
                     <div class="lightbox-image-label">${image.title}</div>
                 `;
                 
-                // Click to view full size
                 imageItem.addEventListener('click', () => {
                     fullviewImage.src = image.url;
                     fullviewImage.alt = image.title;
@@ -1979,20 +2004,17 @@
             });
         }
 
-        // Open lightbox
         viewHighlightsBtn.addEventListener('click', () => {
             loadHighlightImages();
             lightboxOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            document.body.style.overflow = 'hidden';
         });
 
-        // Close lightbox
         closeLightbox.addEventListener('click', () => {
             lightboxOverlay.classList.remove('active');
-            document.body.style.overflow = ''; // Restore scrolling
+            document.body.style.overflow = '';
         });
 
-        // Close on overlay click
         lightboxOverlay.addEventListener('click', (e) => {
             if (e.target === lightboxOverlay) {
                 lightboxOverlay.classList.remove('active');
@@ -2000,7 +2022,6 @@
             }
         });
 
-        // Close fullview
         closeFullview.addEventListener('click', () => {
             lightboxFullview.classList.remove('active');
         });
@@ -2011,7 +2032,6 @@
             }
         });
 
-        // Keyboard shortcuts for lightbox
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 if (lightboxFullview.classList.contains('active')) {
@@ -2024,10 +2044,9 @@
         });
 
         // ========================================
-        // NOTIFICATION & TOAST FUNCTIONALITY
+        // ONESIGNAL NOTIFICATIONS
         // ========================================
 
-        // Toast notification function
         function showToast(message, type = 'success', duration = 3000) {
             const toast = document.createElement('div');
             toast.className = `toast toast-${type}`;
@@ -2040,287 +2059,95 @@
             `;
             
             document.body.appendChild(toast);
-            
-            // Trigger animation
             setTimeout(() => toast.classList.add('show'), 10);
-            
-            // Remove toast
             setTimeout(() => {
                 toast.classList.remove('show');
                 setTimeout(() => toast.remove(), 300);
             }, duration);
         }
 
-        // Check notification permission status
-        function checkNotificationPermission() {
-            if (!('Notification' in window)) {
-                return 'unsupported';
-            }
-            return Notification.permission;
-        }
-
-        // Request notification permission
-        async function requestNotificationPermission() {
-            if (!('Notification' in window)) {
-                showToast('Notifications are not supported on this browser', 'error');
-                return false;
-            }
-
-            if (Notification.permission === 'granted') {
-                showToast('Notifications are already enabled!', 'success');
-                scheduleEventReminder();
-                return true;
-            }
-
-            if (Notification.permission === 'denied') {
-                showToast('Notifications are blocked. Please enable them in browser settings.', 'error');
-                return false;
-            }
-
+        async function setupOneSignalNotifications() {
             try {
-                const permission = await Notification.requestPermission();
-                
-                if (permission === 'granted') {
-                    showToast('🔔 Notifications enabled! You\'ll be reminded on March 12', 'success', 4000);
-                    scheduleEventReminder();
+                if (window.OneSignal) {
+                    const permission = await OneSignal.Notifications.permission;
                     
-                    // Show test notification
-                    new Notification('TCLive Sports', {
-                        body: 'Notifications are now enabled. We\'ll remind you on event day!',
-                        icon: 'logo.png',
-                        badge: 'logo.png',
-                        tag: 'welcome'
-                    });
-                    
-                    return true;
+                    if (permission) {
+                        showToast('🔔 Notifications are enabled!', 'success');
+                        updateNotificationButton(true);
+                    } else {
+                        await OneSignal.Slidedown.promptPush();
+                        setTimeout(async () => {
+                            const newPermission = await OneSignal.Notifications.permission;
+                            if (newPermission) {
+                                showToast('🔔 Notifications enabled! You\'ll be notified on event day!', 'success', 4000);
+                                updateNotificationButton(true);
+                            }
+                        }, 1000);
+                    }
                 } else {
-                    showToast('Notification permission denied', 'error');
-                    return false;
+                    showToast('Please wait for notifications to load...', 'info');
                 }
             } catch (error) {
-                showToast('Error requesting notifications', 'error');
-                console.error('Notification error:', error);
-                return false;
+                console.error('OneSignal error:', error);
+                showToast('Error setting up notifications', 'error');
             }
         }
 
-        // Schedule event reminder
-        function scheduleEventReminder() {
-            const eventDate = new Date('2026-03-12T09:00:00');
-            const now = new Date();
+        function updateNotificationButton(isEnabled) {
+            const notificationBtn = document.getElementById('notificationBtn');
+            const mobileNotificationBtn = document.getElementById('mobileNotificationBtn');
             
-            // Calculate time until event
-            const timeUntilEvent = eventDate.getTime() - now.getTime();
-            
-            // If event is in the future
-            if (timeUntilEvent > 0) {
-                // Set reminder for event day at 8:00 AM (1 hour before)
-                const reminderDate = new Date('2026-03-12T08:00:00');
-                const timeUntilReminder = reminderDate.getTime() - now.getTime();
-                
-                if (timeUntilReminder > 0) {
-                    setTimeout(() => {
-                        if (Notification.permission === 'granted') {
-                            new Notification('🏃 TCLive Sports - TODAY!', {
-                                body: 'Interhouse Sports Meet starts in 1 hour! Get ready for an exciting day of competition.',
-                                icon: 'logo.png',
-                                badge: 'logo.png',
-                                tag: 'event-reminder',
-                                requireInteraction: true,
-                                vibrate: [200, 100, 200]
-                            });
-                        }
-                    }, timeUntilReminder);
-                    
-                    // Store reminder in localStorage
-                    localStorage.setItem('eventReminderSet', 'true');
-                    localStorage.setItem('eventDate', '2026-03-12');
-                }
-                
-                // Also set reminder for event start time
-                if (timeUntilEvent > 0) {
-                    setTimeout(() => {
-                        if (Notification.permission === 'granted') {
-                            new Notification('🔴 LIVE NOW: TCLive Sports!', {
-                                body: 'Interhouse Sports Meet is starting now! Click to watch live.',
-                                icon: 'logo.png',
-                                badge: 'logo.png',
-                                tag: 'event-live',
-                                requireInteraction: true,
-                                vibrate: [300, 100, 300, 100, 300]
-                            });
-                        }
-                    }, timeUntilEvent);
-                }
-            }
-        }
-
-        // Auto-prompt for notifications on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            // Wait 5 seconds before showing notification prompt
-            setTimeout(() => {
-                const permission = checkNotificationPermission();
-                
-                if (permission === 'default') {
-                    // Show custom prompt toast
-                    showToast('📢 Enable notifications to get reminded on event day! Click here to enable.', 'info', 6000);
-                    
-                    // Auto-request after another 3 seconds if user hasn't dismissed
-                    setTimeout(() => {
-                        if (Notification.permission === 'default') {
-                            requestNotificationPermission();
-                        }
-                    }, 3000);
-                } else if (permission === 'granted') {
-                    // Check if reminder is already set
-                    if (!localStorage.getItem('eventReminderSet')) {
-                        scheduleEventReminder();
-                    }
-                }
-            }, 5000);
-        });
-
-        // Manual notification enable function (can be called from console or button)
-        window.enableNotifications = function() {
-            requestNotificationPermission();
-        };
-
-        // Notification button click handler
-        const notificationBtn = document.getElementById('notificationBtn');
-        if (notificationBtn) {
-            // Update button state based on permission
-            function updateNotificationButton() {
-                const permission = checkNotificationPermission();
-                if (permission === 'granted') {
+            if (isEnabled) {
+                if (notificationBtn) {
                     notificationBtn.classList.add('enabled');
                     notificationBtn.title = 'Notifications enabled';
-                } else {
+                }
+                if (mobileNotificationBtn) {
+                    mobileNotificationBtn.classList.add('enabled');
+                }
+            } else {
+                if (notificationBtn) {
                     notificationBtn.classList.remove('enabled');
                     notificationBtn.title = 'Enable notifications';
                 }
+                if (mobileNotificationBtn) {
+                    mobileNotificationBtn.classList.remove('enabled');
+                }
             }
+        }
 
-            // Initial state
-            updateNotificationButton();
+        window.addEventListener('load', async () => {
+            setTimeout(async () => {
+                try {
+                    if (window.OneSignal) {
+                        const permission = await OneSignal.Notifications.permission;
+                        updateNotificationButton(permission);
+                    }
+                } catch (error) {
+                    console.log('OneSignal not ready yet');
+                }
+            }, 2000);
+        });
 
-            // Click handler
+        const notificationBtn = document.getElementById('notificationBtn');
+        if (notificationBtn) {
             notificationBtn.addEventListener('click', async () => {
-                await requestNotificationPermission();
-                updateNotificationButton();
+                await setupOneSignalNotifications();
             });
         }
 
-        // Check on page visibility change (when user returns to tab)
-        document.addEventListener('visibilitychange', () => {
-            if (!document.hidden && Notification.permission === 'granted') {
-                const eventDate = new Date('2026-03-12T09:00:00');
-                const now = new Date();
-                
-                // If it's event day
-                if (now.toDateString() === eventDate.toDateString()) {
-                    showToast('🔴 Event day is TODAY! Don\'t forget to tune in at 9:00 AM', 'success', 5000);
-                }
-            }
-        });
+        const mobileNotificationBtn = document.getElementById('mobileNotificationBtn');
+        if (mobileNotificationBtn) {
+            mobileNotificationBtn.addEventListener('click', async () => {
+                await setupOneSignalNotifications();
+            });
+        }
 
-        // Disable right-click context menu
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-            return false;
-        });
+        // ========================================
+        // COUNTDOWN TIMER
+        // ========================================
 
-        // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+S
-        document.addEventListener('keydown', function(e) {
-            // F12
-            if (e.keyCode === 123) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+Shift+I (Inspect)
-            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+Shift+J (Console)
-            if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+Shift+C (Inspect Element)
-            if (e.ctrlKey && e.shiftKey && e.keyCode === 67) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+U (View Source)
-            if (e.ctrlKey && e.keyCode === 85) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+S (Save Page)
-            if (e.ctrlKey && e.keyCode === 83) {
-                e.preventDefault();
-                return false;
-            }
-        });
-
-        // Disable text selection via mouse
-        document.onselectstart = function() {
-            return false;
-        };
-
-        // Disable copy
-        document.addEventListener('copy', function(e) {
-            e.preventDefault();
-            return false;
-        });
-
-        // Disable cut
-        document.addEventListener('cut', function(e) {
-            e.preventDefault();
-            return false;
-        });
-
-        // Disable paste (optional)
-        document.addEventListener('paste', function(e) {
-            e.preventDefault();
-            return false;
-        });
-
-        // Detect DevTools
-        let devtools = { isOpen: false, orientation: null };
-        const threshold = 160;
-
-        const emitEvent = (isOpen, orientation) => {
-            if (devtools.isOpen !== isOpen || devtools.orientation !== orientation) {
-                devtools.isOpen = isOpen;
-                devtools.orientation = orientation;
-                
-                if (isOpen) {
-                    // Redirect or show warning when devtools detected
-                    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-size:2rem;color:#ff3d5a;text-align:center;">Developer tools are disabled for this site</div>';
-                }
-            }
-        };
-
-        const main = () => {
-            const widthThreshold = window.outerWidth - window.innerWidth > threshold;
-            const heightThreshold = window.outerHeight - window.innerHeight > threshold;
-            const orientation = widthThreshold ? 'vertical' : 'horizontal';
-
-            if (widthThreshold || heightThreshold) {
-                emitEvent(true, orientation);
-            } else {
-                emitEvent(false, null);
-            }
-        };
-
-        // Check devtools on load and resize
-        main();
-        window.addEventListener('resize', main);
-
-        <!-- Countdown Timer -->
         function updateCountdown() {
-            // Event date: March 12, 2026 at 9:00 AM
             const eventDate = new Date('2026-03-12T09:00:00').getTime();
             const now = new Date().getTime();
             const distance = eventDate - now;
@@ -2341,11 +2168,70 @@
             document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
         }
 
-        // Update countdown every second
         updateCountdown();
         setInterval(updateCountdown, 1000);
 
-        // Add parallax effect to orbs
+        // ========================================
+        // MOBILE NAVIGATION
+        // ========================================
+        
+        const mobileHomeNav = document.getElementById('mobileHomeNav');
+        const mobileHighlightsNav = document.getElementById('mobileHighlightsNav');
+
+        if (mobileHomeNav) {
+            mobileHomeNav.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setMobileActiveNav('home');
+            });
+        }
+
+        if (mobileHighlightsNav) {
+            mobileHighlightsNav.addEventListener('click', (e) => {
+                e.preventDefault();
+                const highlightsSection = document.querySelector('.highlights-section');
+                if (highlightsSection) {
+                    const offset = 70;
+                    const elementPosition = highlightsSection.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - offset;
+                    window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                }
+                setMobileActiveNav('highlights');
+            });
+        }
+
+        function setMobileActiveNav(section) {
+            if (!mobileHomeNav) return;
+            
+            mobileHomeNav.classList.remove('active');
+            if (mobileHighlightsNav) mobileHighlightsNav.classList.remove('active');
+            
+            if (section === 'home') {
+                mobileHomeNav.classList.add('active');
+            } else if (section === 'highlights') {
+                if (mobileHighlightsNav) mobileHighlightsNav.classList.add('active');
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            if (window.innerWidth <= 480) {
+                const highlightsSection = document.querySelector('.highlights-section');
+                if (highlightsSection) {
+                    const highlightsSectionTop = highlightsSection.offsetTop - 100;
+                    
+                    if (window.scrollY >= highlightsSectionTop) {
+                        setMobileActiveNav('highlights');
+                    } else {
+                        setMobileActiveNav('home');
+                    }
+                }
+            }
+        });
+
+        // ========================================
+        // PARALLAX EFFECTS
+        // ========================================
+
         document.addEventListener('mousemove', (e) => {
             const orb1 = document.querySelector('.orb1');
             const orb2 = document.querySelector('.orb2');
@@ -2359,4 +2245,3 @@
     </script>
 </body>
 </html>
-
