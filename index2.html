@@ -19,6 +19,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    
+    <!-- External Scoreboard Data -->
+    <script src="scoreboard-data.js"></script>
+    
     <style>
         *, *::before, *::after {
             box-sizing: border-box;
@@ -202,77 +206,55 @@
             margin-bottom: 20px;
         }
 
-        /* Live Update Indicator */
-        .live-update-badge {
+        .live-update-indicator {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-            margin: 0 auto 40px;
-            max-width: fit-content;
-            padding: 12px 24px;
-            background: rgba(26, 31, 46, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 61, 90, 0.3);
-            border-radius: 50px;
-            animation: fadeIn 0.8s ease;
+            margin-bottom: 10px;
         }
 
-        .live-pulse-dot {
-            width: 12px;
-            height: 12px;
-            background: var(--accent);
-            border-radius: 50%;
-            box-shadow: 0 0 0 0 rgba(255, 61, 90, 0.7);
-            animation: livePulse 2s infinite;
-        }
-
-        @keyframes livePulse {
-            0%, 100% {
-                box-shadow: 0 0 0 0 rgba(255, 61, 90, 0.7);
-            }
-            50% {
-                box-shadow: 0 0 0 8px rgba(255, 61, 90, 0);
-            }
-        }
-
-        .live-update-text {
+        .update-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(232, 0, 30, 0.15);
+            border: 1px solid rgba(232, 0, 30, 0.3);
+            border-radius: 20px;
+            font-size: 0.85rem;
             font-weight: 600;
-            font-size: 0.9rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
             color: var(--accent);
-        }
-
-        .last-update-time {
-            font-size: 0.75rem;
-            color: var(--muted);
+            text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .update-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
         }
 
-        /* Update Animation */
-        @keyframes scoreUpdate {
+        @keyframes pulse {
             0%, 100% {
+                opacity: 1;
                 transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(232, 0, 30, 0.7);
             }
             50% {
+                opacity: 0.8;
                 transform: scale(1.1);
+                box-shadow: 0 0 0 8px rgba(232, 0, 30, 0);
             }
         }
 
-        .score-updating {
-            animation: scoreUpdate 0.5s ease;
+        .last-update {
+            font-size: 0.75rem;
+            color: var(--muted);
+            text-align: center;
+            margin-bottom: 30px;
         }
 
         .houses-grid {
@@ -533,351 +515,111 @@
         <!-- Scoreboard Content -->
         <div class="scoreboard-container">
             <h1 class="scoreboard-title">LIVE SCOREBOARD</h1>
-
+            
             <!-- Live Update Indicator -->
-            <div class="live-update-badge">
-                <div class="live-pulse-dot"></div>
-                <div>
-                    <div class="live-update-text">Live Updating</div>
-                    <div class="last-update-time" id="lastUpdate">Last updated: Just now</div>
+            <div class="live-update-indicator">
+                <div class="update-badge">
+                    <span class="update-dot"></span>
+                    <span>LIVE UPDATES</span>
                 </div>
             </div>
+            
+            <div class="last-update">
+                Last updated: <span id="last-update-time">--</span>
+            </div>
 
-            <div class="houses-grid">
-                <!-- ADVI House -->
-                <div class="house-scoreboard advi">
-                    <div class="house-header">
-                        <h2 class="house-name">ADVI</h2>
-                        <div class="total-points">
-                            <span class="total-label">Total Points</span>
-                            <span class="total-number" id="advi-total">0</span>
-                        </div>
-                    </div>
-                    <ul class="sports-list">
-                        <li class="sport-item">
-                            <span class="sport-name">
-                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="8" r="3"/>
-                                    <path d="M12 11v10"/>
-                                    <path d="M8 15l4-4 4 4"/>
-                                </svg>
-                                Elle
-                            </span>
-                            <span class="sport-points">85</span>
-                        </li>
-                        <li class="sport-item">
-                            <span class="sport-name">
-                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"/>
-                                </svg>
-                                Cricket
-                            </span>
-                            <span class="sport-points">92</span>
-                        </li>
-                        <li class="sport-item">
-                            <span class="sport-name">
-                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"/>
-                                </svg>
-                                Volleyball
-                            </span>
-                            <span class="sport-points">78</span>
-                        </li>
-                        <li class="sport-item">
-                            <span class="sport-name">
-                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"/>
-                                </svg>
-                                Football
-                            </span>
-                            <span class="sport-points">88</span>
-                        </li>
-                        <li class="sport-item">
-                            <span class="sport-name">
-                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83"/>
-                                </svg>
-                                Badminton
-                            </span>
-                            <span class="sport-points">95</span>
-                        </li>
-                    </ul>
-                    <div class="chart-container">
-                        <canvas id="advi-chart"></canvas>
-                    </div>
-                </div>
-
-                <!-- ANUPA House -->
-                <div class="house-scoreboard anupa">
-                    <div class="house-header">
-                        <h2 class="house-name">ANUPA</h2>
-                        <div class="total-points">
-                            <span class="total-label">Total Points</span>
-                            <span class="total-number" id="anupa-total">0</span>
-                        </div>
-                    </div>
-                    <ul class="sports-list">
-                        <li class="sport-item">
-                            <span class="sport-name">
-                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="8" r="3"/>
-                                    <path d="M12 11v10"/>
-                                    <path d="M8 15l4-4 4 4"/>
-                                </svg>
-                                Elle
-                            </span>
-                            <span class="sport-points">90</span>
-                        </li>
-                        <li class="sport-item">
-                            <span class="sport-name">
-                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"/>
-                                </svg>
-                                Cricket
-                            </span>
-                            <span class="sport-points">87</span>
-                        </li>
-                        <li class="sport-item">
-                            <span class="sport-name">
-                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"/>
-                                </svg>
-                                Volleyball
-                            </span>
-                            <span class="sport-points">93</span>
-                        </li>
-                        <li class="sport-item">
-                            <span class="sport-name">
-                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"/>
-                                </svg>
-                                Football
-                            </span>
-                            <span class="sport-points">85</span>
-                        </li>
-                        <li class="sport-item">
-                            <span class="sport-name">
-                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83"/>
-                                </svg>
-                                Badminton
-                            </span>
-                            <span class="sport-points">91</span>
-                        </li>
-                    </ul>
-                    <div class="chart-container">
-                        <canvas id="anupa-chart"></canvas>
-                    </div>
-                </div>
-
-                <!-- AGRA House -->
-                <div class="house-scoreboard agra">
-                    <div class="house-header">
-                        <h2 class="house-name">AGRA</h2>
-                        <div class="total-points">
-                            <span class="total-label">Total Points</span>
-                            <span class="total-number" id="agra-total">0</span>
-                        </div>
-                    </div>
-                    <ul class="sports-list">
-                        <li class="sport-item">
-                            <span class="sport-name">
-                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="8" r="3"/>
-                                    <path d="M12 11v10"/>
-                                    <path d="M8 15l4-4 4 4"/>
-                                </svg>
-                                Elle
-                            </span>
-                            <span class="sport-points">88</span>
-                        </li>
-                        <li class="sport-item">
-                            <span class="sport-name">
-                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"/>
-                                </svg>
-                                Cricket
-                            </span>
-                            <span class="sport-points">84</span>
-                        </li>
-                        <li class="sport-item">
-                            <span class="sport-name">
-                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"/>
-                                </svg>
-                                Volleyball
-                            </span>
-                            <span class="sport-points">86</span>
-                        </li>
-                        <li class="sport-item">
-                            <span class="sport-name">
-                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"/>
-                                </svg>
-                                Football
-                            </span>
-                            <span class="sport-points">90</span>
-                        </li>
-                        <li class="sport-item">
-                            <span class="sport-name">
-                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83"/>
-                                </svg>
-                                Badminton
-                            </span>
-                            <span class="sport-points">82</span>
-                        </li>
-                    </ul>
-                    <div class="chart-container">
-                        <canvas id="agra-chart"></canvas>
-                    </div>
-                </div>
-
-                <!-- ANABI House -->
-                <div class="house-scoreboard anabi">
-                    <div class="house-header">
-                        <h2 class="house-name">ANABI</h2>
-                        <div class="total-points">
-                            <span class="total-label">Total Points</span>
-                            <span class="total-number" id="anabi-total">0</span>
-                        </div>
-                    </div>
-                    <ul class="sports-list">
-                        <li class="sport-item">
-                            <span class="sport-name">
-                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="8" r="3"/>
-                                    <path d="M12 11v10"/>
-                                    <path d="M8 15l4-4 4 4"/>
-                                </svg>
-                                Elle
-                            </span>
-                            <span class="sport-points">92</span>
-                        </li>
-                        <li class="sport-item">
-                            <span class="sport-name">
-                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"/>
-                                </svg>
-                                Cricket
-                            </span>
-                            <span class="sport-points">89</span>
-                        </li>
-                        <li class="sport-item">
-                            <span class="sport-name">
-                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"/>
-                                </svg>
-                                Volleyball
-                            </span>
-                            <span class="sport-points">91</span>
-                        </li>
-                        <li class="sport-item">
-                            <span class="sport-name">
-                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"/>
-                                </svg>
-                                Football
-                            </span>
-                            <span class="sport-points">87</span>
-                        </li>
-                        <li class="sport-item">
-                            <span class="sport-name">
-                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83"/>
-                                </svg>
-                                Badminton
-                            </span>
-                            <span class="sport-points">88</span>
-                        </li>
-                    </ul>
-                    <div class="chart-container">
-                        <canvas id="anabi-chart"></canvas>
-                    </div>
-                </div>
+            <div class="houses-grid" id="housesGrid">
+                <!-- Houses will be dynamically generated -->
             </div>
         </div>
     </div>
 
     <script>
         // ========================================
-        // HOUSE SCORES DATA
+        // GLOBAL VARIABLES
         // ========================================
-        const housesData = {
-            advi: {
-                name: 'ADVI',
-                color: '#3b82f6',
-                sports: {
-                    Elle: 85,
-                    Cricket: 92,
-                    Volleyball: 78,
-                    Football: 88,
-                    Badminton: 95
-                }
-            },
-            anupa: {
-                name: 'ANUPA',
-                color: '#fbbf24',
-                sports: {
-                    Elle: 90,
-                    Cricket: 87,
-                    Volleyball: 93,
-                    Football: 85,
-                    Badminton: 91
-                }
-            },
-            agra: {
-                name: 'AGRA',
-                color: '#10b981',
-                sports: {
-                    Elle: 88,
-                    Cricket: 84,
-                    Volleyball: 86,
-                    Football: 90,
-                    Badminton: 82
-                }
-            },
-            anabi: {
-                name: 'ANABI',
-                color: '#e8001e',
-                sports: {
-                    Elle: 92,
-                    Cricket: 89,
-                    Volleyball: 91,
-                    Football: 87,
-                    Badminton: 88
-                }
-            }
-        };
+        let charts = {};
+        const housesData = SCOREBOARD_DATA;
+        const updateConfig = AUTO_UPDATE_CONFIG;
 
         // ========================================
-        // CALCULATE TOTALS
+        // RENDER SCOREBOARDS
         // ========================================
-        function calculateTotals() {
-            Object.keys(housesData).forEach(house => {
-                const scores = Object.values(housesData[house].sports);
-                const total = scores.reduce((sum, score) => sum + score, 0);
-                document.getElementById(`${house}-total`).textContent = total;
+        function renderScoreboards() {
+            const grid = document.getElementById('housesGrid');
+            grid.innerHTML = '';
+
+            Object.keys(housesData).forEach(houseKey => {
+                const house = housesData[houseKey];
+                const houseCard = document.createElement('div');
+                houseCard.className = `house-scoreboard ${houseKey}`;
+                houseCard.innerHTML = `
+                    <div class="house-header">
+                        <h2 class="house-name">${house.name}</h2>
+                        <div class="total-points">
+                            <span class="total-label">Total Points</span>
+                            <span class="total-number" id="${houseKey}-total">0</span>
+                        </div>
+                    </div>
+                    <ul class="sports-list">
+                        ${Object.entries(house.sports).map(([sport, score]) => `
+                            <li class="sport-item">
+                                <span class="sport-name">
+                                    <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg>
+                                    ${sport}
+                                </span>
+                                <span class="sport-points">${score}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                    <div class="chart-container">
+                        <canvas id="${houseKey}-chart"></canvas>
+                    </div>
+                `;
+                grid.appendChild(houseCard);
             });
         }
 
         // ========================================
-        // CREATE CHART.JS CHARTS
+        // UPDATE TOTALS
+        // ========================================
+        function updateTotals() {
+            Object.keys(housesData).forEach(houseKey => {
+                const total = getHouseTotal(houseKey);
+                const totalElement = document.getElementById(`${houseKey}-total`);
+                if (totalElement) {
+                    totalElement.textContent = total;
+                }
+            });
+        }
+
+        // ========================================
+        // CREATE CHARTS
         // ========================================
         function createCharts() {
-            Object.keys(housesData).forEach(house => {
-                const houseData = housesData[house];
-                const ctx = document.getElementById(`${house}-chart`).getContext('2d');
+            Object.keys(housesData).forEach(houseKey => {
+                const house = housesData[houseKey];
+                const canvas = document.getElementById(`${houseKey}-chart`);
+                if (!canvas) return;
+
+                const ctx = canvas.getContext('2d');
                 
-                new Chart(ctx, {
+                // Destroy existing chart if it exists
+                if (charts[houseKey]) {
+                    charts[houseKey].destroy();
+                }
+
+                charts[houseKey] = new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: Object.keys(houseData.sports),
+                        labels: Object.keys(house.sports),
                         datasets: [{
                             label: 'Points',
-                            data: Object.values(houseData.sports),
-                            backgroundColor: houseData.color + '40',
-                            borderColor: houseData.color,
+                            data: Object.values(house.sports),
+                            backgroundColor: house.color + '40',
+                            borderColor: house.color,
                             borderWidth: 2,
                             borderRadius: 6
                         }]
@@ -893,7 +635,7 @@
                                 backgroundColor: 'rgba(10, 14, 21, 0.9)',
                                 titleColor: '#f0f4f8',
                                 bodyColor: '#f0f4f8',
-                                borderColor: houseData.color,
+                                borderColor: house.color,
                                 borderWidth: 1,
                                 padding: 12,
                                 displayColors: false
@@ -933,10 +675,48 @@
         }
 
         // ========================================
+        // UPDATE LAST UPDATE TIME
+        // ========================================
+        function updateLastUpdateTime() {
+            const lastUpdate = new Date(getLastUpdateTime());
+            const timeString = lastUpdate.toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('last-update-time').textContent = timeString;
+        }
+
+        // ========================================
+        // REFRESH SCOREBOARD
+        // ========================================
+        function refreshScoreboard() {
+            renderScoreboards();
+            updateTotals();
+            createCharts();
+            updateLastUpdateTime();
+        }
+
+        // ========================================
+        // AUTO-REFRESH
+        // ========================================
+        function startAutoRefresh() {
+            if (updateConfig.enabled) {
+                setInterval(() => {
+                    refreshScoreboard();
+                    console.log('🔄 Scoreboard auto-refreshed');
+                }, updateConfig.interval);
+            }
+        }
+
+        // ========================================
         // INITIALIZE
         // ========================================
-        calculateTotals();
-        createCharts();
+        window.addEventListener('DOMContentLoaded', () => {
+            refreshScoreboard();
+            startAutoRefresh();
+            console.log('✅ Scoreboard initialized');
+        });
 
         // ========================================
         // SECURITY: DISABLE RIGHT-CLICK
@@ -950,57 +730,17 @@
         // SECURITY: DISABLE DEVELOPER OPTIONS
         // ========================================
         document.addEventListener('keydown', function(e) {
-            // F12
-            if (e.keyCode === 123) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+Shift+I (Inspect)
-            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+Shift+J (Console)
-            if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+Shift+C (Inspect Element)
-            if (e.ctrlKey && e.shiftKey && e.keyCode === 67) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+U (View Source)
-            if (e.ctrlKey && e.keyCode === 85) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+S (Save Page)
-            if (e.ctrlKey && e.keyCode === 83) {
-                e.preventDefault();
-                return false;
-            }
+            if (e.keyCode === 123) { e.preventDefault(); return false; }
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) { e.preventDefault(); return false; }
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 74) { e.preventDefault(); return false; }
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 67) { e.preventDefault(); return false; }
+            if (e.ctrlKey && e.keyCode === 85) { e.preventDefault(); return false; }
+            if (e.ctrlKey && e.keyCode === 83) { e.preventDefault(); return false; }
         });
 
-        // ========================================
-        // SECURITY: DISABLE TEXT SELECTION
-        // ========================================
-        document.onselectstart = function() {
-            return false;
-        };
-
-        // ========================================
-        // SECURITY: DISABLE COPY/CUT
-        // ========================================
-        document.addEventListener('copy', function(e) {
-            e.preventDefault();
-            return false;
-        });
-
-        document.addEventListener('cut', function(e) {
-            e.preventDefault();
-            return false;
-        });
+        document.onselectstart = function() { return false; };
+        document.addEventListener('copy', function(e) { e.preventDefault(); return false; });
+        document.addEventListener('cut', function(e) { e.preventDefault(); return false; });
 
         // ========================================
         // SECURITY: DETECT DEVTOOLS
@@ -1012,7 +752,6 @@
             if (devtools.isOpen !== isOpen || devtools.orientation !== orientation) {
                 devtools.isOpen = isOpen;
                 devtools.orientation = orientation;
-                
                 if (isOpen) {
                     document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-size:2rem;color:#ff3d5a;text-align:center;font-family:Arial,sans-serif;">Developer tools are disabled for this site</div>';
                 }
@@ -1023,7 +762,6 @@
             const widthThreshold = window.outerWidth - window.innerWidth > threshold;
             const heightThreshold = window.outerHeight - window.innerHeight > threshold;
             const orientation = widthThreshold ? 'vertical' : 'horizontal';
-
             if (widthThreshold || heightThreshold) {
                 emitEvent(true, orientation);
             } else {
@@ -1040,10 +778,8 @@
         document.addEventListener('mousemove', (e) => {
             const orb1 = document.querySelector('.orb1');
             const orb2 = document.querySelector('.orb2');
-            
             const x = e.clientX / window.innerWidth;
             const y = e.clientY / window.innerHeight;
-            
             orb1.style.transform = `translate(${x * 30}px, ${y * 30}px)`;
             orb2.style.transform = `translate(${-x * 20}px, ${-y * 20}px)`;
         });
