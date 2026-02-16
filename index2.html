@@ -6,7 +6,7 @@
     <title>Scoreboard - TCLive Sports</title>
     
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://www.youtube.com https://youtube.com https://www.googleapis.com https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.tailwindcss.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://www.youtube.com https://www.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.tailwindcss.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://www.youtube.com https://youtube.com; connect-src 'self' https://www.googleapis.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.tailwindcss.com https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.tailwindcss.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:;">
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
@@ -14,14 +14,8 @@
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
     
-    <!-- Force HTTPS Redirect -->
-    <script>
-        if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
-            location.replace('https:' + window.location.href.substring(window.location.protocol.length));
-        }
-    </script>
-    
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -103,15 +97,10 @@
         }
 
         @keyframes floatOrb {
-            0%, 100% {
-                transform: translate(0, 0) scale(1);
-            }
-            50% {
-                transform: translate(40px, 30px) scale(1.08);
-            }
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(40px, 30px) scale(1.08); }
         }
 
-        /* Navigation Bar */
         .nav-bar {
             position: sticky;
             top: 0;
@@ -120,7 +109,6 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            animation: fadeDown .9s .3s ease both;
         }
 
         .nav-container {
@@ -195,164 +183,77 @@
             transform: translateX(-50%) scaleX(1);
         }
 
-        /* Coming Soon Content */
-        .coming-soon-container {
+        .scoreboard-container {
             position: relative;
             z-index: 10;
             min-height: calc(100vh - 60px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             padding: 40px 20px;
-            text-align: center;
         }
 
-        .maintenance-icon {
-            width: 120px;
-            height: 120px;
-            margin-bottom: 40px;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-
-        .maintenance-icon svg {
-            width: 100%;
-            height: 100%;
-            stroke: var(--accent);
-        }
-
-        .coming-soon-title {
+        .scoreboard-title {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(3rem, 10vw, 6rem);
+            font-size: clamp(3rem, 8vw, 5rem);
             letter-spacing: .08em;
+            text-align: center;
             background: linear-gradient(135deg, var(--white) 0%, var(--accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 20px;
-            animation: glow 2s ease-in-out infinite;
         }
 
-        @keyframes glow {
+        /* Live Update Indicator */
+        .live-update-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 0 auto 40px;
+            max-width: fit-content;
+            padding: 12px 24px;
+            background: rgba(26, 31, 46, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 61, 90, 0.3);
+            border-radius: 50px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .live-pulse-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(255, 61, 90, 0.7);
+            animation: livePulse 2s infinite;
+        }
+
+        @keyframes livePulse {
             0%, 100% {
-                filter: brightness(1);
+                box-shadow: 0 0 0 0 rgba(255, 61, 90, 0.7);
             }
             50% {
-                filter: brightness(1.3);
+                box-shadow: 0 0 0 8px rgba(255, 61, 90, 0);
             }
         }
 
-        .coming-soon-subtitle {
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
+        .live-update-text {
             font-weight: 600;
-            color: var(--accent);
-            margin-bottom: 24px;
-            animation: slideUp 1s .3s ease both;
-        }
-
-        .coming-soon-description {
-            font-size: clamp(1rem, 2vw, 1.2rem);
-            color: var(--muted);
-            max-width: 700px;
-            line-height: 1.8;
-            margin-bottom: 40px;
-            animation: slideUp 1s .4s ease both;
-        }
-
-        .feature-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            max-width: 900px;
-            width: 100%;
-            margin-bottom: 50px;
-            animation: slideUp 1s .5s ease both;
-        }
-
-        .feature-item {
-            background: rgba(26, 31, 46, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 24px;
-            transition: all 0.3s ease;
-        }
-
-        .feature-item:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent);
-            box-shadow: 0 8px 24px rgba(232, 0, 30, 0.2);
-        }
-
-        .feature-item svg {
-            width: 40px;
-            height: 40px;
-            stroke: var(--accent);
-            margin-bottom: 16px;
-        }
-
-        .feature-item h3 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.4rem;
-            letter-spacing: 0.05em;
-            color: var(--white);
-            margin-bottom: 8px;
-        }
-
-        .feature-item p {
-            color: var(--muted);
             font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 32px;
-            background: linear-gradient(135deg, var(--red) 0%, var(--accent) 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-family: 'Barlow', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            letter-spacing: .05em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all .3s ease;
-            box-shadow: 0 4px 15px rgba(232, 0, 30, .3);
-            animation: slideUp 1s .6s ease both;
+            color: var(--accent);
         }
 
-        .back-btn svg {
-            width: 20px;
-            height: 20px;
+        .last-update-time {
+            font-size: 0.75rem;
+            color: var(--muted);
+            letter-spacing: 0.05em;
         }
 
-        .back-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(232, 0, 30, .4);
-        }
-
-        .back-btn:active {
-            transform: translateY(0);
-        }
-
-        @keyframes fadeDown {
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(-10px);
             }
             to {
                 opacity: 1;
@@ -360,10 +261,161 @@
             }
         }
 
-        @keyframes slideUp {
+        /* Update Animation */
+        @keyframes scoreUpdate {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .score-updating {
+            animation: scoreUpdate 0.5s ease;
+        }
+
+        .houses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .house-scoreboard {
+            position: relative;
+            background: rgba(26, 31, 46, 0.8);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, .08);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .house-scoreboard:hover {
+            transform: translateY(-4px);
+            border-color: var(--house-color);
+            box-shadow: 0 12px 24px var(--house-shadow);
+        }
+
+        .house-scoreboard.advi {
+            --house-color: var(--blue);
+            --house-shadow: rgba(59, 130, 246, 0.3);
+        }
+
+        .house-scoreboard.anupa {
+            --house-color: var(--yellow);
+            --house-shadow: rgba(251, 191, 36, 0.3);
+        }
+
+        .house-scoreboard.agra {
+            --house-color: var(--green);
+            --house-shadow: rgba(16, 185, 129, 0.3);
+        }
+
+        .house-scoreboard.anabi {
+            --house-color: var(--red);
+            --house-shadow: rgba(232, 0, 30, 0.3);
+        }
+
+        .house-scoreboard::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--house-color);
+            border-radius: 16px 16px 0 0;
+        }
+
+        .house-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-top: 8px;
+        }
+
+        .house-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            letter-spacing: 0.05em;
+            color: var(--house-color);
+        }
+
+        .total-points {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .total-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+        }
+
+        .total-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            color: var(--house-color);
+            line-height: 1;
+        }
+
+        .sports-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .sport-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border-left: 3px solid var(--house-color);
+            transition: all 0.2s ease;
+        }
+
+        .sport-item:hover {
+            background: rgba(0, 0, 0, 0.5);
+            transform: translateX(4px);
+        }
+
+        .sport-name {
+            font-weight: 600;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sport-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        .sport-points {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: var(--house-color);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 250px;
+            margin-top: 20px;
+        }
+
+        @keyframes fadeDown {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(-20px);
             }
             to {
                 opacity: 1;
@@ -390,19 +442,17 @@
                 height: 18px;
             }
 
-            .maintenance-icon {
-                width: 80px;
-                height: 80px;
-                margin-bottom: 30px;
-            }
-
-            .feature-list {
-                grid-template-columns: 1fr;
+            .houses-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
                 gap: 16px;
             }
 
-            .feature-item {
+            .house-scoreboard {
                 padding: 20px;
+            }
+
+            .chart-container {
+                height: 200px;
             }
         }
 
@@ -422,8 +472,20 @@
                 height: 16px;
             }
 
-            .coming-soon-container {
+            .scoreboard-container {
                 padding: 30px 16px;
+            }
+
+            .houses-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .house-name {
+                font-size: 1.6rem;
+            }
+
+            .total-number {
+                font-size: 2rem;
             }
         }
     </style>
@@ -468,79 +530,513 @@
             </div>
         </nav>
 
-        <!-- Coming Soon Content -->
-        <div class="coming-soon-container">
-            <!-- Maintenance Icon -->
-            <div class="maintenance-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
-                </svg>
-            </div>
+        <!-- Scoreboard Content -->
+        <div class="scoreboard-container">
+            <h1 class="scoreboard-title">LIVE SCOREBOARD</h1>
 
-            <!-- Main Title -->
-            <h1 class="coming-soon-title">UNDER MAINTENANCE</h1>
-            <h2 class="coming-soon-subtitle">Scoreboard Coming Soon</h2>
-
-            <!-- Description -->
-            <p class="coming-soon-description">
-                We're building something amazing! The live scoreboard will be available on event day (March 12, 2026) 
-                with real-time scores, rankings, and results from all competitions.
-            </p>
-
-            <!-- Feature List -->
-            <div class="feature-list">
-                <div class="feature-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
-                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
-                        <path d="M4 22h16"/>
-                        <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
-                        <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
-                        <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
-                        <circle cx="12" cy="9" r="2"/>
-                    </svg>
-                    <h3>Live Rankings</h3>
-                    <p>Real-time house standings updated as events conclude</p>
-                </div>
-
-                <div class="feature-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"/>
-                        <polyline points="12 6 12 12 16 14"/>
-                    </svg>
-                    <h3>Event Results</h3>
-                    <p>Detailed results for every competition and athlete</p>
-                </div>
-
-                <div class="feature-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="12" y1="1" x2="12" y2="23"/>
-                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                    </svg>
-                    <h3>Points Tracker</h3>
-                    <p>Track points earned by each house across all events</p>
+            <!-- Live Update Indicator -->
+            <div class="live-update-badge">
+                <div class="live-pulse-dot"></div>
+                <div>
+                    <div class="live-update-text">Live Updating</div>
+                    <div class="last-update-time" id="lastUpdate">Last updated: Just now</div>
                 </div>
             </div>
 
-            <!-- Back Button -->
-            <a href="index.html" class="back-btn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"/>
-                    <polyline points="12 19 5 12 12 5"/>
-                </svg>
-                Back to Home
-            </a>
+            <div class="houses-grid">
+                <!-- ADVI House -->
+                <div class="house-scoreboard advi">
+                    <div class="house-header">
+                        <h2 class="house-name">ADVI</h2>
+                        <div class="total-points">
+                            <span class="total-label">Total Points</span>
+                            <span class="total-number" id="advi-total">0</span>
+                        </div>
+                    </div>
+                    <ul class="sports-list">
+                        <li class="sport-item">
+                            <span class="sport-name">
+                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="8" r="3"/>
+                                    <path d="M12 11v10"/>
+                                    <path d="M8 15l4-4 4 4"/>
+                                </svg>
+                                Elle
+                            </span>
+                            <span class="sport-points">85</span>
+                        </li>
+                        <li class="sport-item">
+                            <span class="sport-name">
+                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Cricket
+                            </span>
+                            <span class="sport-points">92</span>
+                        </li>
+                        <li class="sport-item">
+                            <span class="sport-name">
+                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Volleyball
+                            </span>
+                            <span class="sport-points">78</span>
+                        </li>
+                        <li class="sport-item">
+                            <span class="sport-name">
+                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Football
+                            </span>
+                            <span class="sport-points">88</span>
+                        </li>
+                        <li class="sport-item">
+                            <span class="sport-name">
+                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83"/>
+                                </svg>
+                                Badminton
+                            </span>
+                            <span class="sport-points">95</span>
+                        </li>
+                    </ul>
+                    <div class="chart-container">
+                        <canvas id="advi-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- ANUPA House -->
+                <div class="house-scoreboard anupa">
+                    <div class="house-header">
+                        <h2 class="house-name">ANUPA</h2>
+                        <div class="total-points">
+                            <span class="total-label">Total Points</span>
+                            <span class="total-number" id="anupa-total">0</span>
+                        </div>
+                    </div>
+                    <ul class="sports-list">
+                        <li class="sport-item">
+                            <span class="sport-name">
+                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="8" r="3"/>
+                                    <path d="M12 11v10"/>
+                                    <path d="M8 15l4-4 4 4"/>
+                                </svg>
+                                Elle
+                            </span>
+                            <span class="sport-points">90</span>
+                        </li>
+                        <li class="sport-item">
+                            <span class="sport-name">
+                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Cricket
+                            </span>
+                            <span class="sport-points">87</span>
+                        </li>
+                        <li class="sport-item">
+                            <span class="sport-name">
+                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Volleyball
+                            </span>
+                            <span class="sport-points">93</span>
+                        </li>
+                        <li class="sport-item">
+                            <span class="sport-name">
+                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Football
+                            </span>
+                            <span class="sport-points">85</span>
+                        </li>
+                        <li class="sport-item">
+                            <span class="sport-name">
+                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83"/>
+                                </svg>
+                                Badminton
+                            </span>
+                            <span class="sport-points">91</span>
+                        </li>
+                    </ul>
+                    <div class="chart-container">
+                        <canvas id="anupa-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- AGRA House -->
+                <div class="house-scoreboard agra">
+                    <div class="house-header">
+                        <h2 class="house-name">AGRA</h2>
+                        <div class="total-points">
+                            <span class="total-label">Total Points</span>
+                            <span class="total-number" id="agra-total">0</span>
+                        </div>
+                    </div>
+                    <ul class="sports-list">
+                        <li class="sport-item">
+                            <span class="sport-name">
+                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="8" r="3"/>
+                                    <path d="M12 11v10"/>
+                                    <path d="M8 15l4-4 4 4"/>
+                                </svg>
+                                Elle
+                            </span>
+                            <span class="sport-points">88</span>
+                        </li>
+                        <li class="sport-item">
+                            <span class="sport-name">
+                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Cricket
+                            </span>
+                            <span class="sport-points">84</span>
+                        </li>
+                        <li class="sport-item">
+                            <span class="sport-name">
+                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Volleyball
+                            </span>
+                            <span class="sport-points">86</span>
+                        </li>
+                        <li class="sport-item">
+                            <span class="sport-name">
+                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Football
+                            </span>
+                            <span class="sport-points">90</span>
+                        </li>
+                        <li class="sport-item">
+                            <span class="sport-name">
+                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83"/>
+                                </svg>
+                                Badminton
+                            </span>
+                            <span class="sport-points">82</span>
+                        </li>
+                    </ul>
+                    <div class="chart-container">
+                        <canvas id="agra-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- ANABI House -->
+                <div class="house-scoreboard anabi">
+                    <div class="house-header">
+                        <h2 class="house-name">ANABI</h2>
+                        <div class="total-points">
+                            <span class="total-label">Total Points</span>
+                            <span class="total-number" id="anabi-total">0</span>
+                        </div>
+                    </div>
+                    <ul class="sports-list">
+                        <li class="sport-item">
+                            <span class="sport-name">
+                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="8" r="3"/>
+                                    <path d="M12 11v10"/>
+                                    <path d="M8 15l4-4 4 4"/>
+                                </svg>
+                                Elle
+                            </span>
+                            <span class="sport-points">92</span>
+                        </li>
+                        <li class="sport-item">
+                            <span class="sport-name">
+                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Cricket
+                            </span>
+                            <span class="sport-points">89</span>
+                        </li>
+                        <li class="sport-item">
+                            <span class="sport-name">
+                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Volleyball
+                            </span>
+                            <span class="sport-points">91</span>
+                        </li>
+                        <li class="sport-item">
+                            <span class="sport-name">
+                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                </svg>
+                                Football
+                            </span>
+                            <span class="sport-points">87</span>
+                        </li>
+                        <li class="sport-item">
+                            <span class="sport-name">
+                                <svg class="sport-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83"/>
+                                </svg>
+                                Badminton
+                            </span>
+                            <span class="sport-points">88</span>
+                        </li>
+                    </ul>
+                    <div class="chart-container">
+                        <canvas id="anabi-chart"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // Disable right-click
+        // ========================================
+        // HOUSE SCORES DATA
+        // ========================================
+        const housesData = {
+            advi: {
+                name: 'ADVI',
+                color: '#3b82f6',
+                sports: {
+                    Elle: 85,
+                    Cricket: 92,
+                    Volleyball: 78,
+                    Football: 88,
+                    Badminton: 95
+                }
+            },
+            anupa: {
+                name: 'ANUPA',
+                color: '#fbbf24',
+                sports: {
+                    Elle: 90,
+                    Cricket: 87,
+                    Volleyball: 93,
+                    Football: 85,
+                    Badminton: 91
+                }
+            },
+            agra: {
+                name: 'AGRA',
+                color: '#10b981',
+                sports: {
+                    Elle: 88,
+                    Cricket: 84,
+                    Volleyball: 86,
+                    Football: 90,
+                    Badminton: 82
+                }
+            },
+            anabi: {
+                name: 'ANABI',
+                color: '#e8001e',
+                sports: {
+                    Elle: 92,
+                    Cricket: 89,
+                    Volleyball: 91,
+                    Football: 87,
+                    Badminton: 88
+                }
+            }
+        };
+
+        // ========================================
+        // CALCULATE TOTALS
+        // ========================================
+        function calculateTotals() {
+            Object.keys(housesData).forEach(house => {
+                const scores = Object.values(housesData[house].sports);
+                const total = scores.reduce((sum, score) => sum + score, 0);
+                document.getElementById(`${house}-total`).textContent = total;
+            });
+        }
+
+        // ========================================
+        // CREATE CHART.JS CHARTS
+        // ========================================
+        function createCharts() {
+            Object.keys(housesData).forEach(house => {
+                const houseData = housesData[house];
+                const ctx = document.getElementById(`${house}-chart`).getContext('2d');
+                
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(houseData.sports),
+                        datasets: [{
+                            label: 'Points',
+                            data: Object.values(houseData.sports),
+                            backgroundColor: houseData.color + '40',
+                            borderColor: houseData.color,
+                            borderWidth: 2,
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(10, 14, 21, 0.9)',
+                                titleColor: '#f0f4f8',
+                                bodyColor: '#f0f4f8',
+                                borderColor: houseData.color,
+                                borderWidth: 1,
+                                padding: 12,
+                                displayColors: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    color: '#8294a8',
+                                    font: {
+                                        family: 'Barlow',
+                                        size: 11
+                                    }
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.05)'
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    color: '#8294a8',
+                                    font: {
+                                        family: 'Barlow',
+                                        size: 10
+                                    }
+                                },
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        }
+
+        // ========================================
+        // INITIALIZE
+        // ========================================
+        calculateTotals();
+        createCharts();
+
+        // ========================================
+        // SECURITY: DISABLE RIGHT-CLICK
+        // ========================================
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
             return false;
         });
 
-        // Add parallax effect to orbs
+        // ========================================
+        // SECURITY: DISABLE DEVELOPER OPTIONS
+        // ========================================
+        document.addEventListener('keydown', function(e) {
+            // F12
+            if (e.keyCode === 123) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+I (Inspect)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+J (Console)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+C (Inspect Element)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 67) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+U (View Source)
+            if (e.ctrlKey && e.keyCode === 85) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+S (Save Page)
+            if (e.ctrlKey && e.keyCode === 83) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // ========================================
+        // SECURITY: DISABLE TEXT SELECTION
+        // ========================================
+        document.onselectstart = function() {
+            return false;
+        };
+
+        // ========================================
+        // SECURITY: DISABLE COPY/CUT
+        // ========================================
+        document.addEventListener('copy', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        document.addEventListener('cut', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // ========================================
+        // SECURITY: DETECT DEVTOOLS
+        // ========================================
+        let devtools = { isOpen: false, orientation: null };
+        const threshold = 160;
+
+        const emitEvent = (isOpen, orientation) => {
+            if (devtools.isOpen !== isOpen || devtools.orientation !== orientation) {
+                devtools.isOpen = isOpen;
+                devtools.orientation = orientation;
+                
+                if (isOpen) {
+                    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-size:2rem;color:#ff3d5a;text-align:center;font-family:Arial,sans-serif;">Developer tools are disabled for this site</div>';
+                }
+            }
+        };
+
+        const checkDevTools = () => {
+            const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+            const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+            const orientation = widthThreshold ? 'vertical' : 'horizontal';
+
+            if (widthThreshold || heightThreshold) {
+                emitEvent(true, orientation);
+            } else {
+                emitEvent(false, null);
+            }
+        };
+
+        checkDevTools();
+        window.addEventListener('resize', checkDevTools);
+
+        // ========================================
+        // PARALLAX EFFECT
+        // ========================================
         document.addEventListener('mousemove', (e) => {
             const orb1 = document.querySelector('.orb1');
             const orb2 = document.querySelector('.orb2');
