@@ -6,7 +6,7 @@
     <title>TCLive Sports - School Sports Meet Live</title>
     
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://www.youtube.com https://youtube.com https://www.googleapis.com https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.tailwindcss.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://www.youtube.com https://www.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.tailwindcss.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://www.youtube.com https://youtube.com; connect-src 'self' https://www.googleapis.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://www.youtube.com https://youtube.com https://www.googleapis.com https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.tailwindcss.com https://cdn.onesignal.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://www.youtube.com https://www.googleapis.com https://cdn.onesignal.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.tailwindcss.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://www.youtube.com https://youtube.com; connect-src 'self' https://www.googleapis.com https://onesignal.com https://api.onesignal.com https://youtube.googleapis.com;">
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
@@ -48,9 +48,29 @@
     </script>
     
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Plyr.js — custom video player -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css">
+    <script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    
+    <!-- OneSignal Web Push Notifications -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "780d3e6f-fb81-4e08-a509-55557cc4dc4b",
+          safari_web_id: "",
+          notifyButton: {
+            enable: true,
+          },
+        });
+      });
+    </script>
+    
     <style>
         *, *::before, *::after {
             box-sizing: border-box;
@@ -1160,254 +1180,6 @@
             color: var(--muted);
         }
 
-        /* Tailwind-style Ranking Badges */
-        .rank-badge {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            display: inline-flex !important;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: 9999px !important;
-            font-size: 0.75rem;
-            font-weight: 500;
-            line-height: 1;
-            white-space: nowrap;
-            z-index: 10;
-            animation: badgeFadeIn 0.6s ease both;
-            animation-delay: 0.8s;
-        }
-
-        /* Rank 1 - Yellow variant (bg-yellow-100 text-yellow-800) */
-        .rank-badge.rank-1 {
-            background-color: #fef3c7 !important;
-            color: #92400e !important;
-        }
-
-        /* Rank 2 - Red variant (bg-red-100 text-red-800) */
-        .rank-badge.rank-2 {
-            background-color: #fee2e2 !important;
-            color: #991b1b !important;
-        }
-
-        /* Dark mode support */
-        @media (prefers-color-scheme: dark) {
-            .rank-badge.rank-1 {
-                background-color: rgba(251, 191, 36, 0.2);
-                color: #fbbf24;
-            }
-            
-            .rank-badge.rank-2 {
-                background-color: rgba(239, 68, 68, 0.2);
-                color: #ef4444;
-            }
-        }
-
-        .rank-icon {
-            width: 14px;
-            height: 14px;
-            flex-shrink: 0;
-        }
-
-        @keyframes badgeFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .rank-badge {
-                padding: 4px 10px;
-                font-size: 0.65rem;
-                gap: 4px;
-                top: 12px;
-                right: 12px;
-            }
-            
-            .rank-icon {
-                width: 12px;
-                height: 12px;
-            }
-        }
-
-        /* Tailwind Badge System */
-        .rank-badge {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            z-index: 10;
-            animation: badgeFadeIn 0.6s ease both;
-            animation-delay: 0.8s;
-        }
-
-        /* Rank 1 - Yellow variant (bg-yellow-100 text-yellow-800) */
-        .rank-badge.rank-1 {
-            background-color: #fef3c7;
-            color: #92400e;
-        }
-
-        /* Rank 2 - Red variant (bg-red-100 text-red-800) */
-        .rank-badge.rank-2 {
-            background-color: #fee2e2;
-            color: #991b1b;
-        }
-
-        /* Dark mode support for badges */
-        @media (prefers-color-scheme: dark) {
-            .rank-badge.rank-1 {
-                background-color: rgba(251, 191, 36, 0.2);
-                color: #fbbf24;
-            }
-            
-            .rank-badge.rank-2 {
-                background-color: rgba(239, 68, 68, 0.2);
-                color: #ef4444;
-            }
-        }
-
-        .rank-icon {
-            width: 14px;
-            height: 14px;
-            flex-shrink: 0;
-        }
-
-        @keyframes badgeFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .rank-badge {
-                padding: 4px 10px;
-                font-size: 0.65rem;
-                gap: 4px;
-                top: 12px;
-                right: 12px;
-            }
-            
-            .rank-icon {
-                width: 12px;
-                height: 12px;
-            }
-        }
-
-        /* Ranking Badge */
-        .rank-badge {
-            position: absolute;
-            top: -12px;
-            right: -12px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.5rem;
-            font-weight: bold;
-            z-index: 10;
-            border: 3px solid var(--dark);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            animation: rankPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
-            animation-delay: 0.8s;
-        }
-
-        .rank-badge.rank-1 {
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            color: #000;
-        }
-
-        .rank-badge.rank-2 {
-            background: linear-gradient(135deg, #C0C0C0 0%, #808080 100%);
-            color: #000;
-        }
-
-        .rank-badge::before {
-            content: '';
-            position: absolute;
-            inset: -3px;
-            border-radius: 50%;
-            padding: 3px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 100%);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-        }
-
-        @keyframes rankPop {
-            0% {
-                transform: scale(0) rotate(-180deg);
-                opacity: 0;
-            }
-            60% {
-                transform: scale(1.2) rotate(10deg);
-            }
-            100% {
-                transform: scale(1) rotate(0deg);
-                opacity: 1;
-            }
-        }
-
-        .rank-label {
-            font-size: 0.5rem;
-            position: absolute;
-            bottom: 2px;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-        }
-
-        /* Title Divider */
-        .title-divider {
-            width: 80px;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            margin: 24px auto;
-            border-radius: 2px;
-            animation: scaleIn .8s .3s ease both;
-        }
-
-        /* Event Details */
-        .event-details {
-            margin: 28px auto 32px;
-            animation: fadeDown 1s .4s ease both;
-        }
-
-        .event-main-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
-            letter-spacing: .12em;
-            color: var(--white);
-            margin-bottom: 8px;
-            font-weight: 400;
-        }
-
-        .event-subtitle {
-            font-size: clamp(0.85rem, 2vw, 1rem);
-            font-weight: 300;
-            letter-spacing: .08em;
-            color: var(--muted);
-            text-transform: uppercase;
-        }
-
         @keyframes fadeDown {
             from {
                 opacity: 0;
@@ -1489,7 +1261,6 @@
                 justify-content: center;
             }
 
-            /* Better tablet layout */
             .houses-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 20px;
@@ -1517,7 +1288,6 @@
                 gap: 12px;
             }
 
-            /* Better mobile layout */
             .houses-grid {
                 grid-template-columns: 1fr;
                 gap: 16px;
@@ -1580,20 +1350,15 @@
                 padding: 24px 16px !important;
             }
 
-            /* ========================================
-               MOBILE APP LAYOUT (ONLY ON MOBILE)
-               ======================================== */
-            
+            /* Mobile App Layout */
             body {
                 background: #0a0e15;
             }
 
-            /* Hide desktop header on mobile */
             header {
                 display: none !important;
             }
 
-            /* Mobile App Header */
             .mobile-app-header {
                 display: flex !important;
                 position: fixed;
@@ -1630,6 +1395,7 @@
                 align-items: center;
                 justify-content: center;
                 border: 1px solid rgba(255, 255, 255, 0.1);
+                cursor: pointer;
             }
 
             .mobile-notification-btn svg {
@@ -1638,7 +1404,6 @@
                 stroke: var(--white);
             }
 
-            /* Mobile Bottom Navigation */
             .mobile-bottom-nav {
                 display: flex !important;
                 position: fixed;
@@ -1687,7 +1452,6 @@
                 letter-spacing: 0.05em;
             }
 
-            /* Mobile Content Area */
             main {
                 padding-top: 70px !important;
                 padding-bottom: 75px !important;
@@ -1695,40 +1459,10 @@
                 padding-right: 16px !important;
             }
 
-            /* Hide desktop navigation */
             .nav-bar {
                 display: none !important;
             }
 
-            /* Mobile Live Badge */
-            .mobile-live-badge {
-                display: inline-flex !important;
-                align-items: center;
-                gap: 6px;
-                padding: 6px 12px;
-                background: rgba(232, 0, 30, 0.15);
-                border: 1px solid rgba(232, 0, 30, 0.3);
-                border-radius: 20px;
-                margin-bottom: 16px;
-            }
-
-            .mobile-live-dot {
-                width: 8px;
-                height: 8px;
-                background: var(--accent);
-                border-radius: 50%;
-                animation: pulse 1.5s ease-in-out infinite;
-            }
-
-            .mobile-live-text {
-                font-size: 0.7rem;
-                font-weight: 700;
-                color: var(--accent);
-                text-transform: uppercase;
-                letter-spacing: 0.1em;
-            }
-
-            /* Mobile Title */
             h1 {
                 font-size: 1.8rem !important;
                 text-align: left !important;
@@ -1747,13 +1481,11 @@
                 margin-top: 8px !important;
             }
 
-            /* Mobile Video Container */
             .video-container {
                 border-radius: 16px !important;
                 margin-bottom: 20px !important;
             }
 
-            /* Mobile Card Style */
             .house-card,
             .feature-card {
                 background: rgba(26, 31, 46, 0.8);
@@ -1763,7 +1495,6 @@
                 padding: 20px;
             }
 
-            /* Mobile Highlights Section */
             .highlights-section {
                 margin: 30px auto 20px !important;
                 padding: 0 !important;
@@ -1782,7 +1513,6 @@
                 font-size: 0.85rem !important;
             }
 
-            /* Mobile Houses Section */
             .houses-section {
                 margin: 40px auto 20px !important;
             }
@@ -1792,18 +1522,15 @@
                 margin-bottom: 20px !important;
             }
 
-            /* Mobile Features Grid */
             .features-grid {
                 margin-top: 30px !important;
                 gap: 12px !important;
             }
 
-            /* Mobile Footer */
             footer {
                 display: none !important;
             }
 
-            /* Mobile Countdown */
             .countdown {
                 gap: 12px !important;
                 flex-wrap: wrap !important;
@@ -1822,7 +1549,6 @@
                 font-size: 0.65rem !important;
             }
 
-            /* Mobile Status Bar Safe Area */
             @supports (padding-top: env(safe-area-inset-top)) {
                 .mobile-app-header {
                     padding-top: calc(env(safe-area-inset-top) + 8px);
@@ -1839,6 +1565,94 @@
                 }
             }
         }
+
+        /* ================================================
+           PLYR.JS VIDEO PLAYER SYSTEM
+           ================================================ */
+
+        .player-wrapper {
+            position: absolute;
+            inset: 0;
+            display: none;
+            background: #000;
+        }
+        .player-wrapper.active { display: block; }
+
+        /* Plyr fills the wrapper */
+        .player-wrapper .plyr,
+        .player-wrapper .plyr__video-wrapper,
+        .player-wrapper iframe,
+        .player-wrapper video {
+            width: 100% !important;
+            height: 100% !important;
+            border: none;
+        }
+
+        /* LIVE badge */
+        .live-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 14px;
+            background: rgba(232, 0, 30, 0.93);
+            border-radius: 5px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: .12em;
+            color: #fff;
+            text-transform: uppercase;
+            z-index: 30;
+            pointer-events: none;
+        }
+        .live-badge-dot {
+            width: 7px;
+            height: 7px;
+            background: #fff;
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        /* Plyr theme overrides to match site accent #ff3d5a */
+        :root {
+            --plyr-color-main: #ff3d5a;
+            --plyr-video-background: #0a0e15;
+            --plyr-font-family: 'Barlow', sans-serif;
+            --plyr-control-radius: 6px;
+            --plyr-badge-background: #ff3d5a;
+            --plyr-video-control-color: #f0f4f8;
+            --plyr-video-control-color-hover: #fff;
+            --plyr-control-spacing: 10px;
+            --plyr-range-thumb-background: #ff3d5a;
+            --plyr-range-fill-background: #ff3d5a;
+            --plyr-video-controls-background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,.75));
+        }
+
+        /* Plyr container fills wrapper fully */
+        .player-wrapper .plyr--video {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+        }
+
+        /* YouTube iframe inside Plyr fills container */
+        .player-wrapper .plyr__video-embed,
+        .player-wrapper .plyr__video-embed iframe {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        /* Plyr padding fix for YouTube (removes letterbox) */
+        .player-wrapper .plyr__video-embed .plyr__video-embed__container {
+            padding-bottom: 0 !important;
+            position: absolute;
+            inset: 0;
+        }
+
+        .coming-soon-overlay { z-index: 10; }
+
     </style>
 </head>
 <body>
@@ -1892,7 +1706,7 @@
             <div class="nav-container">
                 <ul class="nav-links">
                     <li>
-                        <a href="index.html" class="nav-link active" id="homeNav">
+                        <a href="index.html" class="nav-link active">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                                 <polyline points="9 22 9 12 15 12 15 22"/>
@@ -1901,7 +1715,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="index2.html" class="nav-link" id="scoreboardNav">
+                        <a href="index2.html" class="nav-link">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
                                 <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
@@ -1927,20 +1741,31 @@
                         SCHOOL SPORTS MEET <span style="color: var(--accent);">2026</span>
                     </h1>
                     <p class="text-xl text-gray-400 max-w-2xl mx-auto" style="animation: fadeDown 1s .2s ease both;">
-                        Experience the thrill of athletic excellence live from our campus
+                        Experience the thrill of athletic excellence live from our <span style="color: var(--accent);">website</span>
                     </p>
                 </div>
 
                 <!-- Video Container with Coming Soon -->
-                <div class="video-container mx-auto mb-16">
-                    <div class="coming-soon-overlay">
+                <div class="video-container mx-auto mb-16" id="videoContainer">
+
+                    <!-- ── LIVE PLAYER (hidden until stream URL is set) ── -->
+                    <div class="player-wrapper" id="playerWrapper">
+                        <!-- Live badge shown when streaming -->
+                        <div class="live-badge" id="liveBadge">
+                            <span class="live-badge-dot"></span> LIVE
+                        </div>
+                        <!-- iframe is injected here for YouTube / HLS proxy -->
+                        <!-- <video> is injected here for direct MP4/HLS      -->
+                    </div>
+
+                    <!-- ── COMING SOON OVERLAY (shown when no stream) ── -->
+                    <div class="coming-soon-overlay" id="comingSoonOverlay">
                         <div class="coming-soon-text">COMING SOON</div>
                         <div class="event-date">MARCH 12, 2026</div>
                         <p class="event-info">
-                            Get ready for an action-packed day of sports! Live streaming begins at 1:30 PM. 
+                            Get ready for an action-packed day of sports! Live streaming begins at 13:00 PM.
                             Don't miss the opening ceremony and exciting competitions.
                         </p>
-                        
                         <!-- Countdown Timer -->
                         <div class="countdown" id="countdown">
                             <div class="countdown-item">
@@ -2155,7 +1980,7 @@
         <!-- Footer -->
         <footer class="w-full px-6 py-8 text-center" style="animation: fadeUp .9s .75s ease both;">
             <div class="text-sm uppercase tracking-wider" style="color: rgba(130,148,168,.4);">
-                <p>© 2026 TCLive Sports · All Rights Reserved</p>
+                <p>© 2025 TCLive Sports · All Rights Reserved</p>
                 <p class="mt-2">
                     <a href="#" class="hover:text-red-500 transition-colors">About</a> · 
                     <a href="#" class="hover:text-red-500 transition-colors ml-2">Schedule</a> · 
@@ -2173,7 +1998,7 @@
                 </svg>
                 <span>Home</span>
             </a>
-            <a href="index2.html" class="mobile-nav-item" id="mobileScoreboardNav">
+            <a href="index2.html" class="mobile-nav-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
                     <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
@@ -2217,371 +2042,9 @@
 
     <script>
         // ========================================
-        // CUSTOM VIDEO PLAYER CONFIGURATION
-        // ========================================
-        const VIDEO_CONFIG = {
-            // Direct video URL (MP4, WebM, HLS, etc.)
-            VIDEO_URL: '',  // Example: 'https://example.com/stream.m3u8' or 'video.mp4'
-            
-            // Poster image (shown before video plays)
-            POSTER_URL: '',  // Example: 'poster.jpg'
-            
-            // Video type (auto-detected if not specified)
-            VIDEO_TYPE: '',  // 'video/mp4', 'video/webm', 'application/x-mpegURL' (HLS)
-            
-            // Player settings
-            AUTOPLAY: false,
-            MUTED: false,
-            CONTROLS: true,
-            LOOP: false,
-            
-            // Streaming settings (for HLS/DASH)
-            IS_LIVE_STREAM: false,
-            
-            // Custom controls color theme
-            ACCENT_COLOR: '#ff3d5a'
-        };
-
-        // Custom Video Player Class
-        class CustomVideoPlayer {
-            constructor(container, config) {
-                this.container = container;
-                this.config = config;
-                this.video = null;
-                this.controls = null;
-                this.isPlaying = false;
-                this.isFullscreen = false;
-            }
-
-            init() {
-                if (!this.config.VIDEO_URL) {
-                    console.log('No video configured - showing Coming Soon message');
-                    return;
-                }
-
-                this.createVideoElement();
-                this.createCustomControls();
-                this.attachEventListeners();
-                this.hideComingSoonOverlay();
-                this.updateBadge();
-            }
-
-            createVideoElement() {
-                this.video = document.createElement('video');
-                this.video.className = 'custom-video-player';
-                this.video.style.cssText = `
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: #000;
-                    object-fit: contain;
-                `;
-                
-                if (this.config.POSTER_URL) {
-                    this.video.poster = this.config.POSTER_URL;
-                }
-                
-                this.video.autoplay = this.config.AUTOPLAY;
-                this.video.muted = this.config.MUTED;
-                this.video.loop = this.config.LOOP;
-                this.video.playsInline = true;
-                
-                // Add video source
-                const source = document.createElement('source');
-                source.src = this.config.VIDEO_URL;
-                if (this.config.VIDEO_TYPE) {
-                    source.type = this.config.VIDEO_TYPE;
-                } else {
-                    // Auto-detect type from URL
-                    if (this.config.VIDEO_URL.includes('.m3u8')) {
-                        source.type = 'application/x-mpegURL';
-                    } else if (this.config.VIDEO_URL.includes('.mpd')) {
-                        source.type = 'application/dash+xml';
-                    } else if (this.config.VIDEO_URL.includes('.webm')) {
-                        source.type = 'video/webm';
-                    } else {
-                        source.type = 'video/mp4';
-                    }
-                }
-                
-                this.video.appendChild(source);
-                this.container.appendChild(this.video);
-
-                // Load HLS.js for HLS streams if needed
-                if (source.type === 'application/x-mpegURL' && !this.video.canPlayType('application/x-mpegURL')) {
-                    this.loadHLS();
-                }
-            }
-
-            loadHLS() {
-                // Load HLS.js library for browsers that don't support HLS natively
-                const script = document.createElement('script');
-                script.src = 'https://cdn.jsdelivr.net/npm/hls.js@latest';
-                script.onload = () => {
-                    if (Hls.isSupported()) {
-                        const hls = new Hls();
-                        hls.loadSource(this.config.VIDEO_URL);
-                        hls.attachMedia(this.video);
-                        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                            if (this.config.AUTOPLAY) {
-                                this.video.play();
-                            }
-                        });
-                    }
-                };
-                document.head.appendChild(script);
-            }
-
-            createCustomControls() {
-                if (!this.config.CONTROLS) return;
-
-                this.controls = document.createElement('div');
-                this.controls.className = 'video-controls';
-                this.controls.style.cssText = `
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    right: 0;
-                    padding: 15px 20px;
-                    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
-                    display: flex;
-                    align-items: center;
-                    gap: 15px;
-                    opacity: 0;
-                    transition: opacity 0.3s;
-                    z-index: 10;
-                `;
-
-                // Play/Pause button
-                const playBtn = this.createButton('▶', 'play-pause-btn');
-                playBtn.style.fontSize = '20px';
-                
-                // Progress bar
-                const progressContainer = document.createElement('div');
-                progressContainer.style.cssText = `
-                    flex: 1;
-                    height: 6px;
-                    background: rgba(255,255,255,0.3);
-                    border-radius: 3px;
-                    cursor: pointer;
-                    position: relative;
-                `;
-                
-                const progress = document.createElement('div');
-                progress.className = 'video-progress';
-                progress.style.cssText = `
-                    height: 100%;
-                    background: ${this.config.ACCENT_COLOR};
-                    border-radius: 3px;
-                    width: 0%;
-                    transition: width 0.1s;
-                `;
-                progressContainer.appendChild(progress);
-                
-                // Time display
-                const timeDisplay = document.createElement('span');
-                timeDisplay.className = 'time-display';
-                timeDisplay.textContent = '0:00 / 0:00';
-                timeDisplay.style.cssText = `
-                    color: white;
-                    font-size: 14px;
-                    min-width: 100px;
-                `;
-                
-                // Volume button
-                const volumeBtn = this.createButton('🔊', 'volume-btn');
-                
-                // Fullscreen button
-                const fullscreenBtn = this.createButton('⛶', 'fullscreen-btn');
-                fullscreenBtn.style.fontSize = '20px';
-                
-                // Append controls
-                this.controls.appendChild(playBtn);
-                this.controls.appendChild(progressContainer);
-                this.controls.appendChild(timeDisplay);
-                this.controls.appendChild(volumeBtn);
-                this.controls.appendChild(fullscreenBtn);
-                
-                this.container.appendChild(this.controls);
-                
-                // Show/hide controls on hover
-                this.container.addEventListener('mouseenter', () => {
-                    this.controls.style.opacity = '1';
-                });
-                this.container.addEventListener('mouseleave', () => {
-                    this.controls.style.opacity = '0';
-                });
-            }
-
-            createButton(text, className) {
-                const btn = document.createElement('button');
-                btn.textContent = text;
-                btn.className = className;
-                btn.style.cssText = `
-                    background: none;
-                    border: none;
-                    color: white;
-                    cursor: pointer;
-                    font-size: 16px;
-                    padding: 5px 10px;
-                    transition: transform 0.2s;
-                `;
-                btn.addEventListener('mouseenter', () => {
-                    btn.style.transform = 'scale(1.1)';
-                });
-                btn.addEventListener('mouseleave', () => {
-                    btn.style.transform = 'scale(1)';
-                });
-                return btn;
-            }
-
-            attachEventListeners() {
-                // Play/Pause
-                const playBtn = this.controls?.querySelector('.play-pause-btn');
-                if (playBtn) {
-                    playBtn.addEventListener('click', () => this.togglePlay());
-                    this.video.addEventListener('click', () => this.togglePlay());
-                }
-
-                // Progress bar
-                const progressContainer = this.controls?.querySelector('div');
-                if (progressContainer) {
-                    progressContainer.addEventListener('click', (e) => {
-                        const rect = progressContainer.getBoundingClientRect();
-                        const pos = (e.clientX - rect.left) / rect.width;
-                        this.video.currentTime = pos * this.video.duration;
-                    });
-                }
-
-                // Update progress
-                this.video.addEventListener('timeupdate', () => {
-                    const progress = this.controls?.querySelector('.video-progress');
-                    const timeDisplay = this.controls?.querySelector('.time-display');
-                    
-                    if (progress) {
-                        const percent = (this.video.currentTime / this.video.duration) * 100;
-                        progress.style.width = percent + '%';
-                    }
-                    
-                    if (timeDisplay) {
-                        timeDisplay.textContent = 
-                            `${this.formatTime(this.video.currentTime)} / ${this.formatTime(this.video.duration)}`;
-                    }
-                });
-
-                // Volume
-                const volumeBtn = this.controls?.querySelector('.volume-btn');
-                if (volumeBtn) {
-                    volumeBtn.addEventListener('click', () => {
-                        this.video.muted = !this.video.muted;
-                        volumeBtn.textContent = this.video.muted ? '🔇' : '🔊';
-                    });
-                }
-
-                // Fullscreen
-                const fullscreenBtn = this.controls?.querySelector('.fullscreen-btn');
-                if (fullscreenBtn) {
-                    fullscreenBtn.addEventListener('click', () => this.toggleFullscreen());
-                }
-
-                // Keyboard shortcuts
-                document.addEventListener('keydown', (e) => {
-                    // Disable keyboard shortcuts if dev tools protection is active
-                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-                    
-                    if (e.key === ' ' && this.video) {
-                        e.preventDefault();
-                        this.togglePlay();
-                    } else if ((e.key === 'f' || e.key === 'F') && this.video) {
-                        e.preventDefault();
-                        this.toggleFullscreen();
-                    } else if ((e.key === 'm' || e.key === 'M') && this.video) {
-                        e.preventDefault();
-                        this.video.muted = !this.video.muted;
-                    }
-                });
-            }
-
-            togglePlay() {
-                if (this.video.paused) {
-                    this.video.play();
-                    const playBtn = this.controls?.querySelector('.play-pause-btn');
-                    if (playBtn) playBtn.textContent = '⏸';
-                } else {
-                    this.video.pause();
-                    const playBtn = this.controls?.querySelector('.play-pause-btn');
-                    if (playBtn) playBtn.textContent = '▶';
-                }
-            }
-
-            toggleFullscreen() {
-                if (!this.isFullscreen) {
-                    if (this.container.requestFullscreen) {
-                        this.container.requestFullscreen();
-                    } else if (this.container.webkitRequestFullscreen) {
-                        this.container.webkitRequestFullscreen();
-                    }
-                    this.isFullscreen = true;
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    } else if (document.webkitExitFullscreen) {
-                        document.webkitExitFullscreen();
-                    }
-                    this.isFullscreen = false;
-                }
-            }
-
-            formatTime(seconds) {
-                if (!seconds || isNaN(seconds)) return '0:00';
-                const mins = Math.floor(seconds / 60);
-                const secs = Math.floor(seconds % 60);
-                return `${mins}:${secs.toString().padStart(2, '0')}`;
-            }
-
-            hideComingSoonOverlay() {
-                const overlay = document.querySelector('.coming-soon-overlay');
-                if (overlay) {
-                    overlay.style.display = 'none';
-                }
-            }
-
-            updateBadge() {
-                const badge = document.querySelector('.badge');
-                if (badge) {
-                    badge.innerHTML = '<span class="badge-dot"></span>NOW LIVE';
-                }
-            }
-        }
-
-        // Initialize player when page loads
-        window.addEventListener('DOMContentLoaded', () => {
-            const videoContainer = document.querySelector('.video-container');
-            const player = new CustomVideoPlayer(videoContainer, VIDEO_CONFIG);
-            player.init();
-
-            // Make player accessible globally for manual control
-            window.videoPlayer = player;
-        });
-
-        // Manual control function
-        window.loadVideo = function(videoUrl, isLive = false) {
-            VIDEO_CONFIG.VIDEO_URL = videoUrl;
-            VIDEO_CONFIG.IS_LIVE_STREAM = isLive;
-            const videoContainer = document.querySelector('.video-container');
-            videoContainer.innerHTML = '<div class="coming-soon-overlay"></div>'; // Reset
-            const player = new CustomVideoPlayer(videoContainer, VIDEO_CONFIG);
-            player.init();
-            window.videoPlayer = player;
-        };
-
-        // ========================================
-        // HIGHLIGHTS GALLERY FUNCTIONALITY
+        // HIGHLIGHTS GALLERY
         // ========================================
         
-        // Example highlight images (replace with your actual images)
         const HIGHLIGHT_IMAGES = [
             {
                 url: 'https://scontent.fcmb1-2.fna.fbcdn.net/v/t39.30808-6/627154153_1716712389446843_1363988109721635707_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_ohc=yVkK6u0iIOMQ7kNvwHn8i3V&_nc_oc=AdkPkaNyFJVtu75zDTQFfEsd61plWKxve7xbKYuhYMURhrt7B6BFijBNgAj2GR0D--E&_nc_zt=23&_nc_ht=scontent.fcmb1-2.fna&_nc_gid=TQXVg40LMqnBb1rTgl12Ig&oh=00_AfvQR-aFnkZ3NWVswlnym05hvm6TeKmvm8EQEVpHXY-y1Q&oe=699895D9',
@@ -2615,7 +2078,6 @@
             }
         ];
 
-        // Lightbox functionality
         const viewHighlightsBtn = document.getElementById('viewHighlightsBtn');
         const lightboxOverlay = document.getElementById('lightboxOverlay');
         const closeLightbox = document.getElementById('closeLightbox');
@@ -2624,11 +2086,10 @@
         const closeFullview = document.getElementById('closeFullview');
         const fullviewImage = document.getElementById('fullviewImage');
 
-        // Load images into lightbox
         function loadHighlightImages() {
             lightboxGrid.innerHTML = '';
             
-            HIGHLIGHT_IMAGES.forEach((image, index) => {
+            HIGHLIGHT_IMAGES.forEach((image) => {
                 const imageItem = document.createElement('div');
                 imageItem.className = 'lightbox-image-item';
                 imageItem.innerHTML = `
@@ -2636,7 +2097,6 @@
                     <div class="lightbox-image-label">${image.title}</div>
                 `;
                 
-                // Click to view full size
                 imageItem.addEventListener('click', () => {
                     fullviewImage.src = image.url;
                     fullviewImage.alt = image.title;
@@ -2647,20 +2107,17 @@
             });
         }
 
-        // Open lightbox
         viewHighlightsBtn.addEventListener('click', () => {
             loadHighlightImages();
             lightboxOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            document.body.style.overflow = 'hidden';
         });
 
-        // Close lightbox
         closeLightbox.addEventListener('click', () => {
             lightboxOverlay.classList.remove('active');
-            document.body.style.overflow = ''; // Restore scrolling
+            document.body.style.overflow = '';
         });
 
-        // Close on overlay click
         lightboxOverlay.addEventListener('click', (e) => {
             if (e.target === lightboxOverlay) {
                 lightboxOverlay.classList.remove('active');
@@ -2668,7 +2125,6 @@
             }
         });
 
-        // Close fullview
         closeFullview.addEventListener('click', () => {
             lightboxFullview.classList.remove('active');
         });
@@ -2679,7 +2135,6 @@
             }
         });
 
-        // Keyboard shortcuts for lightbox
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 if (lightboxFullview.classList.contains('active')) {
@@ -2691,305 +2146,15 @@
             }
         });
 
+        
+        // Notifications handled by notifications.js
+
         // ========================================
-        // NOTIFICATION & TOAST FUNCTIONALITY
+        // COUNTDOWN TIMER
         // ========================================
 
-        // Toast notification function
-        function showToast(message, type = 'success', duration = 3000) {
-            const toast = document.createElement('div');
-            toast.className = `toast toast-${type}`;
-            
-            const icon = type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ';
-            
-            toast.innerHTML = `
-                <div class="toast-icon">${icon}</div>
-                <div class="toast-message">${message}</div>
-            `;
-            
-            document.body.appendChild(toast);
-            
-            // Trigger animation
-            setTimeout(() => toast.classList.add('show'), 10);
-            
-            // Remove toast
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
-            }, duration);
-        }
-
-        // Check notification permission status
-        function checkNotificationPermission() {
-            if (!('Notification' in window)) {
-                return 'unsupported';
-            }
-            return Notification.permission;
-        }
-
-        // Request notification permission
-        async function requestNotificationPermission() {
-            if (!('Notification' in window)) {
-                showToast('Notifications are not supported on this browser', 'error');
-                return false;
-            }
-
-            if (Notification.permission === 'granted') {
-                showToast('Notifications are already enabled!', 'success');
-                scheduleEventReminder();
-                return true;
-            }
-
-            if (Notification.permission === 'denied') {
-                showToast('Notifications are blocked. Please enable them in browser settings.', 'error');
-                return false;
-            }
-
-            try {
-                const permission = await Notification.requestPermission();
-                
-                if (permission === 'granted') {
-                    showToast('🔔 Notifications enabled! You\'ll be reminded on March 12', 'success', 4000);
-                    scheduleEventReminder();
-                    
-                    // Show test notification
-                    new Notification('TCLive Sports', {
-                        body: 'Notifications are now enabled. We\'ll remind you on event day!',
-                        icon: 'logo.png',
-                        badge: 'logo.png',
-                        tag: 'welcome'
-                    });
-                    
-                    return true;
-                } else {
-                    showToast('Notification permission denied', 'error');
-                    return false;
-                }
-            } catch (error) {
-                showToast('Error requesting notifications', 'error');
-                console.error('Notification error:', error);
-                return false;
-            }
-        }
-
-        // Schedule event reminder
-        function scheduleEventReminder() {
-            const eventDate = new Date('2026-03-12T09:00:00');
-            const now = new Date();
-            
-            // Calculate time until event
-            const timeUntilEvent = eventDate.getTime() - now.getTime();
-            
-            // If event is in the future
-            if (timeUntilEvent > 0) {
-                // Set reminder for event day at 8:00 AM (1 hour before)
-                const reminderDate = new Date('2026-03-12T08:00:00');
-                const timeUntilReminder = reminderDate.getTime() - now.getTime();
-                
-                if (timeUntilReminder > 0) {
-                    setTimeout(() => {
-                        if (Notification.permission === 'granted') {
-                            new Notification('🏃 TCLive Sports - TODAY!', {
-                                body: 'Interhouse Sports Meet starts in 1 hour! Get ready for an exciting day of competition.',
-                                icon: 'logo.png',
-                                badge: 'logo.png',
-                                tag: 'event-reminder',
-                                requireInteraction: true,
-                                vibrate: [200, 100, 200]
-                            });
-                        }
-                    }, timeUntilReminder);
-                    
-                    // Store reminder in localStorage
-                    localStorage.setItem('eventReminderSet', 'true');
-                    localStorage.setItem('eventDate', '2026-03-12');
-                }
-                
-                // Also set reminder for event start time
-                if (timeUntilEvent > 0) {
-                    setTimeout(() => {
-                        if (Notification.permission === 'granted') {
-                            new Notification('🔴 LIVE NOW: TCLive Sports!', {
-                                body: 'Interhouse Sports Meet is starting now! Click to watch live.',
-                                icon: 'logo.png',
-                                badge: 'logo.png',
-                                tag: 'event-live',
-                                requireInteraction: true,
-                                vibrate: [300, 100, 300, 100, 300]
-                            });
-                        }
-                    }, timeUntilEvent);
-                }
-            }
-        }
-
-        // Auto-prompt for notifications on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            // Wait 5 seconds before showing notification prompt
-            setTimeout(() => {
-                const permission = checkNotificationPermission();
-                
-                if (permission === 'default') {
-                    // Show custom prompt toast
-                    showToast('📢 Enable notifications to get reminded on event day! Click here to enable.', 'info', 6000);
-                    
-                    // Auto-request after another 3 seconds if user hasn't dismissed
-                    setTimeout(() => {
-                        if (Notification.permission === 'default') {
-                            requestNotificationPermission();
-                        }
-                    }, 3000);
-                } else if (permission === 'granted') {
-                    // Check if reminder is already set
-                    if (!localStorage.getItem('eventReminderSet')) {
-                        scheduleEventReminder();
-                    }
-                }
-            }, 5000);
-        });
-
-        // Manual notification enable function (can be called from console or button)
-        window.enableNotifications = function() {
-            requestNotificationPermission();
-        };
-
-        // Notification button click handler
-        const notificationBtn = document.getElementById('notificationBtn');
-        if (notificationBtn) {
-            // Update button state based on permission
-            function updateNotificationButton() {
-                const permission = checkNotificationPermission();
-                if (permission === 'granted') {
-                    notificationBtn.classList.add('enabled');
-                    notificationBtn.title = 'Notifications enabled';
-                } else {
-                    notificationBtn.classList.remove('enabled');
-                    notificationBtn.title = 'Enable notifications';
-                }
-            }
-
-            // Initial state
-            updateNotificationButton();
-
-            // Click handler
-            notificationBtn.addEventListener('click', async () => {
-                await requestNotificationPermission();
-                updateNotificationButton();
-            });
-        }
-
-        // Check on page visibility change (when user returns to tab)
-        document.addEventListener('visibilitychange', () => {
-            if (!document.hidden && Notification.permission === 'granted') {
-                const eventDate = new Date('2026-03-12T09:00:00');
-                const now = new Date();
-                
-                // If it's event day
-                if (now.toDateString() === eventDate.toDateString()) {
-                    showToast('🔴 Event day is TODAY! Don\'t forget to tune in at 9:00 AM', 'success', 5000);
-                }
-            }
-        });
-
-        // Disable right-click context menu
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-            return false;
-        });
-
-        // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+S
-        document.addEventListener('keydown', function(e) {
-            // F12
-            if (e.keyCode === 123) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+Shift+I (Inspect)
-            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+Shift+J (Console)
-            if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+Shift+C (Inspect Element)
-            if (e.ctrlKey && e.shiftKey && e.keyCode === 67) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+U (View Source)
-            if (e.ctrlKey && e.keyCode === 85) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+S (Save Page)
-            if (e.ctrlKey && e.keyCode === 83) {
-                e.preventDefault();
-                return false;
-            }
-        });
-
-        // Disable text selection via mouse
-        document.onselectstart = function() {
-            return false;
-        };
-
-        // Disable copy
-        document.addEventListener('copy', function(e) {
-            e.preventDefault();
-            return false;
-        });
-
-        // Disable cut
-        document.addEventListener('cut', function(e) {
-            e.preventDefault();
-            return false;
-        });
-
-        // Disable paste (optional)
-        document.addEventListener('paste', function(e) {
-            e.preventDefault();
-            return false;
-        });
-
-        // Detect DevTools
-        let devtools = { isOpen: false, orientation: null };
-        const threshold = 160;
-
-        const emitEvent = (isOpen, orientation) => {
-            if (devtools.isOpen !== isOpen || devtools.orientation !== orientation) {
-                devtools.isOpen = isOpen;
-                devtools.orientation = orientation;
-                
-                if (isOpen) {
-                    // Redirect or show warning when devtools detected
-                    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-size:2rem;color:#ff3d5a;text-align:center;">Developer tools are disabled for this site</div>';
-                }
-            }
-        };
-
-        const main = () => {
-            const widthThreshold = window.outerWidth - window.innerWidth > threshold;
-            const heightThreshold = window.outerHeight - window.innerHeight > threshold;
-            const orientation = widthThreshold ? 'vertical' : 'horizontal';
-
-            if (widthThreshold || heightThreshold) {
-                emitEvent(true, orientation);
-            } else {
-                emitEvent(false, null);
-            }
-        };
-
-        // Check devtools on load and resize
-        main();
-        window.addEventListener('resize', main);
-
-        <!-- Countdown Timer -->
         function updateCountdown() {
-            // Event date: March 12, 2026 at 9:00 AM
-            const eventDate = new Date('2026-03-12T09:00:00').getTime();
+            const eventDate = new Date('2026-03-12T13:00:00').getTime();
             const now = new Date().getTime();
             const distance = eventDate - now;
 
@@ -3009,37 +2174,19 @@
             document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
         }
 
-        // Update countdown every second
         updateCountdown();
         setInterval(updateCountdown, 1000);
 
-        // Add parallax effect to orbs
-        document.addEventListener('mousemove', (e) => {
-            const orb1 = document.querySelector('.orb1');
-            const orb2 = document.querySelector('.orb2');
-            
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-            
-            orb1.style.transform = `translate(${x * 30}px, ${y * 30}px)`;
-            orb2.style.transform = `translate(${-x * 20}px, ${-y * 20}px)`;
-        });
 
-        // ========================================
-        // NAVIGATION BAR FUNCTIONALITY
-        // ========================================
-        
-        // Navigation links now work as normal page links (no JavaScript needed)
 
-        // ========================================
-        // MOBILE APP NAVIGATION
+
+                // ========================================
+        // MOBILE NAVIGATION
         // ========================================
         
         const mobileHomeNav = document.getElementById('mobileHomeNav');
         const mobileHighlightsNav = document.getElementById('mobileHighlightsNav');
-        const mobileNotificationBtn = document.getElementById('mobileNotificationBtn');
 
-        // Mobile home navigation
         if (mobileHomeNav) {
             mobileHomeNav.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -3048,13 +2195,12 @@
             });
         }
 
-        // Mobile highlights navigation
         if (mobileHighlightsNav) {
             mobileHighlightsNav.addEventListener('click', (e) => {
                 e.preventDefault();
                 const highlightsSection = document.querySelector('.highlights-section');
                 if (highlightsSection) {
-                    const offset = 70; // Account for mobile header
+                    const offset = 70;
                     const elementPosition = highlightsSection.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.pageYOffset - offset;
                     window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
@@ -3063,14 +2209,6 @@
             });
         }
 
-        // Mobile notification button
-        if (mobileNotificationBtn) {
-            mobileNotificationBtn.addEventListener('click', async () => {
-                await requestNotificationPermission();
-            });
-        }
-
-        // Set active mobile navigation
         function setMobileActiveNav(section) {
             if (!mobileHomeNav) return;
             
@@ -3084,7 +2222,6 @@
             }
         }
 
-        // Update mobile nav on scroll
         window.addEventListener('scroll', () => {
             if (window.innerWidth <= 480) {
                 const highlightsSection = document.querySelector('.highlights-section');
@@ -3099,9 +2236,26 @@
                 }
             }
         });
+
+        // ========================================
+        // PARALLAX EFFECTS
+        // ========================================
+
+        document.addEventListener('mousemove', (e) => {
+            const orb1 = document.querySelector('.orb1');
+            const orb2 = document.querySelector('.orb2');
+            
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            orb1.style.transform = `translate(${x * 30}px, ${y * 30}px)`;
+            orb2.style.transform = `translate(${-x * 20}px, ${-y * 20}px)`;
+        });
     </script>
+
+    <!-- Notification system: Windows + Android + iOS push -->
+    <script src="notifications.js"></script>
+    <!-- YouTube Live auto-detection engine -->
+    <script src="youtube-config.js"></script>
 </body>
 </html>
-
-
-
