@@ -9,7 +9,7 @@
 const YOUTUBE_CONFIG = {
 
     // ── YOUR YOUTUBE DATA API v3 KEY ──────────────────────────────
-    API_KEY: 'AIzaSyA-4vp0XlhzOYH6c2aZEzjVprWe1aVYxQY',
+    API_KEY: 'AIzaSyCUJuHoKp44vgeKsp5irKNrecOQv0KYubA',
 
     // ── YOUR YOUTUBE CHANNEL ID ───────────────────────────────────
     CHANNEL_ID: 'UCs3xOOfZjz53j6_5Xl6kbuw',
@@ -411,6 +411,7 @@ const YOUTUBE_CONFIG = {
 //  YTLive.player().muted  = true
 //
 // ======================================================================
+
 
 
 
