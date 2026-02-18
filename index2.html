@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="img/tc.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scoreboard - TCLive Sports</title>
     
@@ -470,6 +471,225 @@
                 font-size: 2rem;
             }
         }
+
+        /* ═══════════════════════════════════════════════════════
+           MOBILE APP LAYOUT FOR SCOREBOARD
+           ═══════════════════════════════════════════════════════ */
+        @media (max-width: 480px) {
+            body {
+                background: #0a0e15;
+                overflow-x: hidden;
+            }
+
+            /* Hide desktop nav */
+            .nav-bar {
+                display: none !important;
+            }
+
+            /* Mobile App Header */
+            .mobile-app-header {
+                display: flex !important;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 56px;
+                background: linear-gradient(135deg, rgba(26, 31, 46, 0.98) 0%, rgba(10, 14, 21, 0.98) 100%);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-bottom: 1px solid rgba(255, 61, 90, 0.15);
+                padding: 0 16px;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+            }
+
+            .mobile-logo-text {
+                font-family: 'Bebas Neue', sans-serif;
+                font-size: 1.3rem;
+                letter-spacing: 0.12em;
+                background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            /* Mobile Bottom Nav */
+            .mobile-bottom-nav {
+                display: flex !important;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 60px;
+                background: linear-gradient(180deg, rgba(26, 31, 46, 0.98) 0%, rgba(10, 14, 21, 0.98) 100%);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-top: 1px solid rgba(255, 61, 90, 0.15);
+                padding: 6px 12px;
+                align-items: center;
+                justify-content: space-around;
+                z-index: 1000;
+                box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.4);
+            }
+
+            .mobile-nav-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 3px;
+                color: var(--muted);
+                text-decoration: none;
+                transition: all 0.2s ease;
+                padding: 6px 12px;
+                border-radius: 10px;
+                min-width: 70px;
+            }
+
+            .mobile-nav-item.active {
+                background: rgba(255, 61, 90, 0.12);
+                color: var(--accent);
+            }
+
+            .mobile-nav-item:active {
+                transform: scale(0.95);
+            }
+
+            .mobile-nav-item svg {
+                width: 22px;
+                height: 22px;
+                stroke: currentColor;
+                stroke-width: 2;
+            }
+
+            .mobile-nav-item span {
+                font-size: 0.65rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+            }
+
+            /* Scoreboard Container */
+            .scoreboard-container {
+                padding: 70px 12px 75px !important;
+                min-height: 100vh;
+            }
+
+            /* Title */
+            .scoreboard-title {
+                font-size: 2rem !important;
+                margin-bottom: 16px;
+                text-align: center;
+            }
+
+            /* Live Update Badge */
+            .live-update-indicator {
+                margin-bottom: 12px;
+            }
+
+            .update-badge {
+                padding: 6px 14px;
+                font-size: 0.75rem;
+            }
+
+            .update-dot {
+                width: 6px;
+                height: 6px;
+            }
+
+            .last-update {
+                font-size: 0.7rem;
+                margin-bottom: 20px;
+            }
+
+            /* Houses Grid - Single Column on Mobile */
+            .houses-grid {
+                grid-template-columns: 1fr !important;
+                gap: 16px !important;
+            }
+
+            /* House Cards */
+            .house-scoreboard {
+                padding: 18px !important;
+                border-radius: 12px !important;
+                background: rgba(26, 31, 46, 0.9) !important;
+                backdrop-filter: blur(12px) !important;
+            }
+
+            .house-header {
+                margin-bottom: 16px;
+            }
+
+            .house-name {
+                font-size: 1.6rem !important;
+            }
+
+            .total-number {
+                font-size: 2rem !important;
+            }
+
+            .total-label {
+                font-size: 0.65rem !important;
+            }
+
+            /* Sports List */
+            .sports-list {
+                margin-bottom: 16px;
+            }
+
+            .sport-item {
+                padding: 10px !important;
+                margin-bottom: 6px !important;
+                border-radius: 6px;
+            }
+
+            .sport-name {
+                font-size: 0.85rem;
+            }
+
+            .sport-icon {
+                width: 16px !important;
+                height: 16px !important;
+            }
+
+            .sport-points {
+                font-size: 1.3rem !important;
+            }
+
+            /* Charts */
+            .chart-container {
+                height: 180px !important;
+                margin-top: 16px;
+            }
+
+            /* Safe Area Insets */
+            @supports (padding-top: env(safe-area-inset-top)) {
+                .mobile-app-header {
+                    padding-top: calc(env(safe-area-inset-top) + 6px);
+                    height: calc(56px + env(safe-area-inset-top));
+                }
+
+                .scoreboard-container {
+                    padding-top: calc(70px + env(safe-area-inset-top)) !important;
+                }
+
+                .mobile-bottom-nav {
+                    padding-bottom: calc(6px + env(safe-area-inset-bottom));
+                    height: calc(60px + env(safe-area-inset-bottom));
+                }
+            }
+
+            /* Smooth Scrolling */
+            html {
+                scroll-behavior: smooth;
+            }
+
+            /* Pull-to-Refresh Prevention */
+            body {
+                overscroll-behavior-y: contain;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -481,6 +701,11 @@
 
     <!-- Main Content -->
     <div class="relative z-10 min-h-screen flex flex-col">
+        <!-- Mobile App Header (Only visible on mobile) -->
+        <div class="mobile-app-header" style="display: none;">
+            <div class="mobile-logo-text">LIVE SCOREBOARD</div>
+        </div>
+
         <!-- Navigation Bar -->
         <nav class="nav-bar">
             <div class="nav-container">
@@ -495,7 +720,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="scoreboard.html" class="nav-link active">
+                        <a href="index2.html" class="nav-link active">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
                                 <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
