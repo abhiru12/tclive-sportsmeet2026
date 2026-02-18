@@ -437,25 +437,140 @@
         /** Manually trigger the subscribe flow */
         enable  : subscribe,
 
+        /** Disable/unsubscribe from notifications */
+        disable : async function () {
+            console.log('[TCLiveNotif] Disabling notifications...');
+            
+            try {
+                // Opt out from OneSignal
+                if (window.OneSignal && _oneSignalReady) {
+                    await OneSignal.User.PushSubscription.optOut();
+                    console.log('[TCLiveNotif] ✅ OneSignal unsubscribed');
+                }
+                
+                // Update internal state
+                _subscribed = false;
+                
+                // Update button UI
+                updateButtonState(false);
+                
+                showToast('🔕 Notifications disabled. You can re-enable anytime!', 'info', 5000);
+                console.log('[TCLiveNotif] ✅ Notifications disabled successfully');
+                
+            } catch (err) {
+                console.error('[TCLiveNotif] Error disabling:', err);
+                showToast('⚠️ Could not disable notifications', 'error');
+            }
+        },
+
+        /** Check and display current notification status */
+        checkStatus : async function () {
+            console.log('[TCLiveNotif] Checking notification status...');
+            
+            if (!('Notification' in window)) {
+                showToast('❌ Your browser does not support notifications', 'error', 6000);
+                return { supported: false };
+            }
+            
+            const permission = Notification.permission;
+            let isSubscribed = _subscribed;
+            let oneSignalStatus = 'Unknown';
+            
+            // Check OneSignal subscription
+            if (window.OneSignal && _oneSignalReady) {
+                try {
+                    isSubscribed = await OneSignal.User.PushSubscription.optedIn;
+                    _subscribed = isSubscribed; // update internal state
+                    oneSignalStatus = isSubscribed ? 'Subscribed ✅' : 'Not subscribed ❌';
+                } catch (err) {
+                    oneSignalStatus = 'Error checking ⚠️';
+                    console.error('[TCLiveNotif] OneSignal check error:', err);
+                }
+            } else {
+                oneSignalStatus = 'Not loaded ⏳';
+            }
+            
+            // Build user-friendly status message
+            let message = '';
+            let type = 'info';
+            
+            if (permission === 'granted' && isSubscribed) {
+                message = '✅ Notifications are ACTIVE! You\'ll get updates on March 12, 2026.';
+                type = 'success';
+            } else if (permission === 'granted' && !isSubscribed) {
+                message = '⚠️ Browser allowed but not subscribed. Click the bell 🔔 to enable!';
+                type = 'info';
+            } else if (permission === 'denied') {
+                message = '❌ Notifications BLOCKED. Enable in browser settings first.';
+                type = 'error';
+            } else {
+                message = '🔔 Notifications not enabled yet. Click the bell icon to get updates!';
+                type = 'info';
+            }
+            
+            // Show toast to user
+            showToast(message, type, 7000);
+            
+            // Update button state based on actual subscription
+            updateButtonState(isSubscribed);
+            
+            // Log detailed info
+            console.log('=== Notification Status ===');
+            console.log('Browser Permission:', permission);
+            console.log('OneSignal:', oneSignalStatus);
+            console.log('Subscribed:', isSubscribed);
+            console.log('Days until event:', Math.floor(msUntil(CFG.eventISO) / (1000 * 60 * 60 * 24)));
+            console.log('===========================');
+            
+            return {
+                supported: true,
+                permission: permission,
+                subscribed: isSubscribed,
+                oneSignal: oneSignalStatus
+            };
+        },
+
         /** Send a test notification right now (must be subscribed first) */
         test    : function () {
+            if (Notification.permission !== 'granted') {
+                showToast('⚠️ Notifications not enabled. Call TCLiveNotif.enable() first!', 'error', 5000);
+                return;
+            }
             _sendNative('🧪 TCLive Test Notification', 'Push notifications are working! 🎉', 'tc-test');
             showToast('✅ Test notification sent to your device!', 'success');
         },
 
-        /** Show current status in console */
+        /** Show detailed status in console */
         status  : async function () {
             console.log('=== TCLive Notification Status ===');
             console.log('OneSignal ready :', _oneSignalReady);
             console.log('Subscribed      :', _subscribed);
             console.log('Native perm     :', 'Notification' in window ? Notification.permission : 'unsupported');
+            
+            if (window.OneSignal && _oneSignalReady) {
+                try {
+                    const optedIn = await OneSignal.User.PushSubscription.optedIn;
+                    const userId = await OneSignal.User.PushSubscription.id;
+                    console.log('OneSignal opted :', optedIn);
+                    console.log('OneSignal ID    :', userId || 'none');
+                } catch (e) {
+                    console.log('OneSignal check : error');
+                }
+            }
+            
             console.log('Time to event   :', Math.round(msUntil(CFG.eventISO) / 3600000) + ' hours');
+            console.log('Event date      :', CFG.eventISO);
             console.log('==================================');
         }
     };
 
     console.log('[TCLive] notifications.js loaded ✅');
-    console.log('[TCLive] API → TCLiveNotif.enable() | TCLiveNotif.test() | TCLiveNotif.status()');
+    console.log('[TCLive] Commands:');
+    console.log('  • TCLiveNotif.checkStatus() - Show current notification status');
+    console.log('  • TCLiveNotif.enable()      - Subscribe to notifications');
+    console.log('  • TCLiveNotif.disable()     - Unsubscribe from notifications');
+    console.log('  • TCLiveNotif.test()        - Send test notification');
+    console.log('  • TCLiveNotif.status()      - Detailed console log');
 
 })(); // end IIFE
 
