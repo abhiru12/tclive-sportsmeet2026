@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="img/tc.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TCLive Sports - School Sports Meet Live</title>
     
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://www.youtube.com https://youtube.com https://www.googleapis.com https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.tailwindcss.com https://cdn.onesignal.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://www.youtube.com https://www.googleapis.com https://cdn.onesignal.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.tailwindcss.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://www.youtube.com https://youtube.com; connect-src 'self' https://www.googleapis.com https://onesignal.com https://api.onesignal.com https://youtube.googleapis.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://www.youtube.com https://youtube.com https://www.googleapis.com https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.tailwindcss.com https://cdn.onesignal.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://www.youtube.com https://www.googleapis.com https://cdn.onesignal.com https://api.onesignal.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.tailwindcss.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://www.youtube.com https://youtube.com; connect-src 'self' https://www.googleapis.com https://onesignal.com https://api.onesignal.com https://cdn.onesignal.com https://youtube.googleapis.com https://cdn.jsdelivr.net;">
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
@@ -1715,7 +1716,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="index2.html" class="nav-link">
+                        <a href="scoreboard.html" class="nav-link">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
                                 <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
@@ -1741,7 +1742,7 @@
                         SCHOOL SPORTS MEET <span style="color: var(--accent);">2026</span>
                     </h1>
                     <p class="text-xl text-gray-400 max-w-2xl mx-auto" style="animation: fadeDown 1s .2s ease both;">
-                        Experience the thrill of athletic excellence live from our <span style="color: var(--accent);">website</span>
+                        Experience the thrill of athletic excellence live from our <span style="color: var(--accent);">Website</span>
                     </p>
                 </div>
 
@@ -1763,7 +1764,7 @@
                         <div class="coming-soon-text">COMING SOON</div>
                         <div class="event-date">MARCH 12, 2026</div>
                         <p class="event-info">
-                            Get ready for an action-packed day of sports! Live streaming begins at 13:00 PM.
+                            Get ready for an action-packed day of sports! Live streaming begins at 1:30 PM.
                             Don't miss the opening ceremony and exciting competitions.
                         </p>
                         <!-- Countdown Timer -->
@@ -1998,7 +1999,7 @@
                 </svg>
                 <span>Home</span>
             </a>
-            <a href="index2.html" class="mobile-nav-item">
+            <a href="scoreboard.html" class="mobile-nav-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
                     <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
@@ -2251,6 +2252,171 @@
             orb1.style.transform = `translate(${x * 30}px, ${y * 30}px)`;
             orb2.style.transform = `translate(${-x * 20}px, ${-y * 20}px)`;
         });
+
+        // ========================================
+        // SECURITY: DISABLE DEVELOPER TOOLS ACCESS
+        // ========================================
+        
+        // Disable right-click context menu
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        }, false);
+
+        // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U, Ctrl+S
+        document.addEventListener('keydown', function(e) {
+            // F12 - Developer Tools
+            if (e.keyCode === 123) {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Ctrl+Shift+I - Inspect Element
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Ctrl+Shift+J - Console
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Ctrl+Shift+C - Inspect Element Picker
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 67) {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Ctrl+U - View Source
+            if (e.ctrlKey && e.keyCode === 85) {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Ctrl+S - Save Page
+            if (e.ctrlKey && e.keyCode === 83) {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Ctrl+Shift+K - Firefox Console
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 75) {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Cmd+Option+I (Mac) - Inspect
+            if (e.metaKey && e.altKey && e.keyCode === 73) {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Cmd+Option+J (Mac) - Console
+            if (e.metaKey && e.altKey && e.keyCode === 74) {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Cmd+Option+C (Mac) - Inspect Picker
+            if (e.metaKey && e.altKey && e.keyCode === 67) {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Cmd+U (Mac) - View Source
+            if (e.metaKey && e.keyCode === 85) {
+                e.preventDefault();
+                return false;
+            }
+        }, false);
+
+        // Disable text selection
+        document.onselectstart = function() {
+            return false;
+        };
+
+        // Disable copy
+        document.addEventListener('copy', function(e) {
+            e.preventDefault();
+            return false;
+        }, false);
+
+        // Disable cut
+        document.addEventListener('cut', function(e) {
+            e.preventDefault();
+            return false;
+        }, false);
+
+        // Disable paste (optional - can be removed if you want users to paste in forms)
+        document.addEventListener('paste', function(e) {
+            e.preventDefault();
+            return false;
+        }, false);
+
+        // Detect DevTools opening via window size change
+        (function detectDevTools() {
+            const threshold = 160;
+            let devtoolsOpen = false;
+
+            const checkDevTools = function() {
+                const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+                const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+                
+                if (widthThreshold || heightThreshold) {
+                    if (!devtoolsOpen) {
+                        devtoolsOpen = true;
+                        // Replace page content with warning
+                        document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-size:2rem;color:#ff3d5a;text-align:center;font-family:Arial,sans-serif;padding:20px;">Developer tools are disabled for this site.<br><br>Please close DevTools to continue.</div>';
+                    }
+                } else {
+                    devtoolsOpen = false;
+                }
+            };
+
+            // Check on load and on resize
+            checkDevTools();
+            window.addEventListener('resize', checkDevTools);
+            
+            // Also check periodically (every 500ms)
+            setInterval(checkDevTools, 500);
+        })();
+
+        // Detect if debugger is open using timing attack
+        (function detectDebugger() {
+            setInterval(function() {
+                const before = performance.now();
+                debugger;
+                const after = performance.now();
+                
+                // If debugger statement takes more than 100ms, DevTools is open
+                if (after - before > 100) {
+                    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-size:2rem;color:#ff3d5a;text-align:center;font-family:Arial,sans-serif;padding:20px;">Developer tools are disabled for this site.<br><br>Please close DevTools to continue.</div>';
+                }
+            }, 1000);
+        })();
+
+        // Disable drag and drop
+        document.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+            return false;
+        }, false);
+
+        // Clear console periodically (makes debugging harder)
+        if (typeof console !== 'undefined') {
+            setInterval(function() {
+                try {
+                    console.clear();
+                } catch (e) {}
+            }, 2000);
+        }
+
+        console.log('%c⚠️ STOP!', 'color: red; font-size: 40px; font-weight: bold;');
+        console.log('%cThis is a browser feature intended for developers.', 'font-size: 16px;');
+        console.log('%cIf someone told you to copy/paste something here, it is likely a scam.', 'font-size: 16px;');
+        console.log('%cPasting anything here could give attackers access to your account.', 'font-size: 16px; font-weight: bold; color: red;');
+
     </script>
 
     <!-- Notification system: Windows + Android + iOS push -->
