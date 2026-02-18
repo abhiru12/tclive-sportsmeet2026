@@ -9,10 +9,10 @@
 const YOUTUBE_CONFIG = {
 
     // ── YOUR YOUTUBE DATA API v3 KEY ──────────────────────────────
-    API_KEY: 'AIzaSyA-4vp0XlhzOYH6c2aZEzjVprWe1aVYxQY',
+    API_KEY: 'AIzaSyBVRfjvzSVbW8pU4oQ8TKsom83VkAc3IeU',
 
     // ── YOUR YOUTUBE CHANNEL ID ───────────────────────────────────
-    CHANNEL_ID: 'UCs3xOOfZjz53j6_5Xl6kbuw',
+    CHANNEL_ID: 'UCJke5fGgnrgZh0RKcPv2CxA',
 
     // ── HOW OFTEN TO CHECK FOR A LIVE STREAM (ms) ────────────────
     // 30000 = 30 seconds
@@ -73,12 +73,39 @@ const YOUTUBE_CONFIG = {
                 var err = {};
                 try { err = await res.json(); } catch (e) {}
                 var msg = (err.error && err.error.message) ? err.error.message : res.statusText;
-                console.warn('[YTLive] API error ' + res.status + ':', msg);
+                
+                console.error('[YTLive] ❌ YouTube API Error ' + res.status);
+                console.error('[YTLive] Message:', msg);
+                console.error('[YTLive] ──────────────────────────────────────');
 
                 if (res.status === 403) {
-                    showToast('⚠️ YouTube API key error — check Google Console', 'error');
+                    // Check if it's quota exceeded or API not enabled
+                    if (msg.includes('quota')) {
+                        console.error('[YTLive] ⚠️  QUOTA EXCEEDED');
+                        console.error('[YTLive] Daily limit reached (10,000 units)');
+                        console.error('[YTLive] Solutions:');
+                        console.error('[YTLive]   1. Wait until midnight Pacific Time');
+                        console.error('[YTLive]   2. Create new API key in new project');
+                        console.error('[YTLive]   3. Increase CHECK_INTERVAL to 120000');
+                        showToast('⚠️ YouTube API quota exceeded. Resets at midnight PST.', 'error', 8000);
+                    } else {
+                        console.error('[YTLive] ⚠️  API KEY ERROR');
+                        console.error('[YTLive] Possible causes:');
+                        console.error('[YTLive]   • YouTube Data API v3 not enabled');
+                        console.error('[YTLive]   • API key restrictions blocking domain');
+                        console.error('[YTLive]   • Invalid API key');
+                        console.error('[YTLive] Fix: https://console.cloud.google.com/apis/credentials');
+                        showToast('⚠️ YouTube API error. See YOUTUBE_API_SETUP_GUIDE.md', 'error', 8000);
+                    }
+                    stopPolling();
+                } else if (res.status === 400) {
+                    console.error('[YTLive] ⚠️  BAD REQUEST');
+                    console.error('[YTLive] Check CHANNEL_ID in youtube-config.js');
+                    showToast('⚠️ Invalid YouTube Channel ID', 'error');
                     stopPolling();
                 }
+                
+                console.error('[YTLive] ──────────────────────────────────────');
                 return null;
             }
 
@@ -198,18 +225,40 @@ const YOUTUBE_CONFIG = {
     function activateLive(videoId) {
         if (currentVideoId === videoId && isLive) return;
 
+        var wasOffline = !isLive;
+        
+        // If going live for first time, store state and refresh
+        if (wasOffline) {
+            console.log('[YTLive] ▶ LIVE stream detected - refreshing page');
+            
+            // Store live state
+            try {
+                sessionStorage.setItem('ytlive_video_id', videoId);
+                sessionStorage.setItem('ytlive_timestamp', Date.now());
+            } catch (e) {}
+            
+            // Refresh immediately (no toast, no delay)
+            window.location.reload();
+            return;
+        }
+        
+        // Already live - just update player (shouldn't normally happen)
         createPlyrPlayer(videoId, true);
-
         currentVideoId = videoId;
         isLive         = true;
 
         playerWrapper.classList.add('active');
         comingSoonOverlay.style.display = 'none';
 
+        // Hide countdown
+        var countdownEl = document.getElementById('countdown');
+        if (countdownEl) {
+            countdownEl.style.display = 'none';
+        }
+
         if (liveBadge)   { liveBadge.style.display = 'flex'; }
         if (headerBadge) { headerBadge.innerHTML = '<span class="badge-dot"></span> NOW LIVE'; }
 
-        showToast('🔴 Sports Meet is LIVE! Enjoy the stream! 🏅', 'success');
         console.log('[YTLive] ▶ Live player activated:', videoId);
     }
 
@@ -238,13 +287,26 @@ const YOUTUBE_CONFIG = {
         playerWrapper.classList.remove('active');
         comingSoonOverlay.style.display = '';
 
+        // Show countdown again
+        var countdownEl = document.getElementById('countdown');
+        if (countdownEl) {
+            countdownEl.style.display = 'flex';
+        }
+
         if (liveBadge)   { liveBadge.style.display = 'none'; }
         if (headerBadge) { headerBadge.innerHTML = '<span class="badge-dot"></span> Live Event'; }
 
         currentVideoId = null;
         isLive         = false;
-
+        
+        // Clear any stored state
+        try {
+            sessionStorage.removeItem('ytlive_video_id');
+            sessionStorage.removeItem('ytlive_timestamp');
+        } catch (e) {}
+        
         console.log('[YTLive] Stream ended — Coming Soon restored');
+        showToast('Stream ended. Coming Soon screen restored.', 'info');
     }
 
     // ─────────────────────────────────────────────────────────────
@@ -275,7 +337,7 @@ const YOUTUBE_CONFIG = {
     // ─────────────────────────────────────────────────────────────
     // INLINE TOAST (works even if notifications.js isn't loaded yet)
     // ─────────────────────────────────────────────────────────────
-    function showToast(message, type) {
+    function showToast(message, type, duration) {
         type = type || 'info';
         var palette = { success: '#10b981', error: '#ef4444', info: '#3b82f6' };
         var color   = palette[type] || palette.info;
@@ -316,7 +378,7 @@ const YOUTUBE_CONFIG = {
             el.style.opacity   = '0';
             el.style.transform = 'translateY(14px)';
             setTimeout(function () { el.remove(); }, 340);
-        }, 5000);
+        }, duration || 5000);
     }
 
     // ─────────────────────────────────────────────────────────────
@@ -356,6 +418,42 @@ const YOUTUBE_CONFIG = {
             activateFallback();
         }
 
+
+        // Check if we just refreshed due to live detection
+        var resumeVideoId = null;
+        try {
+            resumeVideoId = sessionStorage.getItem('ytlive_video_id');
+            var timestamp = parseInt(sessionStorage.getItem('ytlive_timestamp'));
+            var age = Date.now() - timestamp;
+            
+            // If less than 10 seconds old, resume the stream
+            if (resumeVideoId && age < 10000) {
+                console.log('[YTLive] Resuming after refresh:', resumeVideoId);
+                
+                // Clear storage
+                sessionStorage.removeItem('ytlive_video_id');
+                sessionStorage.removeItem('ytlive_timestamp');
+                
+                // Hide countdown immediately
+                var countdown = document.getElementById('countdown');
+                if (countdown) countdown.style.display = 'none';
+                
+                // Load player
+                createPlyrPlayer(resumeVideoId, true);
+                currentVideoId = resumeVideoId;
+                isLive = true;
+                
+                playerWrapper.classList.add('active');
+                comingSoonOverlay.style.display = 'none';
+                
+                if (liveBadge) liveBadge.style.display = 'flex';
+                if (headerBadge) headerBadge.innerHTML = '<span class="badge-dot"></span> NOW LIVE';
+                
+                console.log('[YTLive] ▶ Stream loaded successfully');
+            }
+        } catch (e) {}
+
+        // Start polling for live streams
         startPolling();
     }
 
@@ -411,8 +509,3 @@ const YOUTUBE_CONFIG = {
 //  YTLive.player().muted  = true
 //
 // ======================================================================
-
-
-
-
-
