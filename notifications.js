@@ -37,7 +37,7 @@
         icon    : 'https://tclive-sportsmeet2026.vercel.app/img/tc.png',
 
         // Event date/time  (local school time)
-        eventISO: '2026-03-12T13:00:00',
+        eventISO: '2026-03-12T09:00:00',
 
         // How long after page load to auto-prompt  (ms)
         autoPromptDelay: 6000,
