@@ -1284,119 +1284,65 @@
         }
 
         @media (max-width: 480px) {
-            .lightbox-grid {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-
-            .houses-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-
-            .house-card {
-                padding: 24px 16px;
-            }
-
-            .feature-card {
-                padding: 24px 16px;
-            }
-
-            .event-info {
-                font-size: 0.95rem;
-                padding: 0 10px;
-            }
-
-            .coming-soon-text {
-                font-size: 2.5rem;
-            }
-
-            .event-date {
-                font-size: 1.5rem;
-            }
-
-            h1 {
-                font-size: 2rem !important;
-            }
-
-            .highlights-title {
-                font-size: 1.8rem;
-            }
-
-            .houses-title {
-                font-size: 2rem;
-            }
-
-            .badge {
-                padding: 6px 12px;
-                font-size: 0.65rem;
-                gap: 6px;
-            }
-
-            .badge-dot {
-                width: 5px;
-                height: 5px;
-            }
-
-            header {
-                padding: 16px 16px !important;
-            }
-
-            main {
-                padding: 24px 16px !important;
-            }
-
-            /* Mobile App Layout */
+            /* ═══════════════════════════════════════════════════════
+               MOBILE APP LAYOUT - ANDROID/IOS STYLE
+               ═══════════════════════════════════════════════════════ */
+            
             body {
                 background: #0a0e15;
+                overflow-x: hidden;
             }
 
+            /* Hide desktop header */
             header {
                 display: none !important;
             }
 
+            /* Mobile App Header (Top Bar) */
             .mobile-app-header {
                 display: flex !important;
                 position: fixed;
                 top: 0;
                 left: 0;
                 right: 0;
-                height: 60px;
-                background: linear-gradient(135deg, rgba(20, 30, 42, 0.98) 0%, rgba(10, 14, 21, 0.98) 100%);
+                height: 56px;
+                background: linear-gradient(135deg, rgba(26, 31, 46, 0.98) 0%, rgba(10, 14, 21, 0.98) 100%);
                 backdrop-filter: blur(20px);
                 -webkit-backdrop-filter: blur(20px);
-                border-bottom: 1px solid rgba(255, 61, 90, 0.1);
+                border-bottom: 1px solid rgba(255, 61, 90, 0.15);
                 padding: 0 16px;
                 align-items: center;
                 justify-content: space-between;
                 z-index: 1000;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
             }
 
             .mobile-logo-text {
                 font-family: 'Bebas Neue', sans-serif;
-                font-size: 1.5rem;
-                letter-spacing: 0.1em;
+                font-size: 1.3rem;
+                letter-spacing: 0.12em;
                 background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
+                font-weight: 400;
             }
 
             .mobile-notification-btn {
                 width: 40px;
                 height: 40px;
-                background: rgba(255, 255, 255, 0.08);
-                border-radius: 12px;
+                background: rgba(255, 255, 255, 0.06);
+                border-radius: 10px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                border: 1px solid rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.08);
                 cursor: pointer;
+                transition: all 0.2s ease;
+            }
+
+            .mobile-notification-btn:active {
+                transform: scale(0.95);
+                background: rgba(255, 255, 255, 0.1);
             }
 
             .mobile-notification-btn svg {
@@ -1405,165 +1351,307 @@
                 stroke: var(--white);
             }
 
-            .mobile-bottom-nav {
-                display: flex !important;
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                height: 65px;
-                background: linear-gradient(180deg, rgba(20, 30, 42, 0.98) 0%, rgba(10, 14, 21, 0.98) 100%);
-                backdrop-filter: blur(20px);
-                -webkit-backdrop-filter: blur(20px);
-                border-top: 1px solid rgba(255, 61, 90, 0.1);
-                padding: 8px 16px 12px;
-                align-items: center;
-                justify-content: space-around;
-                z-index: 1000;
-                box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
-            }
-
-            .mobile-nav-item {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 4px;
-                color: var(--muted);
-                text-decoration: none;
-                transition: all 0.3s ease;
-                padding: 8px 16px;
-                border-radius: 12px;
-            }
-
-            .mobile-nav-item.active {
-                background: rgba(255, 61, 90, 0.1);
-                color: var(--accent);
-            }
-
-            .mobile-nav-item svg {
-                width: 24px;
-                height: 24px;
-                stroke: currentColor;
-            }
-
-            .mobile-nav-item span {
-                font-size: 0.7rem;
-                font-weight: 600;
-                text-transform: uppercase;
-                letter-spacing: 0.05em;
-            }
-
+            /* Main Content Area */
             main {
-                padding-top: 70px !important;
+                padding-top: 66px !important;
                 padding-bottom: 75px !important;
-                padding-left: 16px !important;
-                padding-right: 16px !important;
+                padding-left: 12px !important;
+                padding-right: 12px !important;
+                min-height: 100vh;
             }
 
             .nav-bar {
                 display: none !important;
             }
 
+            /* Title Section - Compact for Mobile */
             h1 {
-                font-size: 1.8rem !important;
-                text-align: left !important;
-                margin-bottom: 8px !important;
-                line-height: 1.2 !important;
+                font-size: 1.5rem !important;
+                text-align: center !important;
+                margin-bottom: 6px !important;
+                line-height: 1.3 !important;
+                padding: 0 8px;
             }
 
             main > div > div:first-child {
-                text-align: left !important;
-                margin-bottom: 20px !important;
+                text-align: center !important;
+                margin-bottom: 16px !important;
             }
 
             main > div > div:first-child p {
-                text-align: left !important;
-                font-size: 0.9rem !important;
-                margin-top: 8px !important;
+                text-align: center !important;
+                font-size: 0.85rem !important;
+                margin-top: 6px !important;
+                line-height: 1.5;
+                color: var(--muted);
             }
 
+            /* Video Player - Optimized for Mobile */
             .video-container {
-                border-radius: 16px !important;
-                margin-bottom: 20px !important;
+                border-radius: 12px !important;
+                margin-bottom: 16px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                aspect-ratio: 16/9 !important;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
             }
 
-            .house-card,
-            .feature-card {
-                background: rgba(26, 31, 46, 0.8);
-                backdrop-filter: blur(10px);
-                border-radius: 16px;
+            /* Coming Soon Overlay - Mobile Optimized */
+            .coming-soon-text {
+                font-size: 2rem !important;
+                margin-bottom: 12px;
+            }
+
+            .event-date {
+                font-size: 1.3rem !important;
+                margin-bottom: 12px;
+            }
+
+            .event-info {
+                font-size: 0.85rem !important;
+                padding: 0 16px !important;
+                line-height: 1.6;
+            }
+
+            /* Countdown Timer - Compact & Centered */
+            .countdown {
+                gap: 8px !important;
+                flex-wrap: nowrap !important;
+                justify-content: center !important;
+                margin-top: 24px !important;
+            }
+
+            .countdown-item {
+                min-width: 65px !important;
+                background: rgba(255, 255, 255, 0.05);
+                padding: 8px 6px;
+                border-radius: 8px;
                 border: 1px solid rgba(255, 255, 255, 0.08);
-                padding: 20px;
             }
 
+            .countdown-number {
+                font-size: 1.6rem !important;
+                margin-bottom: 4px;
+            }
+
+            .countdown-label {
+                font-size: 0.6rem !important;
+                letter-spacing: 0.08em;
+            }
+
+            /* Highlights Section - Mobile Friendly */
             .highlights-section {
-                margin: 30px auto 20px !important;
+                margin: 20px auto 16px !important;
                 padding: 0 !important;
             }
 
             .highlights-header {
-                margin-bottom: 16px !important;
+                margin-bottom: 12px !important;
+                flex-direction: column;
+                align-items: stretch !important;
             }
 
             .highlights-title {
-                font-size: 1.6rem !important;
+                font-size: 1.4rem !important;
+                margin-bottom: 12px;
+                text-align: center;
             }
 
             .view-highlights-btn {
-                padding: 12px 20px !important;
-                font-size: 0.85rem !important;
+                padding: 12px 24px !important;
+                font-size: 0.8rem !important;
+                width: 100%;
+                justify-content: center;
             }
 
+            .highlights-description {
+                font-size: 0.85rem;
+                text-align: center;
+                line-height: 1.6;
+            }
+
+            /* Houses Section */
             .houses-section {
-                margin: 40px auto 20px !important;
+                margin: 24px auto 16px !important;
             }
 
             .houses-title {
-                font-size: 1.8rem !important;
-                margin-bottom: 20px !important;
+                font-size: 1.5rem !important;
+                margin-bottom: 16px !important;
             }
 
-            .features-grid {
-                margin-top: 30px !important;
+            .houses-grid {
+                grid-template-columns: 1fr !important;
                 gap: 12px !important;
+                padding: 0 !important;
             }
 
+            .house-card {
+                background: rgba(26, 31, 46, 0.85) !important;
+                backdrop-filter: blur(12px) !important;
+                border-radius: 12px !important;
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                padding: 16px !important;
+            }
+
+            .house-name {
+                font-size: 2rem !important;
+            }
+
+            /* Features Grid - CENTERED AT BOTTOM */
+            .features-grid {
+                margin-top: 24px !important;
+                margin-bottom: 24px !important;
+                gap: 12px !important;
+                grid-template-columns: repeat(2, 1fr) !important;
+                max-width: 100% !important;
+                padding: 0 4px !important;
+            }
+
+            .feature-card {
+                background: rgba(26, 31, 46, 0.85) !important;
+                backdrop-filter: blur(12px) !important;
+                border-radius: 12px !important;
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                padding: 16px 12px !important;
+                text-align: center !important;
+                transition: all 0.2s ease;
+            }
+
+            .feature-card:active {
+                transform: scale(0.98);
+            }
+
+            .feature-icon {
+                width: 42px !important;
+                height: 42px !important;
+                margin: 0 auto 12px !important;
+                background: rgba(232, 0, 30, .12) !important;
+            }
+
+            .feature-icon svg {
+                width: 24px !important;
+                height: 24px !important;
+            }
+
+            .feature-title {
+                font-size: 1.1rem !important;
+                margin-bottom: 8px !important;
+            }
+
+            .feature-desc {
+                font-size: 0.8rem !important;
+                line-height: 1.5 !important;
+            }
+
+            /* Mobile Bottom Navigation */
+            .mobile-bottom-nav {
+                display: flex !important;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 60px;
+                background: linear-gradient(180deg, rgba(26, 31, 46, 0.98) 0%, rgba(10, 14, 21, 0.98) 100%);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-top: 1px solid rgba(255, 61, 90, 0.15);
+                padding: 6px 12px;
+                align-items: center;
+                justify-content: space-around;
+                z-index: 1000;
+                box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.4);
+            }
+
+            .mobile-nav-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 3px;
+                color: var(--muted);
+                text-decoration: none;
+                transition: all 0.2s ease;
+                padding: 6px 12px;
+                border-radius: 10px;
+                min-width: 70px;
+            }
+
+            .mobile-nav-item.active {
+                background: rgba(255, 61, 90, 0.12);
+                color: var(--accent);
+            }
+
+            .mobile-nav-item:active {
+                transform: scale(0.95);
+            }
+
+            .mobile-nav-item svg {
+                width: 22px;
+                height: 22px;
+                stroke: currentColor;
+                stroke-width: 2;
+            }
+
+            .mobile-nav-item span {
+                font-size: 0.65rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+            }
+
+            /* Hide Desktop Footer */
             footer {
                 display: none !important;
             }
 
-            .countdown {
-                gap: 12px !important;
-                flex-wrap: wrap !important;
-                justify-content: center !important;
+            /* Lightbox Mobile Optimization */
+            .lightbox-grid {
+                grid-template-columns: 1fr !important;
+                gap: 10px !important;
+                padding: 12px !important;
             }
 
-            .countdown-item {
-                min-width: 70px !important;
+            .lightbox-image-item {
+                border-radius: 10px;
             }
 
-            .countdown-number {
-                font-size: 1.8rem !important;
+            /* Badge Sizing */
+            .badge {
+                padding: 5px 10px !important;
+                font-size: 0.6rem !important;
+                gap: 5px !important;
             }
 
-            .countdown-label {
-                font-size: 0.65rem !important;
+            .badge-dot {
+                width: 5px !important;
+                height: 5px !important;
             }
 
+            /* Safe Area Insets (iPhone notch, etc) */
             @supports (padding-top: env(safe-area-inset-top)) {
                 .mobile-app-header {
-                    padding-top: calc(env(safe-area-inset-top) + 8px);
-                    height: calc(60px + env(safe-area-inset-top));
+                    padding-top: calc(env(safe-area-inset-top) + 6px);
+                    height: calc(56px + env(safe-area-inset-top));
                 }
 
                 main {
-                    padding-top: calc(70px + env(safe-area-inset-top)) !important;
+                    padding-top: calc(66px + env(safe-area-inset-top)) !important;
                 }
 
                 .mobile-bottom-nav {
-                    padding-bottom: calc(12px + env(safe-area-inset-bottom));
-                    height: calc(65px + env(safe-area-inset-bottom));
+                    padding-bottom: calc(6px + env(safe-area-inset-bottom));
+                    height: calc(60px + env(safe-area-inset-bottom));
                 }
+            }
+
+            /* Smooth Scrolling */
+            html {
+                scroll-behavior: smooth;
+            }
+
+            /* Pull-to-Refresh Prevention */
+            body {
+                overscroll-behavior-y: contain;
             }
         }
 
@@ -1742,7 +1830,7 @@
                         SCHOOL SPORTS MEET <span style="color: var(--accent);">2026</span>
                     </h1>
                     <p class="text-xl text-gray-400 max-w-2xl mx-auto" style="animation: fadeDown 1s .2s ease both;">
-                        Experience the thrill of athletic excellence live from our <span style="color: var(--accent);">Website</span>
+                        Experience the thrill of athletic excellence live from our campus
                     </p>
                 </div>
 
@@ -1999,7 +2087,7 @@
                 </svg>
                 <span>Home</span>
             </a>
-            <a href="scoreboard.html" class="mobile-nav-item">
+            <a href="index2.html" class="mobile-nav-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
                     <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
