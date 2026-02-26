@@ -12,7 +12,7 @@ const YOUTUBE_CONFIG = {
     API_KEY: 'AIzaSyBVRfjvzSVbW8pU4oQ8TKsom83VkAc3IeU',
 
     // ── YOUR YOUTUBE CHANNEL ID ───────────────────────────────────
-    CHANNEL_ID: 'UCJke5fGgnrgZh0RKcPv2CxA',
+    CHANNEL_ID: 'UC-M5DQFroY9ldhnG2Qjo1Zg',
 
     // ── HOW OFTEN TO CHECK FOR A LIVE STREAM (ms) ────────────────
     // 30000 = 30 seconds
@@ -509,3 +509,4 @@ const YOUTUBE_CONFIG = {
 //  YTLive.player().muted  = true
 //
 // ======================================================================
+
