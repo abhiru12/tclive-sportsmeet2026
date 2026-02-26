@@ -64,7 +64,7 @@
       OneSignalDeferred.push(async function(OneSignal) {
         await OneSignal.init({
           appId: "780d3e6f-fb81-4e08-a509-55557cc4dc4b",
-          safari_web_id: "",
+          safari_web_id: "web.onesignal.auto.27d2eba6-7621-43e8-b8d4-d2a9de3b8fea",
           notifyButton: {
             enable: true,
           },
@@ -1742,6 +1742,159 @@
 
         .coming-soon-overlay { z-index: 10; }
 
+
+        /* ═══════════════════════════════════════════════════════
+           WELCOME MODAL WITH IMAGE
+           ═══════════════════════════════════════════════════════ */
+        
+        .welcome-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 10002;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .welcome-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 900px;
+            width: 100%;
+            background: linear-gradient(135deg, rgba(26, 31, 46, 0.98) 0%, rgba(10, 14, 21, 0.98) 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 61, 90, 0.3);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            transition: transform 0.4s ease;
+        }
+
+        .welcome-modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-bottom: 2px solid rgba(255, 61, 90, 0.3);
+        }
+
+        .modal-text {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .modal-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            letter-spacing: 0.08em;
+            background: linear-gradient(135deg, var(--white) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .modal-subtitle {
+            font-size: 1.1rem;
+            color: var(--muted);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .modal-close-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, var(--red) 0%, var(--accent) 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Barlow', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(232, 0, 30, 0.3);
+        }
+
+        .modal-close-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(232, 0, 30, 0.4);
+        }
+
+        .modal-close-btn:active {
+            transform: translateY(0);
+        }
+
+        .modal-close-x {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+            color: white;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .modal-close-x:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: rotate(90deg);
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                max-width: 95%;
+                border-radius: 16px;
+            }
+
+            .modal-title {
+                font-size: 2rem;
+            }
+
+            .modal-subtitle {
+                font-size: 0.95rem;
+            }
+
+            .modal-text {
+                padding: 20px;
+            }
+
+            .modal-close-btn {
+                padding: 12px 24px;
+                font-size: 0.9rem;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -1804,7 +1957,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="index2.html" class="nav-link">
+                        <a href="scoreboard.html" class="nav-link">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
                                 <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
@@ -1852,7 +2005,7 @@
                         <div class="coming-soon-text">COMING SOON</div>
                         <div class="event-date">MARCH 12, 2026</div>
                         <p class="event-info">
-                            Get ready for an action-packed day of sports! Live streaming begins at 1:30 PM.
+                            Get ready for an action-packed day of sports! Live streaming begins at 9:00 AM.
                             Don't miss the opening ceremony and exciting competitions.
                         </p>
                         <!-- Countdown Timer -->
@@ -2087,7 +2240,7 @@
                 </svg>
                 <span>Home</span>
             </a>
-            <a href="index2.html" class="mobile-nav-item">
+            <a href="scoreboard.html" class="mobile-nav-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
                     <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
@@ -2135,6 +2288,11 @@
         // ========================================
         
         const HIGHLIGHT_IMAGES = [
+            {
+                url: 'https://scontent.fcmb1-2.fna.fbcdn.net/v/t39.30808-6/610744857_1690716175379798_1210557280394537731_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=7b2446&_nc_ohc=WbvwzyTc2jIQ7kNvwGnk_tK&_nc_oc=Adm84o1zEY_Tz6ulFScoxkvaLRN0-Ed3Kznv_OuRoAVvADTbn1Ockj-UlI2tYwtIOVY&_nc_zt=23&_nc_ht=scontent.fcmb1-2.fna&_nc_gid=qGT9b_2ZI1SC4t-hkC5hLQ&oh=00_AfscIanE8Zlug9OBxL5dcws83p-aOBTmRnAmlROFTopLcw&oe=69A65742',
+                title: 'Sports Meet 2026',
+                description: 'Interhouse Sports Meet Opening'
+            },
             {
                 url: 'https://scontent.fcmb1-2.fna.fbcdn.net/v/t39.30808-6/627154153_1716712389446843_1363988109721635707_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_ohc=yVkK6u0iIOMQ7kNvwHn8i3V&_nc_oc=AdkPkaNyFJVtu75zDTQFfEsd61plWKxve7xbKYuhYMURhrt7B6BFijBNgAj2GR0D--E&_nc_zt=23&_nc_ht=scontent.fcmb1-2.fna&_nc_gid=TQXVg40LMqnBb1rTgl12Ig&oh=00_AfvQR-aFnkZ3NWVswlnym05hvm6TeKmvm8EQEVpHXY-y1Q&oe=699895D9',
                 title: 'Cricket Practices',
@@ -2243,7 +2401,7 @@
         // ========================================
 
         function updateCountdown() {
-            const eventDate = new Date('2026-03-12T13:00:00').getTime();
+            const eventDate = new Date('2026-03-12T09:00:00').getTime();
             const now = new Date().getTime();
             const distance = eventDate - now;
 
@@ -2505,11 +2663,92 @@
         console.log('%cIf someone told you to copy/paste something here, it is likely a scam.', 'font-size: 16px;');
         console.log('%cPasting anything here could give attackers access to your account.', 'font-size: 16px; font-weight: bold; color: red;');
 
+
+        // ========================================
+        // WELCOME MODAL
+        // ========================================
+        
+        (function() {
+            const modal = document.getElementById('welcomeModal');
+            const closeBtn = document.getElementById('closeModalBtn');
+            const closeX = document.getElementById('closeModalX');
+            
+            // Check if user has seen modal before
+            const hasSeenModal = sessionStorage.getItem('welcomeModalSeen');
+            
+            if (!hasSeenModal) {
+                // Show modal after 1 second delay
+                setTimeout(() => {
+                    modal.classList.add('show');
+                    document.body.style.overflow = 'hidden';
+                }, 1000);
+            }
+            
+            // Close modal function
+            function closeModal() {
+                modal.classList.remove('show');
+                document.body.style.overflow = '';
+                sessionStorage.setItem('welcomeModalSeen', 'true');
+            }
+            
+            // Close button click
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeModal);
+            }
+            
+            // X button click
+            if (closeX) {
+                closeX.addEventListener('click', closeModal);
+            }
+            
+            // Click outside modal to close
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+            
+            // ESC key to close
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('show')) {
+                    closeModal();
+                }
+            });
+        })();
+
+
     </script>
 
     <!-- Notification system: Windows + Android + iOS push -->
     <script src="notifications.js"></script>
     <!-- YouTube Live auto-detection engine -->
     <script src="youtube-config.js"></script>
+
+    <!-- Welcome Modal -->
+    <div class="welcome-modal" id="welcomeModal">
+        <div class="modal-content">
+            <div class="modal-close-x" id="closeModalX">×</div>
+            <img src="https://scontent.fcmb1-2.fna.fbcdn.net/v/t39.30808-6/610744857_1690716175379798_1210557280394537731_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=7b2446&_nc_ohc=WbvwzyTc2jIQ7kNvwGnk_tK&_nc_oc=Adm84o1zEY_Tz6ulFScoxkvaLRN0-Ed3Kznv_OuRoAVvADTbn1Ockj-UlI2tYwtIOVY&_nc_zt=23&_nc_ht=scontent.fcmb1-2.fna&_nc_gid=qGT9b_2ZI1SC4t-hkC5hLQ&oh=00_AfscIanE8Zlug9OBxL5dcws83p-aOBTmRnAmlROFTopLcw&oe=69A65742" 
+                 alt="Sports Meet 2026" 
+                 class="modal-image">
+            <div class="modal-text">
+                <h2 class="modal-title">Welcome to TCLive Sports!</h2>
+                <p class="modal-subtitle">
+                    Get ready for the biggest sporting event of the year! 
+                    Interhouse Sports Meet 2026 is coming March 12th.
+                    <br><br>
+                    Watch LIVE, track scores in real-time, and never miss a moment!
+                </p>
+                <button class="modal-close-btn" id="closeModalBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14"/>
+                        <path d="m12 5 7 7-7 7"/>
+                    </svg>
+                    Let's Go!
+                </button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
