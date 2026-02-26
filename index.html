@@ -1957,7 +1957,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="scoreboard.html" class="nav-link">
+                        <a href="index2.html" class="nav-link">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
                                 <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
@@ -2240,7 +2240,7 @@
                 </svg>
                 <span>Home</span>
             </a>
-            <a href="scoreboard.html" class="mobile-nav-item">
+            <a href="index2.html" class="mobile-nav-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
                     <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
@@ -2665,7 +2665,7 @@
 
 
         // ========================================
-        // WELCOME MODAL
+        // WELCOME MODAL - SHOWS UNTIL MARCH 13, 2026
         // ========================================
         
         (function() {
@@ -2673,22 +2673,27 @@
             const closeBtn = document.getElementById('closeModalBtn');
             const closeX = document.getElementById('closeModalX');
             
-            // Check if user has seen modal before
-            const hasSeenModal = sessionStorage.getItem('welcomeModalSeen');
+            // Check if we're past March 13, 2026
+            const eventEndDate = new Date('2026-03-13T23:59:59');
+            const now = new Date();
+            const shouldShowModal = now < eventEndDate;
             
-            if (!hasSeenModal) {
-                // Show modal after 1 second delay
+            if (shouldShowModal) {
+                // Show modal after 1 second delay (ALWAYS, until March 13)
                 setTimeout(() => {
                     modal.classList.add('show');
                     document.body.style.overflow = 'hidden';
+                    console.log('[Modal] Welcome modal displayed (Active until March 13, 2026)');
                 }, 1000);
+            } else {
+                console.log('[Modal] Event ended - Modal disabled after March 13, 2026');
             }
             
             // Close modal function
             function closeModal() {
                 modal.classList.remove('show');
                 document.body.style.overflow = '';
-                sessionStorage.setItem('welcomeModalSeen', 'true');
+                console.log('[Modal] Modal closed - will reappear on next page load');
             }
             
             // Close button click
